@@ -1,0 +1,36 @@
+server:
+  port: 8080
+
+spring:
+  cache:
+    redis:
+      time-to-live: 1800000 #设置缓存过期时间
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password:
+    database: 0
+
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3308/anime?serverTimezone=UTC&serverTimezone=GMT%2b8&characterEncoding=utf8
+      username: root
+      password: 123456
+  jackson:
+    time-zone: GMT+8
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      # 逻辑删除字段名
+      logic-delete-field: deleted
+      # 逻辑删除字面值：未删除为0
+      logic-not-delete-value: 0
+      # 逻辑删除字面值：删除为1
+      logic-delete-value: 1
+
+
+

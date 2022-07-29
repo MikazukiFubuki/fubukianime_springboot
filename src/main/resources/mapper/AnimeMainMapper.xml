@@ -1,0 +1,875 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fubukianime.dao.AnimeMainDao">
+
+    <resultMap id="BaseResultMap" type="com.fubukianime.domain.AnimeMain">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="score" column="score" jdbcType="DOUBLE"/>
+        <result property="source1" column="source_1" jdbcType="VARCHAR"/>
+        <result property="source2" column="source_2" jdbcType="VARCHAR"/>
+        <result property="source3" column="source_3" jdbcType="VARCHAR"/>
+        <result property="layoutId" column="layout_id" jdbcType="INTEGER"/>
+        <result property="type1" column="type_1" jdbcType="VARCHAR"/>
+        <result property="type2" column="type_2" jdbcType="VARCHAR"/>
+        <result property="type3" column="type_3" jdbcType="VARCHAR"/>
+        <result property="love" column="love" jdbcType="VARCHAR"/>
+        <result property="sexLimit" column="sex_limit" jdbcType="VARCHAR"/>
+        <result property="create" column="create" jdbcType="VARCHAR"/>
+        <result property="completeId" column="complete_id" jdbcType="INTEGER"/>
+        <result property="bingeWatchingId" column="binge_watching_id" jdbcType="INTEGER"/>
+        <result property="reviewId" column="review_id" jdbcType="INTEGER"/>
+        <result property="leaderGender" column="leader_gender" jdbcType="VARCHAR"/>
+        <result property="favoriteHeroine" column="favorite_heroine" jdbcType="VARCHAR"/>
+        <result property="animationEnd" column="animation_end" jdbcType="VARCHAR"/>
+        <result property="originalEnd" column="original_end" jdbcType="VARCHAR"/>
+        <result property="broadcastStartYear" column="broadcast_start_year" jdbcType="VARCHAR"/>
+        <result property="broadcastEndYear" column="broadcast_end_year" jdbcType="VARCHAR"/>
+        <result property="bingeWatchingType" column="binge_watching_type" jdbcType="VARCHAR"/>
+        <result property="bingeWatchingYear" column="binge_watching_year" jdbcType="VARCHAR"/>
+        <result property="completeYear" column="complete_year" jdbcType="VARCHAR"/>
+        <result property="completeQuarter" column="complete_quarter" jdbcType="VARCHAR"/>
+        <result property="bingeWatchingQuarter" column="binge_watching_quarter" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="VARCHAR"/>
+        <result property="deleted" column="deleted" jdbcType="INTEGER"/>
+    </resultMap>
+    <resultMap id="LayoutResultMap" type="com.fubukianime.domain.AnimeLayout">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="layoutId" column="layout_id" jdbcType="INTEGER"/>
+        <result property="layoutTypeId" column="layout_type_id" jdbcType="VARCHAR"/>
+        <result property="anotherName" column="another_name" jdbcType="VARCHAR"/>
+        <result property="quarterNum" column="quarter_num" jdbcType="INTEGER"/>
+        <result property="episodes" column="episodes" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="selectAllAnime">
+        select T0.id,
+               T0.name,
+               FORMAT(T0.score, 2)    score,
+               T2.source1,
+               T2.source2,
+               T2.source3,
+               T2.source,
+               T4.layout,
+               T3.type1,
+               T3.type2,
+               T3.type3,
+               T3.type,
+               T1.love,
+               T1.sex_limit           sexLimit,
+               T1.`create`,
+               T0.binge_watching_id   bingeWatchingId,
+               T0.complete_id         completeId,
+               T0.review_id           reviewId,
+               T1.leader_gender       leaderGender,
+               T0.favorite_heroine    favoriteHeroine,
+               T1.animation_end       animationEnd,
+               T1.original_end        originalEnd,
+               T5.broadcastStartYear,
+               T5.broadcastEndYear,
+               T5.broadcastYear,
+               T1.binge_watching_type bingeWatchingType,
+               T6.bingeWatchingYear,
+               T6.completeYear,
+               T6.bingeWatchingQuarter,
+               T6.completeQuarter,
+               T1.status
+
+        from anime.anime_main T0,
+
+             (select a.id                ID2,
+                     b.source            source1,
+                     c.source            source2,
+                     d.source            source3,
+                     concat_ws('-', b.source, c.source,
+                               d.source) source
+              from ((anime.anime_main a
+                  join anime.anime_source b
+                  on a.source_1 = b.id
+                      or ifnull(a.source_1, 26) = b.id)
+                  join anime.anime_source c
+                  on a.source_2 = c.id
+                      or ifnull(a.source_2, 26) = c.id)
+                       join anime.anime_source d
+                            on a.source_3 = d.id
+                                or ifnull(a.source_3, 26) = d.id
+              WHERE a.deleted = 0
+                and b.deleted = 0
+                and c.deleted = 0
+                and d.deleted = 0
+              group by a.id
+             ) as T2,
+
+             (select a.id as ID1,
+                     b.sex_limit,
+                     c.love,
+                     d.leader_gender,
+                     e.animation_end,
+                     f.original_end,
+                     g.binge_watching_type,
+                     j.`create`,
+                     k.status
+              from (((((((anime.anime_main a
+                  join anime.anime_sexlimit b
+                  on a.sex_limit = b.id
+                      or ifnull(a.sex_limit, 6) = b.id)
+                  join anime.anime_love c
+                  on a.love = c.id
+                      or ifnull(a.love, 12) = b.id)
+                  join anime.anime_leadergender d
+                  on a.leader_gender = d.id
+                      or ifnull(a.leader_gender, 12) = d.id)
+                  join anime.anime_animationend e
+                  on a.animation_end = e.id
+                      or ifnull(a.animation_end, 5) = e.id)
+                  join anime.anime_originalend f
+                  on a.original_end = f.id
+                      or ifnull(a.original_end, 8) = f.id)
+                  join anime.anime_bingewatchingtype g
+                  on a.binge_watching_type = g.id
+                      or ifnull(a.binge_watching_type, 6) = g.id)
+                  join anime.anime_create j
+                  on a.`create` = j.id)
+                       join anime_status k
+                            on a.status = k.id
+              WHERE a.deleted = 0
+                and b.deleted = 0
+                and c.deleted = 0
+                and d.deleted = 0
+                and e.deleted = 0
+                and f.deleted = 0
+                and g.deleted = 0
+                and j.deleted = 0
+                and k.deleted = 0
+
+              group by a.id
+              order by a.id asc) as T1,
+
+
+             (select a.id ID3, b.type type1, c.type type2, d.type type3, concat_ws('-', b.type, c.type, d.type) type
+              from ((anime.anime_main a
+                  join anime.anime_type b
+                  on a.type_1 = b.id
+                      or ifnull(a.type_1, 127) = b.id)
+                  join anime.anime_type c
+                  on a.type_2 = c.id
+                      or ifnull(a.type_2, 127) = c.id)
+                       join anime.anime_type d
+                            on a.type_3 = d.id
+                                or ifnull(a.type_3, 127) = d.id
+              WHERE a.deleted = 0
+                and b.deleted = 0
+                and c.deleted = 0
+                and d.deleted = 0
+              group by a.id) as T3,
+
+             (select layout_id ID4, group_concat(t3.layout separator '、') layout
+              from (select t1.id,
+                           t1.layout_id,
+                           concat_ws('', t1.another_name, t2.layout_type,
+                                     if(isnull(t1.quarter_num) = 1, '', concat(t1.quarter_num, '季')),
+                                     if(isnull(t1.episodes) = 1, '', concat(t1.episodes, '集'))) as layout
+                    from anime_layout t1
+                             join anime_layout_type t2
+                                  on t1.layout_type_id = t2.id
+                                      or ifnull(t1.layout_type_id, 16) = t2.id
+                    WHERE t1.deleted = 0
+                      and t2.deleted = 0
+                    order by t1.layout_id) as t3
+              group by t3.layout_id) as T4,
+
+             (select t1.id                                   ID5,
+                     if(t2.year = t3.year, t2.year,
+                        concat_ws('-', t2.year, t3.year)) AS broadcastYear,
+                     t2.year                                 broadcastStartYear,
+                     t3.year                                 broadcastEndYear
+              from (anime_main t1
+                  join anime.anime_year t2
+                  on t1.broadcast_start_year = t2.id or ifnull(t1.broadcast_start_year, 102) = t2.id)
+                       join anime_year t3 on t1.broadcast_end_year = t3.id or ifnull(t1.broadcast_end_year, 102) = t3.id
+              where t1.deleted = 0
+             ) as T5,
+
+             (select t1.id                                    ID6,
+                     t2.year                                  bingeWatchingYear,
+                     t3.year                                  completeYear,
+                     concat_ws('', t2.year, t4.quarter_CN) as bingeWatchingQuarter,
+                     concat_ws('', t3.year, t5.quarter_CN) as completeQuarter
+              from (((anime_main t1
+                  join anime_year t2 on t1.binge_watching_year = t2.id or ifnull(t1.binge_watching_year, 102) = t2.id)
+                  join anime_year t3 on t1.complete_year = t3.id or ifnull(t1.complete_year, 102) = t3.id)
+                  join quarter t4 on t1.binge_watching_quarter = t4.id or ifnull(t1.binge_watching_quarter, 13) =
+                                                                          t4.id)
+                       join quarter t5 on t1.complete_quarter = t5.id or ifnull(t1.complete_quarter, 13) = t5.id
+              where t1.deleted = 0) as T6
+    </sql>
+
+    <!--新增动画-->
+    <insert id="addAnime">
+        insert into anime_main(name, score, source_1, source_2, source_3, layout_id, type_1, type_2, type_3, `create`,
+                               complete_id, binge_watching_id, review_id, love, sex_limit, leader_gender,
+                               favorite_heroine, animation_end, original_end, broadcast_start_year, broadcast_end_year,
+                               binge_watching_type, binge_watching_year, complete_year, complete_quarter,
+                               binge_watching_quarter, status, deleted)
+        values (#{name}, null, '26', '26', '26',
+                (select c.lid from (select max(b.layout_Id) lid from anime_main b where deleted = 0) c) + 1, '127', '127', '127',
+                #{create}, null, null, null, '12', '6',
+                '4', '', '5', '8', '102', '102', '6', '1', '1', '1', '1', '1', '0')
+    </insert>
+    <!--随新增动画增加其对应形式-->
+    <insert id="addAnimeLayout">
+        insert into anime_layout(layout_id, layout_type_id, another_name, quarter_num, `episodes`, deleted)
+        values ((select c.lid from (select max(b.layout_Id) lid from anime_layout b where deleted = 0) c) + 1, '16', '', null, null, '0')
+    </insert>
+    <!--在已有动画上增加对应形式-->
+    <insert id="addAnimeLayoutById">
+        insert into anime_layout(layout_id, layout_type_id, another_name, quarter_num, `episodes`, deleted)
+        values ((select a.layout_Id from anime_main a where a.id = #{id} and deleted = 0), '16', '', null, null, '0')
+    </insert>
+
+
+    <!--开始追番，修改动画信息-->
+    <update id="startAnime">
+        update anime_main a
+        <set>
+            <if test="source1 != null and source1 != ''">
+                a.source_1 = #{source1},
+            </if>
+            <if test="bingeWatchingYear != null and bingeWatchingYear != ''">
+                binge_watching_year = (select b.id from anime.anime_year b where #{bingeWatchingYear} = b.year),
+            </if>
+
+            a.binge_watching_id = (select c.bwid from (select max(b.binge_watching_id) bwid from anime_main b where deleted = 0) c) + 1,
+
+            <if test="bingeWatchingQuarter != null and bingeWatchingQuarter != ''">
+                a.binge_watching_quarter = (select b.id from anime.quarter b where #{bingeWatchingQuarter} = b.quarter),
+            </if>
+            <if test="bingeWatchingYear != null and bingeWatchingYear != ''">
+                a.complete_year = (select b.id from anime.anime_year b where #{bingeWatchingYear} = b.year),
+            </if>
+            <if test="bingeWatchingQuarter != null and bingeWatchingQuarter != ''">
+                a.complete_quarter = (select b.id from anime.quarter b where #{bingeWatchingQuarter} = b.quarter),
+            </if>
+            <if test="bingeWatchingType != null and bingeWatchingType != ''">
+                a.binge_watching_type = #{bingeWatchingType},
+            </if>
+            <if test="broadcastStartYear != null and broadcastStartYear != ''">
+                a.broadcast_start_year = (select b.id from anime.anime_year b where #{broadcastStartYear} = b.year),
+            </if>
+            <if test="broadcastEndYear != null and broadcastEndYear != ''">
+                a.broadcast_end_year = (select b.id from anime.anime_year b where #{broadcastEndYear} = b.year),
+            </if>
+            <if test="status != null and status != ''">
+                a.status = '2'
+            </if>
+        </set>
+        where id = #{id}
+        and deleted = 0;
+    </update>
+    <!--新增动画来源-->
+    <update id="addSource">
+        update anime_main a
+        <set>
+            <if test="source2 != null and source2 != ''">
+                a.source_2 = #{source2},
+            </if>
+            <if test="source3 != null and source3 != ''">
+                a.source_3 = #{source3}
+            </if>
+        </set>
+        where id = #{id}
+        and deleted = 0;
+    </update>
+
+    <!--延长追番，修改追番类型-->
+    <update id="extendAnime">
+        update anime_main a
+        <set>
+            <if test="completeYear != null and completeYear != ''">
+                a.complete_year = (select b.id from anime.anime_year b where #{completeYear} = b.year),
+            </if>
+            <if test="completeQuarter != null and completeQuarter != ''">
+                a.complete_quarter = (select b.id from anime.quarter b where #{completeQuarter} = b.quarter),
+            </if>
+            <if test="bingeWatchingType != null and bingeWatchingType != ''">
+                a.binge_watching_type = #{bingeWatchingType},
+            </if>
+        </set>
+        where id = #{id}
+        and deleted = 0;
+    </update>
+
+    <!--番剧补完，修改动画信息-->
+    <update id="endAnime">
+        update anime_main a
+        <set>
+            <if test="score != null and score != ''">
+                a.score = #{score},
+            </if>
+            <if test="type1 != null and type1 != ''">
+                a.type_1 = #{type1},
+            </if>
+            <if test="type2 != null and type2 != ''">
+                a.type_2 = #{type2},
+            </if>
+            <if test="type3 != null and type3 != ''">
+                a.type_3 = #{type3},
+            </if>
+            <if test="love != null and love != ''">
+                a.love = #{love},
+            </if>
+            <if test="sexLimit != null and sexLimit != ''">
+                a.sex_limit = #{sexLimit},
+            </if>
+
+            a.complete_id = (select c.cid from (select max(b.complete_id) cid from anime_main b where deleted = 0) c) + 1,
+
+            <if test="leaderGender != null and leaderGender != ''">
+                a.leader_gender = #{leaderGender},
+            </if>
+            <if test="favoriteHeroine != null and favoriteHeroine != ''">
+                a.favorite_heroine = #{favoriteHeroine},
+            </if>
+            <if test="animationEnd != null and animationEnd != ''">
+                a.animation_end = #{animationEnd},
+            </if>
+            <if test="originalEnd != null and originalEnd != ''">
+                a.original_end = #{originalEnd},
+            </if>
+
+            <if test="status != null and status != ''">
+                a.status = '3'
+            </if>
+        </set>
+        where a.id = #{id}
+        and deleted = 0;
+    </update>
+    <!--番剧重温-->
+    <update id="reviewAnime">
+        update anime_main a
+        <set>
+            a.review_id = (select c.rid from (select max(b.review_id) rid from anime_main b where deleted = 0) c) + 1
+        </set>
+        where id = #{id}
+        and deleted = 0;
+    </update>
+    <!--对已追动画修改它的形式-->
+    <update id="saveLayout">
+        update anime_layout a
+        <set>
+            <if test="layoutTypeId != null and layoutTypeId != ''">
+                a.layout_type_id = #{layoutTypeId},
+            </if>
+            <if test="anotherName != null and anotherName != ''">
+                a.another_name = #{anotherName},
+            </if>
+            <if test="quarterNum != null and quarterNum != ''">
+                a.quarter_num = #{quarterNum},
+            </if>
+            <if test="episodes != null and episodes != ''">
+                a.episodes = #{episodes},
+            </if>
+        </set>
+        where layout_id = #{layoutId} and id = #{id} and deleted = 0;
+    </update>
+    <!--对已追动画追更一集-->
+    <update id="chasingAPlay">
+        update anime_layout a
+        <set>
+            <if test="episodes != null and episodes != ''">
+                a.episodes = a.episodes + 1,
+            </if>
+        </set>
+        where layout_id = #{layoutId} and id = #{id} and deleted = 0;
+    </update>
+    <!--根据id修改补番序号-->
+    <update id="updateCompleteId">
+        update anime_main a
+        <set>
+            <if test="completeId != null and completeId != ''">
+                a.complete_id = #{completeId},
+            </if>
+        </set>
+        where id = #{id} and deleted = 0;
+    </update>
+    <!--根据id修改追番序号-->
+    <update id="updateBingeWatchingId">
+        update anime_main a
+        <set>
+            <if test="bingeWatchingId != null and bingeWatchingId != ''">
+                a.binge_watching_id = #{bingeWatchingId},
+            </if>
+        </set>
+        where id = #{id} and deleted = 0;
+    </update>
+    <!--根据id修改重温序号-->
+    <update id="updateReviewId">
+        update anime_main a
+        <set>
+            <if test="reviewId != null and reviewId != ''">
+                a.review_id = #{reviewId},
+            </if>
+        </set>
+        where id = #{id} and deleted = 0;
+    </update>
+    <!--删除某一动画同时，让其形式对应id的deleted改为1-->
+    <update id="deleteAnimeLayout">
+        update anime_layout a
+        set deleted = 1
+        where layout_id = #{layoutId};
+    </update>
+
+
+    <!--查询全部并分页-->
+    <select id="selectMainAll" resultType="com.fubukianime.domain.AnimeMain">
+        <include refid="selectAllAnime"></include>
+
+        WHERE T2.ID2 = T0.id
+        AND T3.ID3 = T0.id
+        AND T1.ID1 = T0.id
+        AND T4.ID4 = T0.layout_id
+        AND T5.ID5 = T0.id
+        AND T6.ID6 = T0.id
+        AND T0.deleted = 0
+        ORDER BY T0.score DESC, T0.id ASC
+    </select>
+
+    <!--条件模糊查询-->
+    <select id="selectMainByCondition" parameterType="java.util.List" resultType="com.fubukianime.domain.AnimeMain">
+        <include refid="selectAllAnime"></include>
+
+        WHERE T2.ID2 = T0.id
+        AND T3.ID3 = T0.id
+        AND T1.ID1 = T0.id
+        AND T4.ID4 = T0.layout_id
+        AND T5.ID5 = T0.id
+        AND T6.ID6 = T0.id
+        AND T0.deleted = 0
+
+
+        <if test="name != null and name != '' ">
+            and T0.name like CONCAT('%',#{name},'%')
+        </if>
+        <if test="score != null and score != '' ">
+            and T0.score like CONCAT('%',#{score},'%')
+        </if>
+        <if test="source != null and source != '' ">
+            and T2.source like CONCAT('%',#{source},'%')
+        </if>
+        <if test="layout != null and layout != '' ">
+            and T4.layout like CONCAT('%',#{layout},'%')
+        </if>
+        <if test="type != null and type != '' ">
+            and T3.type like CONCAT('%',#{type},'%')
+        </if>
+        <if test="love != null and love != '' ">
+            and T1.love like CONCAT('%',#{love},'%')
+        </if>
+        <if test="sexLimit != null and sexLimit != '' ">
+            and T1.sex_limit like CONCAT('%',#{sexLimit},'%')
+        </if>
+        <if test="create != null and create != '' ">
+            and T1.`create` like CONCAT('%',#{create},'%')
+        </if>
+        <if test="bingeWatchingId != null and bingeWatchingId != '' ">
+            and T0.binge_watching_id like CONCAT('%',#{bingeWatchingId},'%')
+        </if>
+        <if test="completeId != null and completeId != '' ">
+            and T0.complete_id like CONCAT('%',#{completeId},'%')
+        </if>
+        <if test="reviewId != null and reviewId != '' ">
+            and T0.review_id like CONCAT('%',#{reviewId},'%')
+        </if>
+        <if test="leaderGender != null and leaderGender != '' ">
+            and T1.leader_gender like CONCAT('%',#{leaderGender},'%')
+        </if>
+        <if test="favoriteHeroine != null and favoriteHeroine != '' ">
+            and T0.favorite_heroine like CONCAT('%',#{favoriteHeroine},'%')
+        </if>
+        <if test="animationEnd != null and animationEnd != '' ">
+            and T1.animation_end like CONCAT('%',#{animationEnd},'%')
+        </if>
+        <if test="originalEnd != null and originalEnd != '' ">
+            and T1.original_end like CONCAT('%',#{originalEnd},'%')
+        </if>
+        <if test="broadcastStartYear != null and broadcastStartYear != '' ">
+            and T5.broadcastStartYear like CONCAT('%',#{broadcastStartYear},'%')
+        </if>
+        <if test="broadcastEndYear != null and broadcastEndYear != '' ">
+            and T5.broadcastEndYear like CONCAT('%',#{broadcastEndYear},'%')
+        </if>
+        <if test="broadcastYear != null and broadcastYear != '' ">
+            and T5.broadcastYear like CONCAT('%',#{broadcastYear},'%')
+        </if>
+        <if test="bingeWatchingType != null and bingeWatchingType != '' ">
+            and T1.binge_watching_type like CONCAT('%',#{bingeWatchingType},'%')
+        </if>
+        <if test="bingeWatchingYear != null and bingeWatchingYear != '' ">
+            and T6.bingeWatchingYear like CONCAT('%',#{bingeWatchingYear},'%')
+        </if>
+        <if test="completeYear != null and completeYear != '' ">
+            and T6.completeYear like CONCAT('%',#{completeYear},'%')
+        </if>
+        <if test="bingeWatchingQuarter != null and bingeWatchingQuarter != '' ">
+            and T6.bingeWatchingQuarter like CONCAT('%',#{bingeWatchingQuarter},'%')
+        </if>
+        <if test="completeQuarter != null and completeQuarter != '' ">
+            and T6.completeQuarter like CONCAT('%',#{completeQuarter},'%')
+        </if>
+        <if test="status != null and status != '' ">
+            and T1.status like CONCAT('%',#{status},'%')
+        </if>
+
+        ORDER BY T0.score DESC ,T0.id ASC
+    </select>
+
+    <!--追补番年季条件查询-->
+    <select id="selectMainByYearQuarterCondition" parameterType="java.util.List" resultType="com.fubukianime.domain.AnimeMainQuery">
+        select T0.id,
+        T0.name,
+        FORMAT(T0.score, 2)    score,
+        T2.source1,
+        T2.source2,
+        T2.source3,
+        T2.source,
+        T4.layout,
+        T3.type1,
+        T3.type2,
+        T3.type3,
+        T3.type,
+        T1.love,
+        T1.sex_limit           sexLimit,
+        T1.`create`,
+        T0.binge_watching_id   bingeWatchingId,
+        T0.complete_id         completeId,
+        T0.review_id           reviewId,
+        T1.leader_gender       leaderGender,
+        T0.favorite_heroine    favoriteHeroine,
+        T1.animation_end       animationEnd,
+        T1.original_end        originalEnd,
+        T5.broadcastStartYear,
+        T5.broadcastEndYear,
+        T5.broadcastYear,
+        T1.binge_watching_type bingeWatchingType,
+        T6.bingeWatchingYear,
+        T6.completeYear,
+        T6.bingeWatchingQuarter,
+        T6.completeQuarter,
+        T1.status
+
+        from anime.anime_main T0,
+
+        (select a.id                ID2,
+        b.source            source1,
+        c.source            source2,
+        d.source            source3,
+        concat_ws('-', b.source, c.source,
+        d.source) source
+        from ((anime.anime_main a
+        join anime.anime_source b
+        on a.source_1 = b.id
+        or ifnull(a.source_1, 26) = b.id)
+        join anime.anime_source c
+        on a.source_2 = c.id
+        or ifnull(a.source_2, 26) = c.id)
+        join anime.anime_source d
+        on a.source_3 = d.id
+        or ifnull(a.source_3, 26) = d.id
+        WHERE a.deleted = 0
+        and b.deleted = 0
+        and c.deleted = 0
+        and d.deleted = 0
+        group by a.id
+        ) as T2,
+
+        (select a.id as ID1,
+        b.sex_limit,
+        c.love,
+        d.leader_gender,
+        e.animation_end,
+        f.original_end,
+        g.binge_watching_type,
+        j.`create`,
+        k.status
+        from (((((((anime.anime_main a
+        join anime.anime_sexlimit b
+        on a.sex_limit = b.id
+        or ifnull(a.sex_limit, 6) = b.id)
+        join anime.anime_love c
+        on a.love = c.id
+        or ifnull(a.love, 12) = b.id)
+        join anime.anime_leadergender d
+        on a.leader_gender = d.id
+        or ifnull(a.leader_gender, 12) = d.id)
+        join anime.anime_animationend e
+        on a.animation_end = e.id
+        or ifnull(a.animation_end, 5) = e.id)
+        join anime.anime_originalend f
+        on a.original_end = f.id
+        or ifnull(a.original_end, 8) = f.id)
+        join anime.anime_bingewatchingtype g
+        on a.binge_watching_type = g.id
+        or ifnull(a.binge_watching_type, 6) = g.id)
+        join anime.anime_create j
+        on a.`create` = j.id)
+        join anime_status k
+        on a.status = k.id
+        WHERE a.deleted = 0
+        and b.deleted = 0
+        and c.deleted = 0
+        and d.deleted = 0
+        and e.deleted = 0
+        and f.deleted = 0
+        and g.deleted = 0
+        and j.deleted = 0
+        and k.deleted = 0
+
+        group by a.id
+        order by a.id asc) as T1,
+
+
+        (select a.id ID3, b.type type1, c.type type2, d.type type3, concat_ws('-', b.type, c.type, d.type) type
+        from ((anime.anime_main a
+        join anime.anime_type b
+        on a.type_1 = b.id
+        or ifnull(a.type_1, 127) = b.id)
+        join anime.anime_type c
+        on a.type_2 = c.id
+        or ifnull(a.type_2, 127) = c.id)
+        join anime.anime_type d
+        on a.type_3 = d.id
+        or ifnull(a.type_3, 127) = d.id
+        WHERE a.deleted = 0
+        and b.deleted = 0
+        and c.deleted = 0
+        and d.deleted = 0
+        group by a.id) as T3,
+
+        (select layout_id ID4, group_concat(t3.layout separator '、') layout
+        from (select t1.id,
+        t1.layout_id,
+        concat_ws('', t1.another_name, t2.layout_type,
+        if(isnull(t1.quarter_num) = 1, '', concat(t1.quarter_num, '季')),
+        if(isnull(t1.episodes) = 1, '', concat(t1.episodes, '集'))) as layout
+        from anime_layout t1
+        join anime_layout_type t2
+        on t1.layout_type_id = t2.id
+        or ifnull(t1.layout_type_id, 16) = t2.id
+        WHERE t1.deleted = 0
+        and t2.deleted = 0
+        order by t1.layout_id) as t3
+        group by t3.layout_id) as T4,
+
+        (select t1.id                                   ID5,
+        if(t2.year = t3.year, t2.year,
+        concat_ws('-', t2.year, t3.year)) AS broadcastYear,
+        t2.year                                 broadcastStartYear,
+        t3.year                                 broadcastEndYear
+        from (anime_main t1
+        join anime.anime_year t2
+        on t1.broadcast_start_year = t2.id or ifnull(t1.broadcast_start_year, 102) = t2.id)
+        join anime_year t3 on t1.broadcast_end_year = t3.id or ifnull(t1.broadcast_end_year, 102) = t3.id
+        where t1.deleted = 0
+        <if test="broadcastStartYear != null and broadcastStartYear != ''">
+            and t2.year &gt;= #{broadcastStartYear}
+        </if>
+        <if test="broadcastStartYear2 != null and broadcastStartYear2 != ''">
+            and t2.year &lt;= #{broadcastStartYear2}
+        </if>
+        <if test="broadcastEndYear != null and broadcastEndYear != ''">
+            and t3.year &gt;= #{broadcastEndYear}
+        </if>
+        <if test="broadcastEndYear2 != null and broadcastEndYear2 != ''">
+            and t3.year &lt;= #{broadcastEndYear2}
+        </if>
+        ) as T5,
+
+        (select t1.id                                    ID6,
+        t2.year                                  bingeWatchingYear,
+        t3.year                                  completeYear,
+        concat_ws('', t2.year, t4.quarter_CN) as bingeWatchingQuarter,
+        concat_ws('', t3.year, t5.quarter_CN) as completeQuarter
+        from (((anime_main t1
+        join anime_year t2 on t1.binge_watching_year = t2.id or ifnull(t1.binge_watching_year, 102) = t2.id)
+        join anime_year t3 on t1.complete_year = t3.id or ifnull(t1.complete_year, 102) = t3.id)
+        join quarter t4 on t1.binge_watching_quarter = t4.id or ifnull(t1.binge_watching_quarter, 13) =
+        t4.id)
+        join quarter t5 on t1.complete_quarter = t5.id or ifnull(t1.complete_quarter, 13) = t5.id
+        where t1.deleted = 0
+        <if test="bingeWatchingYear != null and bingeWatchingYear != '' and bingeWatchingQuarter != null and bingeWatchingQuarter != ''">
+            and if(t2.year = #{bingeWatchingYear}, t4.quarter &gt;= #{bingeWatchingQuarter}, t2.year &gt; #{bingeWatchingYear})
+        </if>
+        <if test="bingeWatchingYear2 != null and bingeWatchingYear2 != '' and bingeWatchingQuarter2 != null and bingeWatchingQuarter2 != ''">
+            and if(t2.year = #{bingeWatchingYear2}, t4.quarter &lt;= #{bingeWatchingQuarter2}, t2.year &lt; #{bingeWatchingYear2})
+        </if>
+        <if test="completeYear != null and completeYear != '' and completeQuarter != null and completeQuarter != ''">
+            and if(t3.year = #{completeYear}, t5.quarter &gt;= #{completeQuarter}, t3.year &gt; #{completeYear})
+        </if>
+        <if test="completeYear2 != null and completeYear2 != '' and completeQuarter2 != null and completeQuarter2 != ''">
+            and if(t3.year = #{completeYear2}, t5.quarter &lt;= #{completeQuarter2}, t3.year &lt; #{completeYear2})
+        </if>
+        ) as T6
+
+
+        WHERE T2.ID2 = T0.id
+        AND T3.ID3 = T0.id
+        AND T1.ID1 = T0.id
+        AND T4.ID4 = T0.layout_id
+        AND T5.ID5 = T0.id
+        AND T6.ID6 = T0.id
+        AND T0.deleted = 0
+
+        ORDER BY T0.score DESC ,T0.id ASC
+    </select>
+
+    <!--根据id查询-->
+    <select id="selectMainById" resultType="com.fubukianime.domain.AnimeMain">
+        <include refid="selectAllAnime"></include>
+
+        WHERE T2.ID2 = T0.id
+        AND T3.ID3 = T0.id
+        AND T1.ID1 = T0.id
+        AND T4.ID4 = T0.layout_id
+        AND T5.ID5 = T0.id
+        AND T6.ID6 = T0.id
+        AND T0.id = #{id}
+        AND T0.deleted = 0
+    </select>
+
+    <!--查找要修改动画的全部形式-->
+    <select id="selectAnimeLayoutByAnimeId" resultType="com.fubukianime.domain.AnimeLayout">
+        select T0.id,
+               T0.layout_id,
+               T2.name,
+               T1.layoutTypeId,
+               T0.another_name,
+               T0.quarter_num,
+               T0.episodes
+        from anime_layout T0,
+             anime_main T2,
+             (select a.id          ID2,
+                     b.layout_type layoutTypeId
+              from (anime.anime_layout a
+                       join anime.anime_layout_type b
+                            on a.layout_type_id = b.id
+                                or ifnull(a.layout_type_id, 16) = b.id )
+              group by a.id
+             ) as T1
+
+        WHERE T1.ID2 = T0.id
+          AND T0.layout_id = #{layoutId}
+          AND T2.layout_id = #{layoutId}
+          and T0.deleted = 0
+          and T2.deleted = 0
+        ORDER BY T0.id asc
+    </select>
+
+    <!--根据要修改动画的形式id查询-->
+    <select id="selectLayoutById" resultType="com.fubukianime.domain.AnimeLayout">
+        select T0.id,
+               T0.layout_id,
+               T2.name,
+               T1.layoutTypeId,
+               T0.another_name,
+               T0.quarter_num,
+               T0.episodes
+        from anime_layout T0,
+             anime_main T2,
+             (select a.id          ID2,
+                     b.layout_type layoutTypeId,
+                     a.layout_id
+              from (anime.anime_layout a
+                       join anime.anime_layout_type b
+                            on a.layout_type_id = b.id
+                                or ifnull(a.layout_type_id, 16) = b.id)
+              group by a.id
+             ) as T1
+
+        WHERE T1.ID2 = T0.id
+          AND T2.layout_id = T1.layout_id
+          AND T0.id = #{id}
+          and T0.deleted = 0
+          and T2.deleted = 0
+        ORDER BY T0.id asc
+    </select>
+
+    <!--根据补番序号查找id-->
+    <select id="selectIdByCompleteId" resultType="java.lang.Integer">
+        select a.id
+        from anime_main a
+        WHERE deleted = 0
+        <if test="completeId != null and completeId != '' ">
+            and a.complete_id = #{completeId}
+        </if>
+    </select>
+
+    <!--根据追番序号查找id-->
+    <select id="selectIdByBingeWatchingId" resultType="java.lang.Integer">
+        select a.id
+        from anime_main a
+        WHERE deleted = 0
+        <if test="bingeWatchingId != null and bingeWatchingId != '' ">
+            and a.binge_watching_id = #{bingeWatchingId}
+        </if>
+    </select>
+
+    <!--根据重温序号查找id-->
+    <select id="selectIdByReviewId" resultType="java.lang.Integer">
+        select a.id
+        from anime_main a
+        where deleted = 0
+        <if test="reviewId != null and reviewId != '' ">
+            and a.review_id = #{reviewId}
+        </if>
+    </select>
+
+    <!--根据id查找形式id-->
+    <select id="selectLayoutIdById" resultType="java.lang.Integer">
+        select a.layout_id
+        from anime_main a
+        where deleted = 0
+        <if test="id != null and id != '' ">
+            and a.id = #{id}
+        </if>
+    </select>
+
+    <!--查询最大补番序号-->
+    <select id="selectMaxCompleteId" resultType="java.lang.Integer">
+        select b.cid completeId
+        from (select max(a.complete_id) cid
+              from anime_main a
+              where deleted = 0) b
+    </select>
+
+    <!--查询最大追番序号-->
+    <select id="selectMaxBingeWatchingId" resultType="java.lang.Integer">
+        select b.bwid bingeWatchingId
+        from (select max(a.binge_watching_id) bwid
+              from anime_main a
+              where deleted = 0) b
+    </select>
+
+    <!--查询最大重温序号-->
+    <select id="selectMaxReviewId" resultType="java.lang.Integer">
+        select b.rid reviewId
+        from (select max(a.review_id) rid
+              from anime_main a
+              where deleted = 0) b
+    </select>
+
+    <!--固定几个需要查询的字段-->
+    <!--<sql id="Base_Column_List">
+        id,name,score,
+        source_1,source_2,source_3,
+        type_1,type_2,type_3,
+        complete_id,binge_watching_type,original_end,
+        status,broadcast_end_year,favorite_heroine,
+        binge_watching_id,create,sex_limit,
+        complete_quarter,binge_watching_quarter,broadcast_start_year,
+        animation_end,leader_gender,review_id,
+        love,layout_id
+    </sql>-->
+</mapper>
+

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>初始页</title>
+
+</head>
+<body background="../vedio/1.gif" style="background-size: 100% 100%; background-attachment: fixed; opacity: 0.6">
+    <div id ="app">
+
+        <div class="menu">
+            <el-row class="tac">
+                <el-col :span="3">
+                    <h1>管理导航</h1>
+<!--                    <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;">
+                        <el-radio-button :label="false">展开</el-radio-button>
+                        <el-radio-button :label="true">收起</el-radio-button>
+                    </el-radio-group>-->
+                    <el-menu
+                            default-active="1-4-1"
+                            class="el-menu-vertical-demo"
+                            @open="handleOpen"
+                            @close="handleClose"
+                            :collapse="isCollapse"
+                            background-color="#80aaff"
+                            text-color="#000000"
+                            active-text-color="#ffd04b"
+                            opacity=1;>
+
+                        <el-submenu index="1">
+                            <template slot="title">
+                                <i class="el-icon-location"></i>
+                                <span font-family="Helvetica Neue">主表</span>
+                            </template>
+                            <el-submenu index="1-1">
+                                <template slot="title"><i class="el-icon-setting"></i>主表管理</template>
+                                <el-link href="mainShows.html" type="warning"><el-menu-item index="1-1-1" text-color="#fff">主表展示</el-menu-item></el-link>
+                                <el-link href="mainManages.html" type="warning"><el-menu-item index="1-1-2" text-color="#fff">主表管理</el-menu-item></el-link>
+                            </el-submenu>
+
+                        </el-submenu>
+
+                        <el-submenu index="2">
+                            <template slot="title">
+                                <i class="el-icon-menu"></i>
+                                <span>映射管理</span>
+                            </template>
+
+                            <el-submenu index="2-1">
+                                <template slot="title"><i class="el-icon-setting"></i>类型管理</template>
+                                <el-link href="types.html" type="primary"><el-menu-item index="2-1-1">动画类型</el-menu-item></el-link>
+                                <el-link href="loves.html" type="primary"><el-menu-item index="2-1-2">恋爱类型</el-menu-item></el-link>
+                                <el-link href="creates.html" type="primary"><el-menu-item index="2-1-3">创作类型</el-menu-item></el-link>
+                                <el-link href="leaderGenders.html" type="primary"><el-menu-item index="2-1-4">主角类型</el-menu-item></el-link>
+                                <el-link href="bingeWatchingTypes.html" type="primary"><el-menu-item index="2-1-5">追番类型</el-menu-item></el-link>
+                                <el-link href="sexLimits.html" type="primary"><el-menu-item index="2-1-6">工口类型</el-menu-item></el-link>
+                                <el-link href="layoutTypes.html" type="primary"><el-menu-item index="2-1-7">形式类型</el-menu-item></el-link>
+                            </el-submenu>
+
+                            <el-submenu index="2-2">
+                                <template slot="title"><i class="el-icon-setting"></i>追番管理</template>
+                                <el-link href="animationEnds.html" type="primary"><el-menu-item index="2-2-1">动画结局类型</el-menu-item></el-link>
+                                <el-link href="originalEnds.html" type="primary"><el-menu-item index="2-2-2">原作结局类型</el-menu-item></el-link>
+                                <el-link href="sources.html" type="primary"><el-menu-item index="2-2-3">动画来源</el-menu-item></el-link>
+                                <el-link href="statuss.html" type="primary"><el-menu-item index="2-2-4">动画状态</el-menu-item></el-link>
+                            </el-submenu>
+
+<!--                            <el-menu-item-group>
+                                <template slot="title">类型管理</template>
+                                <el-menu-item index="2-1"><el-link href="types.html" type="primary">动画类型</el-link></el-menu-item>
+                                <el-menu-item index="2-2"><el-link href="loves.html" type="primary">恋爱类型</el-link></el-menu-item>
+                                <el-menu-item index="2-3"><el-link href="creates.html" type="primary">创作类型</el-link></el-menu-item>
+                                <el-menu-item index="2-4"><el-link href="leaderGenders.html" type="primary">主角类型</el-link></el-menu-item>
+                                <el-menu-item index="2-5"><el-link href="bingeWatchingTypes.html" type="primary">追番类型</el-link></el-menu-item>
+                            </el-menu-item-group>-->
+                        </el-submenu>
+
+<!--                        <el-menu-item index="3" disabled>
+                            <i class="el-icon-document"></i>
+                            <span slot="title">导航三</span>
+                        </el-menu-item>
+                        <el-menu-item index="4">
+                            <i class="el-icon-setting"></i>
+                            <span slot="title">导航四</span>
+                        </el-menu-item>-->
+                    </el-menu>
+                </el-col>
+            </el-row>
+        </div>
+    </div>
+</body>
+
+<style>
+    .el-header {
+        background-color: #B3C0D1;
+        color: #333;
+        line-height: 60px;
+    }
+
+    .el-aside {
+        color: #333;
+    }
+
+    .el-menu-vertical-demo:not(.el-menu--collapse) {
+        width: 200px;
+        min-height: 400px;
+    }
+
+</style>
+
+<!-- 引入组件库 -->
+
+<script src="../js/vue.js"></script>
+
+<script src="../plugins/elementui/index.js"></script>
+
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+
+<script src="../js/axios-0.18.0.js"></script>
+
+<!-- 引入样式 -->
+<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<!-- 引入组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+<script>
+    var vue = new Vue({
+        el: '#app',
+        data() {
+            return {
+                isCollapse: true
+            }
+        },
+        created() {},
+        methods: {
+            handleOpen(key, keyPath) {
+                console.log(key, keyPath);
+            },
+            handleClose(key, keyPath) {
+                console.log(key, keyPath);
+            }
+        }
+    })
+</script>
+</html>
