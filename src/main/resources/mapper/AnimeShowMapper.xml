@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fubukianime.dao.AnimeShowDao">
+
+    <!--查询信息-->
+    <select id="selectAnimeShow" resultType="com.fubukianime.domain.AnimeShow">
+        select T1.mcid maxCompleteId,
+               T1.mbid maxBingeWatchingId,
+               T1.rcid reaCompleteId,
+               date_format(T1.ynday, '%Y-%m-%d') aniYourName,
+               date_format(T1.aniday, '%Y-%m-%d') aniEva,
+               T1.time aniTime,
+               TRUNCATE(T1.mcid / T1.time, 2) avgCompleteId,
+               TRUNCATE(T1.mbid / T1.time, 2) avgBingeWatchingId,
+               TRUNCATE(T1.rcid / T1.time, 2) avgReaCompleteId
+        from (select max(complete_id)           mcid,
+                     max(binge_watching_id)     mbid,
+                     count(distinct (score))    rcid,
+                     b.day                      ynday,
+                     c.day                      aniday,
+                     datediff(curdate(), c.day) time
+              from anime_main a,
+                   anime_anniversary b,
+                   anime_anniversary c
+
+
+              where b.id = 1
+                and c.id = 2) T1
+
+    </select>
+
+
+</mapper>
+

@@ -40,7 +40,21 @@ public class AnimePeriodController {
         return new R(true, list);
     }
 
-    @Cacheable(value = "animePeriodCache", key = "'#animePeriod.id' + '_' + '#animePeriod.sp'", unless = "#result == null")
+    /**
+     * Cacheable判断是否有数据，有则直接返回
+     * condition满足条件才缓存
+     * unless满足条件不缓存
+     * @param
+     * @return
+     */
+    @Cacheable(value = "animePeriodCache", key = "#root.methodName", unless = "#result == null")
+    @GetMapping("/selectComPeriodShow")
+    public List<AnimePeriod> selectComPeriodShow(AnimePeriod animePeriod){
+        List<AnimePeriod> list = animePeriodService.selectComPeriod(animePeriod);
+        return list;
+    }
+
+    @Cacheable(value = "animePeriodCache", key = "root.methodName", unless = "#result == null")
     @GetMapping("/selectSPPeriod")
     public R selectSPPeriod(AnimePeriod animePeriod){
         List<AnimePeriod> list = animePeriodService.selectSPPeriod(animePeriod);

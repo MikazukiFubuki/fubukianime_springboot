@@ -40,6 +40,14 @@ public class AnimeQuarterController {
     }
 
 
+    @Cacheable(value = "animeQuarterCache", key = "#root.methodName", unless = "#result == null")
+    @GetMapping("/selectComQuarterShow")
+    public List<AnimeQuarter> selectComQuarterShow(AnimeQuarter animeQuarter){
+        List<AnimeQuarter> list = animeQuarterService.selectComQuarter(animeQuarter);
+        return  list;
+    }
+
+
 
     @CacheEvict(value = "animeQuarterCache", allEntries = true)
     @PostMapping("/addComQuarter")
