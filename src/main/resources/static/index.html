@@ -120,7 +120,7 @@
             menuList: [
               {
                 id: '1',
-                name: '主表管理',
+                name: '展示',
                 children: [
                   {
                     id: '1-1',
@@ -136,33 +136,29 @@
                   },
                     {
                         id: '1-3',
-                        name: '追番季管理',
-                        url: 'pages/quarters.html',
-                        icon: 'icon-category'
-                    },
-                    {
-                        id: '1-4',
-                        name: '时期点管理',
-                        url: 'pages/periods.html',
-                        icon: 'icon-category'
-                    },
-                    {
-                        id: '1-5',
                         name: '追番季展示',
                         url: 'pages/quarter/index.html',
                         icon: 'icon-category'
                     },
                     {
-                        id: '1-6',
+                        id: '1-4',
                         name: '追番时期展示',
                         url: 'pages/period/index.html',
                         icon: 'icon-category'
                     },
+                    {
+                        id: '1-5',
+                        name: '最爱女主排名展示',
+                        url: 'pages/favoriteGirlRanks.html',
+                        icon: 'icon-category'
+                    },
+
+
                 ],
               },
                 {
                     id: '2',
-                    name: '类型管理',
+                    name: '动画系统管理',
                     children: [
                         {
                             id: '2-1',
@@ -172,62 +168,62 @@
                         },
                         {
                             id: '2-2',
-                            name: '动画类型管理',
-                            url: 'pages/types.html',
-                            icon: 'icon-order'
+                            name: '追番季管理',
+                            url: 'pages/quarters.html',
+                            icon: 'icon-category'
                         },
                         {
                             id: '2-3',
-                            name: '恋爱类型管理',
-                            url: 'pages/loves.html',
-                            icon: 'icon-order'
+                            name: '时期点管理',
+                            url: 'pages/periods.html',
+                            icon: 'icon-category'
                         },
                         {
                             id: '2-4',
-                            name: '创作类型管理',
-                            url: 'pages/creates.html',
-                            icon: 'icon-order'
+                            name: '日漫表版本',
+                            url: 'pages/editions.html',
+                            icon: 'icon-category'
                         },
                         {
                             id: '2-5',
-                            name: '主角类型管理',
-                            url: 'pages/leaderGenders.html',
+                            name: '动画来源管理',
+                            url: 'pages/sources.html',
                             icon: 'icon-order'
                         },
                         {
                             id: '2-6',
-                            name: '追番类型管理',
-                            url: 'pages/bingeWatchingTypes.html',
-                            icon: 'icon-order'
-                        },
-                        {
-                            id: '2-7',
-                            name: '工口类型管理',
-                            url: 'pages/sexLimits.html',
-                            icon: 'icon-order'
-                        },
-                        {
-                            id: '2-8',
                             name: '形式类型管理',
                             url: 'pages/layoutTypes.html',
                             icon: 'icon-order'
                         },
                         {
+                            id: '2-7',
+                            name: '动画类型管理',
+                            url: 'pages/types.html',
+                            icon: 'icon-order'
+                        },
+                        {
+                            id: '2-8',
+                            name: '恋爱类型管理',
+                            url: 'pages/loves.html',
+                            icon: 'icon-order'
+                        },
+                        {
                             id: '2-9',
-                            name: '动画结局管理',
-                            url: 'pages/animationEnds.html',
+                            name: '工口类型管理',
+                            url: 'pages/sexLimits.html',
                             icon: 'icon-order'
                         },
                         {
                             id: '2-10',
-                            name: '原作结局管理',
-                            url: 'pages/originalEnds.html',
+                            name: '创作类型管理',
+                            url: 'pages/creates.html',
                             icon: 'icon-order'
                         },
                         {
                             id: '2-11',
-                            name: '动画来源管理',
-                            url: 'pages/sources.html',
+                            name: '主角类型管理',
+                            url: 'pages/leaderGenders.html',
                             icon: 'icon-order'
                         },
                         {
@@ -244,32 +240,63 @@
                         },
                         {
                             id: '2-14',
-                            name: '动画来源管理',
-                            url: 'pages/sources.html',
+                            name: '追番类型管理',
+                            url: 'pages/bingeWatchingTypes.html',
+                            icon: 'icon-order'
+                        },
+                        {
+                            id: '2-15',
+                            name: '动画周边管理',
+                            url: 'pages/merchs.html',
+                            icon: 'icon-order'
+                        },
+
+                    ],
+                },
+                {
+                    id: '3',
+                    name: 'H动漫系统管理',
+                    children: [
+                        {
+                            id: '3-1',
+                            name: 'H动漫管理',
+                            url: '',
                             icon: 'icon-order'
                         },
                     ],
                 },
                 {
-                    id: '3',
-                    name: '追番管理',
+                    id: '4',
+                    name: 'GalGame系统管理',
                     children: [
                         {
-                            id: '3-1',
-                            name: '动画结局管理',
-                            url: 'pages/animationEnds.html',
+                            id: '4-1',
+                            name: 'GalGame管理',
+                            url: '',
                             icon: 'icon-order'
                         },
+                    ],
+                },
+                {
+                    id: '5',
+                    name: 'AniSong系统管理',
+                    children: [
                         {
-                            id: '3-2',
-                            name: '原作结局管理',
-                            url: 'pages/originalEnds.html',
+                            id: '5-1',
+                            name: '音乐管理',
+                            url: '',
                             icon: 'icon-order'
                         },
+                    ],
+                },
+                {
+                    id: '6',
+                    name: '声优系统管理',
+                    children: [
                         {
-                            id: '3-3',
-                            name: '动画来源管理',
-                            url: 'pages/sources.html',
+                            id: '6-1',
+                            name: '声优管理',
+                            url: '',
                             icon: 'icon-order'
                         },
                     ],
