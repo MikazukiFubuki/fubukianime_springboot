@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fubukianime.dao.AnimeMainDao;
 import com.fubukianime.domain.AnimeMain;
 
+import com.fubukianime.domain.CvCV;
+import com.fubukianime.domain.CvWorks;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.logging.log4j.util.Strings;
@@ -22,6 +24,12 @@ public class AnimeMainServiceTest {
     private AnimeMainService animeMainService;
     @Autowired
     private AnimeMainDao animeMainDao;
+
+    @Autowired
+    private CvCVService cvCVService;
+
+    @Autowired
+    private CvWorksService cvWorksService;
     /*@Test
     void testFindAll() {
         List<AnimeMain> list = animeMainService.list();
@@ -76,19 +84,20 @@ public class AnimeMainServiceTest {
     @Test
     public void testSelectByCondition() throws IOException {
         //接收参数
-        String name = "血";
+        Integer id = 21499;
+        String animeRole = "刑务官A";
         //方式二 ：接口方法参数是 实体类对象 方式调用的方法
         //封装对象
-        AnimeMain animeMain = new AnimeMain();
-        animeMain.setName(name);
+        CvWorks cvWorks = new CvWorks();
+        cvWorks.setId(id);
+        cvWorks.setAnimeRole(animeRole);
 //        QueryWrapper<AnimeMain> queryWrapper = new QueryWrapper<>();
 //        queryWrapper.like("name", "a");
+        cvWorksService.updateCvWorks(cvWorks);
 
+        CvWorks c = cvWorksService.selectCvWorksById(id);
 
-        PageHelper.startPage(1, 10);
-        List<AnimeMain> animeMainList = animeMainDao.selectMainByCondition(animeMain);
-        PageInfo<AnimeMain> animeMainPageInfo = new PageInfo<>(animeMainList, 10);
-        System.out.println(animeMainPageInfo);
+        System.out.println(c);
 
     }
 

@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fubukianime.domain.AnimeMain;
 import com.fubukianime.domain.AnimeMainQuery;
+import com.fubukianime.domain.CvCV;
 import org.apache.logging.log4j.util.Strings;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.util.StringUtils;
@@ -25,12 +26,22 @@ class AnimeMainDaoTest {
     @Autowired
     private AnimeMainDao animeMainDao;
 
+    @Autowired
+    private CvCVDao cvCVDao;
+
+
+
 
     @Test
     public void testGetAll(){
-        Page<AnimeMain> page = new Page<>(148,10);
-        IPage<AnimeMain> animeMainList = animeMainDao.selectMainAll(page);
-        System.out.println(animeMainList);
+        //接收参数
+        Integer lived = 0;
+        //方式二 ：接口方法参数是 实体类对象 方式调用的方法
+        //封装对象
+        CvCV cvCV = new CvCV();
+        cvCV.setLived(lived);
+        List<CvCV> list = cvCVDao.selectCVByCondition(cvCV);
+        System.out.println(list);
     }
 
     @Test

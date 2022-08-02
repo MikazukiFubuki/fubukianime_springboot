@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fubukianime.dao.CvWorksDao">
+
+    <resultMap id="BaseResultMap" type="com.fubukianime.domain.CvWorks">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="cvId" column="cv_id" jdbcType="INTEGER"/>
+        <result property="animeName" column="anime_name" jdbcType="VARCHAR"/>
+        <result property="animeRole" column="anime_role" jdbcType="VARCHAR"/>
+        <result property="startYear" column="start_year" jdbcType="VARCHAR"/>
+        <result property="endYear" column="end_year" jdbcType="VARCHAR"/>
+        <result property="deleted" column="deleted" jdbcType="INTEGER"/>
+    </resultMap>
+
+
+    <!--查询信息-->
+    <select id="selectCvWorks" resultType="com.fubukianime.domain.CvWorks">
+        select a.id,
+        a.cv_id cvId,
+        b.name cvName,
+        a.anime_name animeName,
+        a.anime_role animeRole,
+        a.start_year startYear,
+        a.end_year endYear,
+        if(a.start_year = a.end_year, a.start_year,
+        concat_ws('-', a.start_year, a.end_year)) AS year,
+        a.deleted
+        from cv_works a
+        left join cv_cv b on b.id = a.cv_id
+        where a.deleted = 0
+        <if test="cvName != null and cvName != ''">
+            and a.cv_id = (select id from cv_cv where cv_cv.name = #{cvName})
+        </if>
+        <if test="animeName != null and animeName != ''">
+            and a.anime_name like CONCAT('%',#{animeName} ,'%')
+        </if>
+        <if test="animeRole != null and animeRole != ''">
+            and a.anime_role like CONCAT('%',#{animeRole},'%')
+        </if>
+    </select>
+
+    <!--查询信息-->
+    <select id="selectCvWorksById" resultType="com.fubukianime.domain.CvWorks">
+        select a.id,
+        a.cv_id cvId,
+        b.name cvName,
+        a.anime_name animeName,
+        a.anime_role animeRole,
+        a.start_year startYear,
+        a.end_year endYear,
+        if(a.start_year = a.end_year, a.start_year,
+        concat_ws('-', a.start_year, a.end_year)) AS year,
+        a.deleted
+        from cv_works a
+        left join cv_cv b on b.id = a.cv_id
+        where a.deleted = 0 and a.id = #{id}
+    </select>
+
+    <insert id="addCvWorks">
+        insert into cv_works(cv_id,
+                             anime_name,
+                             anime_role,
+                             start_year,
+                             end_year,
+                             deleted)
+        values ( (select id from cv_cv where name = #{cvName}), #{animeName}, #{animeRole}, #{startYear}, #{endYear}, 0)
+    </insert>
+
+    <update id="updateCvWorks">
+        update cv_works a
+        <set>
+            <if test="animeName != null and animeName != ''">
+                a.anime_name = #{animeName},
+            </if>
+            <if test="animeRole != null and animeRole != ''">
+                a.anime_role = #{animeRole},
+            </if>
+            <if test="startYear != null and startYear != ''">
+                a.start_year = #{startYear},
+            </if>
+            <if test="endYear != null and endYear != ''">
+                a.end_year = #{endYear},
+            </if>
+        </set>
+        where id = #{id} and deleted = 0;
+    </update>
+
+
+</mapper>
+

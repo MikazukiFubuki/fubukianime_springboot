@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fubukianime.dao.CvCVDao">
+
+    <!--<resultMap id="BaseResultMap" type="com.fubukianime.domain.CvCV">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="hiragana" column="hiragana" jdbcType="VARCHAR"/>
+        <result property="sex" column="sex" jdbcType="VARCHAR"/>
+        <result property="anotherName" column="another_name" jdbcType="VARCHAR"/>
+        <result property="birthday" column="birthday" jdbcType="VARCHAR"/>
+        <result property="company" column="company" jdbcType="VARCHAR"/>
+        <result property="debutYear" column="debut_year" jdbcType="VARCHAR"/>
+        <result property="lived" column="lived" jdbcType="Integer"/>
+        <result property="deathDay" column="death_day" jdbcType="VARCHAR"/>
+        <result property="deleted" column="deleted" jdbcType="INTEGER"/>
+    </resultMap>-->
+
+
+    <!--查询全部信息-->
+    <select id="selectCVByCondition" resultType="com.fubukianime.domain.CvCV">
+        select a.id,
+        a.name,
+        a.hiragana,
+        a.sex,
+        a.another_name anotherName,
+        a.birthday,
+        a.company,
+        a.debut_year debutYear,
+        a.lived lived,
+        a.death_day deathDay,
+        b.num roleNum
+        from cv_cv a left join (select cv_id, count(cv_id) num
+        from cv_works
+        group by cv_id) b on b.cv_id = a.id
+        where deleted = 0
+        <if test="name != null and name != ''">
+            and a.name like CONCAT('%',#{name} ,'%')
+        </if>
+        <if test="hiragana != null and hiragana != ''">
+            and a.hiragana like CONCAT('%',#{hiragana} ,'%')
+        </if>
+        <if test="sex != null and sex != ''">
+            and a.sex = #{sex}
+        </if>
+        <if test="anotherName != null and anotherName != ''">
+            and a.another_name like CONCAT('%',#{anotherName} ,'%')
+        </if>
+        <if test="birthday != null and birthday != ''">
+            and a.birthday like CONCAT('%',#{birthday} ,'%')
+        </if>
+        <if test="company != null and company != ''">
+            and a.company like CONCAT('%',#{company} ,'%')
+        </if>
+        <if test="debutYear != null and debutYear != ''">
+            and a.debut_year like CONCAT('%',#{debutYear} ,'%')
+        </if>
+        <if test="deathDay != null and deathDay != ''">
+            and a.death_day like CONCAT('%',#{deathDay} ,'%')
+        </if>
+
+    </select>
+
+    <!--查询活信息-->
+    <select id="selectCVByConditionLive" resultType="com.fubukianime.domain.CvCV">
+        select a.id,
+               a.name,
+               a.hiragana,
+               a.sex,
+               a.another_name anotherName,
+               a.birthday,
+               a.company,
+               a.debut_year debutYear,
+               a.lived lived,
+               a.death_day deathDay,
+               b.num roleNum
+        from cv_cv a left join (select cv_id, count(cv_id) num
+                                from cv_works
+                                group by cv_id) b on b.cv_id = a.id
+        where deleted = 0 and a.lived = 0
+        <if test="name != null and name != ''">
+            and a.name like CONCAT('%',#{name} ,'%')
+        </if>
+        <if test="hiragana != null and hiragana != ''">
+            and a.hiragana like CONCAT('%',#{hiragana} ,'%')
+        </if>
+        <if test="sex != null and sex != ''">
+            and a.sex = #{sex}
+        </if>
+        <if test="anotherName != null and anotherName != ''">
+            and a.another_name like CONCAT('%',#{anotherName} ,'%')
+        </if>
+        <if test="birthday != null and birthday != ''">
+            and a.birthday like CONCAT('%',#{birthday} ,'%')
+        </if>
+        <if test="company != null and company != ''">
+            and a.company like CONCAT('%',#{company} ,'%')
+        </if>
+        <if test="debutYear != null and debutYear != ''">
+            and a.debut_year like CONCAT('%',#{debutYear} ,'%')
+        </if>
+        <if test="deathDay != null and deathDay != ''">
+            and a.death_day like CONCAT('%',#{deathDay} ,'%')
+        </if>
+
+    </select>
+
+    <!--查询死信息-->
+    <select id="selectCVByConditionDead" resultType="com.fubukianime.domain.CvCV">
+        select a.id,
+        a.name,
+        a.hiragana,
+        a.sex,
+        a.another_name anotherName,
+        a.birthday,
+        a.company,
+        a.debut_year debutYear,
+        a.lived lived,
+        a.death_day deathDay,
+        b.num roleNum
+        from cv_cv a left join (select cv_id, count(cv_id) num
+        from cv_works
+        group by cv_id) b on b.cv_id = a.id
+        where deleted = 0 and a.lived = 1
+        <if test="name != null and name != ''">
+            and a.name like CONCAT('%',#{name} ,'%')
+        </if>
+        <if test="hiragana != null and hiragana != ''">
+            and a.hiragana like CONCAT('%',#{hiragana} ,'%')
+        </if>
+        <if test="sex != null and sex != ''">
+            and a.sex = #{sex}
+        </if>
+        <if test="anotherName != null and anotherName != ''">
+            and a.another_name like CONCAT('%',#{anotherName} ,'%')
+        </if>
+        <if test="birthday != null and birthday != ''">
+            and a.birthday like CONCAT('%',#{birthday} ,'%')
+        </if>
+        <if test="company != null and company != ''">
+            and a.company like CONCAT('%',#{company} ,'%')
+        </if>
+        <if test="debutYear != null and debutYear != ''">
+            and a.debut_year like CONCAT('%',#{debutYear} ,'%')
+        </if>
+        <if test="deathDay != null and deathDay != ''">
+            and a.death_day like CONCAT('%',#{deathDay} ,'%')
+        </if>
+
+    </select>
+
+    <!--查询信息-->
+    <select id="selectCVById" resultType="com.fubukianime.domain.CvCV">
+        select a.id,
+        a.name,
+        a.hiragana,
+        a.sex,
+        a.another_name anotherName,
+        a.birthday,
+        a.company,
+        a.debut_year debutYear,
+        a.lived,
+        a.death_day deathDay,
+        b.num roleNum
+        from cv_cv a left join (select cv_id, count(cv_id) num
+        from cv_works
+        group by cv_id) b on b.cv_id = a.id
+        where deleted = 0 and a.id = #{id}
+    </select>
+
+    <!--查询全部声优姓名-->
+    <select id="selectCVName" resultType="com.fubukianime.domain.CvCV">
+        select a.id,
+               a.name
+        from cv_cv a
+        where deleted = 0
+    </select>
+
+
+
+    <insert id="addCV">
+        insert into cv_cv(name,
+                          hiragana,
+                          sex,
+                          another_name,
+                          birthday,
+                          company,
+                          debut_year,
+                          lived,
+                          death_day, deleted)
+        values (#{name} ,#{hiragana} ,#{sex} ,#{anotherName} ,#{birthday} ,#{company}
+        ,#{debutYear} , 0, null , 0)
+    </insert>
+
+    <update id="updateCV">
+        update cv_cv a
+        <set>
+            <if test="name != null and name != ''">
+                a.name = #{name},
+            </if>
+            <if test="hiragana != null and hiragana != ''">
+                a.hiragana = #{hiragana},
+            </if>
+            <if test="sex != null and sex != ''">
+                a.sex = #{sex},
+            </if>
+            <if test="anotherName != null and anotherName != ''">
+                a.another_name = #{anotherName},
+            </if>
+            <if test="birthday != null and birthday != ''">
+                a.birthday = #{birthday},
+            </if>
+            <if test="company != null and company != ''">
+                a.company = #{company},
+            </if>
+            <if test="debutYear != null and debutYear != ''">
+                a.death_day = #{debutYear},
+            </if>
+        </set>
+        where id = #{id}
+        and deleted = 0;
+    </update>
+
+    <update id="updateCVdeath">
+        update cv_cv a
+        <set>
+
+                a.lived = 1,
+
+            <if test="deathDay != null and deathDay != ''">
+                a.death_day = #{deathDay},
+            </if>
+        </set>
+        where id = #{id}
+        and deleted = 0;
+    </update>
+
+
+</mapper>
+

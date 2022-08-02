@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fubukianime.dao.HAnimeMainDao">
+
+
+    <!--查询全部信息-->
+    <select id="selectMainByCondition" resultType="com.fubukianime.domain.HAnimeMain">
+        select a.id, a.name, a.content, b.type, concat(c.layout_type, a.episodes, '集') layout, c.layout_type layoutType,
+        a.episodes, a.dimensional, d.sex_limit sexLimit, a.status
+        from ((hanime_main a left join hanime_type b on a.type = b.id)
+        left join anime_layout_type c on a.layout_type = c.id)
+        left join anime_sexlimit d on a.sex_limit = d.id
+        where a.deleted = 0 and b.deleted = 0 and c.deleted = 0 and d.deleted = 0
+        <if test="name != null and name != ''">
+            and a.name like CONCAT('%',#{name} ,'%')
+        </if>
+        <if test="content != null and content != ''">
+            and a.content like CONCAT('%',#{content} ,'%')
+        </if>
+        <if test="type != null and type != ''">
+            and a.type = #{type}
+        </if>
+        <if test="layoutType != null and layoutType != ''">
+            and a.layout_type = #{layoutType}
+        </if>
+        <if test="dimensional != null and dimensional != ''">
+            and a.dimensional = #{dimensional}
+        </if>
+        <if test="sexLimit != null and sexLimit != ''">
+            and a.sex_limit = #{sexLimit}
+        </if>
+        <if test="status != null and status != ''">
+            and a.status = #{status}
+        </if>
+
+    </select>
+
+    <!--查询全部信息-->
+    <select id="selectMainById" resultType="com.fubukianime.domain.HAnimeMain">
+        select a.id,
+               a.name,
+               a.content,
+               b.type,
+               concat(c.layout_type, a.episodes, '集') layout,
+               c.layout_type                          layoutType,
+               a.episodes,
+               a.dimensional,
+               d.sex_limit                            sexLimit,
+               a.status
+        from ((hanime_main a left join hanime_type b on a.type = b.id)
+            left join anime_layout_type c on a.layout_type = c.id)
+                 left join anime_sexlimit d on a.sex_limit = d.id
+        where a.id = #{id}
+          and a.deleted = 0
+          and b.deleted = 0
+          and c.deleted = 0
+          and d.deleted = 0
+
+    </select>
+
+    <insert id="addHAnime">
+        insert into hanime_main(name,
+                                content,
+                                type,
+                                layout_type,
+                                episodes,
+                                dimensional,
+                                sex_limit,
+                                status,
+                                deleted)
+        values ( #{name}, #{content}, #{type}, #{layoutType}, #{episodes}, #{dimensional}
+               , #{sexLimit}, #{status}, 0)
+    </insert>
+
+    <update id="updateHAnime">
+        update hanime_main a
+        <set>
+            <if test="name != null and name != ''">
+                a.name = #{name},
+            </if>
+            <if test="content != null and content != ''">
+                a.content = #{content},
+            </if>
+            <if test="type != null and type != ''">
+                a.type = #{type},
+            </if>
+            <if test="layoutType != null and layoutType != ''">
+                a.layout_type = #{layoutType},
+            </if>
+            <if test="episodes != null and episodes != ''">
+                a.episodes = #{episodes},
+            </if>
+            <if test="dimensional != null and dimensional != ''">
+                a.dimensional = #{dimensional},
+            </if>
+            <if test="sexLimit != null and sexLimit != ''">
+                a.sex_limit = #{sexLimit},
+            </if>
+            <if test="status != null and status != ''">
+                a.status = #{status},
+            </if>
+        </set>
+        where id = #{id}
+        and deleted = 0;
+    </update>
+
+
+
+</mapper>
+

@@ -33,7 +33,7 @@ public class AnimePeriodController {
      * @param
      * @return
      */
-    @Cacheable(value = "animePeriodCache", key = "'#animePeriod.id' + '_' + 'animePeriod.sp' + '_' + 'animePeriod.spid'", unless = "#result == null")
+    @Cacheable(value = "animePeriodCache", key = "#animePeriod.id + '_' + #animePeriod.sp + '_' + #animePeriod.spid", unless = "#result == null")
     @GetMapping("/selectComPeriod")
     public R selectComPeriod(AnimePeriod animePeriod){
         List<AnimePeriod> list = animePeriodService.selectComPeriod(animePeriod);
@@ -54,7 +54,7 @@ public class AnimePeriodController {
         return list;
     }
 
-    @Cacheable(value = "animePeriodCache", key = "root.methodName", unless = "#result == null")
+    @Cacheable(value = "animePeriodCache", key = "#root.methodName", unless = "#result == null")
     @GetMapping("/selectSPPeriod")
     public R selectSPPeriod(AnimePeriod animePeriod){
         List<AnimePeriod> list = animePeriodService.selectSPPeriod(animePeriod);
