@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fubukianime.dao.MusicMainDao">
+
+
+    <!--查询信息-->
+    <select id="selectMusicMain" resultType="com.fubukianime.domain.MusicMain">
+        SELECT a.id,
+        a.music_name musicName,
+        a.anime_name animeName,
+        b.type type,
+        a.time time,
+        a.singer singer,
+        a.score score,
+        a.form form,
+        a.source source,
+        c.downloadType downloadType,
+        d.addType addType,
+        a.year year,
+        f.quarter_CN quarter,
+        if(a.year is null and f.quarter_CN is null , '', concat(a.year, '年', f.quarter_CN)) bingeTime
+        from (((music_main a left join music_type b on a.type = b.id)
+        left join music_downloadtype c on a.download_type = c.id)
+        left join music_addtype d on a.add_type = d.id)
+        left join quarter f on a.quarter = f.id
+        where a.deleted = 0
+        and b.deleted = 0
+        and c.deleted = 0
+        and d.deleted = 0
+        <if test="musicName != null and musicName != ''">
+            and a.music_name  like CONCAT('%',#{musicName} ,'%')
+        </if>
+        <if test="animeName != null and animeName != ''">
+            and a.anime_name like CONCAT('%',#{animeName} ,'%')
+        </if>
+        <if test="type != null and type != ''">
+            and a.type = #{type}
+        </if>
+        <if test="time != null and time != ''">
+            and a.time = #{time}
+        </if>
+        <if test="singer != null and singer != ''">
+            and a.singer like CONCAT('%',#{singer} ,'%')
+        </if>
+        <if test="score != null and score != ''">
+            and a.score = #{score}
+        </if>
+        <if test="form != null and form != ''">
+            and a.form = #{form}
+        </if>
+        <if test="source != null and source != ''">
+            and a.source = #{source}
+        </if>
+        <if test="downloadType != null and downloadType != ''">
+            and a.download_type = #{downloadType}
+        </if>
+        <if test="addType != null and addType != ''">
+            and a.add_type = #{addType}
+        </if>
+        <if test="year != null and year != ''">
+            and a.year like CONCAT('%',#{year} ,'%')
+        </if>
+        <if test="quarter != null and quarter != ''">
+            and a.quarter = #{quarter}
+        </if>
+    </select>
+
+    <!--查询信息-->
+    <select id="selectMusicMainById" resultType="com.fubukianime.domain.MusicMain">
+        SELECT a.id,
+               a.music_name                                                                       musicName,
+               a.anime_name                                                                       animeName,
+               b.type                                                                             type,
+               a.time                                                                             time,
+               a.singer                                                                           singer,
+               a.score                                                                            score,
+               a.form                                                                             form,
+               a.source                                                                           source,
+               c.downloadType                                                                     downloadType,
+               d.addType                                                                          addType,
+               a.year                                                                             year,
+               f.quarter_CN                                                                       quarter,
+               if(a.year is null and f.quarter_CN is null, '', concat(a.year, '年', f.quarter_CN)) bingeTime
+        from (((music_main a left join music_type b on a.type = b.id)
+            left join music_downloadtype c on a.download_type = c.id)
+            left join music_addtype d on a.add_type = d.id)
+                 left join quarter f on a.quarter = f.id
+        where a.deleted = 0
+          and b.deleted = 0
+          and c.deleted = 0
+          and d.deleted = 0
+          and a.id = #{id}
+    </select>
+
+    <insert id="addMusicMain">
+        insert into music_main(music_name,
+                               anime_name,
+                               type,
+                               time,
+                               singer, score, form, source, download_type, add_type, year, quarter, src,
+                               deleted)
+        values (#{musicName}, #{animeName}, #{type}, #{time}, #{singer}, #{score}, #{form}, #{source}, #{downloadType},
+                #{addType}, #{year}, #{quarter}, null, 0)
+    </insert>
+
+    <update id="updateMusicMain">
+        update music_main a
+        <set>
+            <if test="musicName != null and musicName != ''">
+                a.music_name = #{musicName},
+            </if>
+            <if test="animeName != null and animeName != ''">
+                a.anime_name = #{animeName},
+            </if>
+            <if test="type != null and type != ''">
+                a.type = #{type},
+            </if>
+            <if test="time != null and time != ''">
+                a.time = #{time},
+            </if>
+            <if test="singer != null and singer != ''">
+                a.singer = #{singer},
+            </if>
+            <if test="score != null and score != ''">
+                a.score = #{score},
+            </if>
+            <if test="form != null and form != ''">
+                a.form = #{form},
+            </if>
+            <if test="source != null and source != ''">
+                a.source = #{source},
+            </if>
+            <if test="downloadType != null and downloadType != ''">
+                a.download_type = #{downloadType},
+            </if>
+            <if test="addType != null and addType != ''">
+                a.add_type = #{addType},
+            </if>
+            <if test="year != null and year != ''">
+                a.year = #{year},
+            </if>
+            <if test="quarter != null and quarter != ''">
+                a.quarter = #{quarter},
+            </if>
+        </set>
+        where id = #{id} and deleted = 0;
+    </update>
+
+
+</mapper>
+

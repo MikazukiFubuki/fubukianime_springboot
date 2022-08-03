@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fubukianime.dao.GalGameMainDao">
+
+
+    <!--查询信息-->
+    <select id="selectGalGameMain" resultType="com.fubukianime.domain.GalGameMain">
+        select a.id id,
+        a.name name,
+        FORMAT(((a.story_score * 5 + a.role_score * 3 + a.img_quality_score * 3 + a.music_score * 1) / 12), 2) allScore,
+        a.story_score storyScore,
+        a.role_score roleScore,
+        a.img_quality_score imgQualityScore,
+        a.music_score musicScore,
+        b.type environmentType,
+        c.type type,
+        d.type rebornType,
+        e.type loveType,
+        f.type branchType,
+        g.type spType,
+        a.sex_level sexLevel,
+        a.language language,
+        a.area area,
+        if(a.status = 1, '已玩', '未玩') status
+        from (((((galgame_main a left join galgame_type b on a.environment_type = b.id)
+        left join galgame_type c on a.type = c.id)
+        left join galgame_type d on a.reborn_type = d.id)
+        left join galgame_type e on a.love_type = e.id)
+        left join galgame_type f on a.branch_type = f.id)
+        left join galgame_type g on a.sp_type = g.id
+        where a.deleted = 0
+        and b.deleted = 0
+        and c.deleted = 0
+        and d.deleted = 0
+        and e.deleted = 0
+        and f.deleted = 0
+        and g.deleted = 0
+        <if test="name != null and name != ''">
+            and a.name like CONCAT('%',#{name} ,'%')
+        </if>
+        <if test="storyScore != null and storyScore != ''">
+            and a.story_score = #{storyScore}
+        </if>
+        <if test="roleScore != null and roleScore != ''">
+            and a.role_score = #{roleScore}
+        </if>
+        <if test="imgQualityScore != null and imgQualityScore != ''">
+            and a.img_quality_score = #{imgQualityScore}
+        </if>
+        <if test="musicScore != null and musicScore != ''">
+            and a.music_score = #{musicScore}
+        </if>
+        <if test="environmentType != null and environmentType != ''">
+            and a.environment_type = #{environmentType}
+        </if>
+        <if test="type != null and type != ''">
+            and a.type = #{type}
+        </if>
+        <if test="rebornType != null and rebornType != ''">
+            and a.reborn_type = #{rebornType}
+        </if>
+        <if test="loveType != null and loveType != ''">
+            and a.love_type = #{loveType}
+        </if>
+        <if test="branchType != null and branchType != ''">
+            and a.branch_type = #{branchType}
+        </if>
+        <if test="spType != null and spType != ''">
+            and a.sp_type = #{spType}
+        </if>
+        <if test="sexLevel != null and sexLevel != ''">
+            and a.sex_level = #{sexLevel}
+        </if>
+        <if test="language != null and language != ''">
+            and a.language = #{language}
+        </if>
+        <if test="area != null and area != ''">
+            and a.area = #{area}
+        </if>
+        <if test="status != null and status != ''">
+            and a.status = #{status}
+        </if>
+    </select>
+
+    <!--查询信息-->
+    <select id="selectGalGameMainById" resultType="com.fubukianime.domain.GalGameMain">
+        select a.id                         id,
+               a.name                       name,
+               FORMAT(((a.story_score * 5 + a.role_score * 3 + a.img_quality_score * 3 + a.music_score * 1) / 12),
+                      2)                    allScore,
+               a.story_score                storyScore,
+               a.role_score                 roleScore,
+               a.img_quality_score          imgQualityScore,
+               a.music_score                musicScore,
+               b.type                       environmentType,
+               c.type                       type,
+               d.type                       rebornType,
+               e.type                       loveType,
+               f.type                       branchType,
+               g.type                       spType,
+               a.sex_level                  sexLevel,
+               a.language                   language,
+               a.area                       area,
+               if(a.status = 1, '已玩', '未玩') status
+        from (((((galgame_main a left join galgame_type b on a.environment_type = b.id)
+            left join galgame_type c on a.type = c.id)
+            left join galgame_type d on a.reborn_type = d.id)
+            left join galgame_type e on a.love_type = e.id)
+            left join galgame_type f on a.branch_type = f.id)
+                 left join galgame_type g on a.sp_type = g.id
+        where a.deleted = 0
+          and b.deleted = 0
+          and c.deleted = 0
+          and d.deleted = 0
+          and e.deleted = 0
+          and f.deleted = 0
+          and g.deleted = 0
+          and a.id = #{id}
+    </select>
+
+    <insert id="addGalGameMain">
+        insert into galgame_main(name,
+                                 story_score,
+                                 role_score,
+                                 img_quality_score,
+                                 music_score, environment_type, type, reborn_type, love_type, branch_type,
+                                 sp_type, sex_level,
+                                 language, area, status,
+                                 deleted)
+        values (#{name}, #{storyScore}, #{roleScore}, #{imgQualityScore}, #{musicScore}, #{environmentType}, #{type},
+                #{rebornType}, #{loveType},#{branchType}, #{spType}, #{sexLevel}, #{language}, #{area}, #{status}, 0)
+    </insert>
+
+    <update id="updateGalGameMain">
+        update galgame_main a
+        <set>
+            <if test="name != null and name != ''">
+                a.name = #{name},
+            </if>
+            <if test="storyScore != null and storyScore != ''">
+                a.story_score = #{storyScore},
+            </if>
+            <if test="roleScore != null and roleScore != ''">
+                a.role_score = #{roleScore},
+            </if>
+            <if test="imgQualityScore != null and imgQualityScore != ''">
+                a.img_quality_score = #{imgQualityScore},
+            </if>
+            <if test="musicScore != null and musicScore != ''">
+                a.music_score = #{musicScore},
+            </if>
+            <if test="environmentType != null and environmentType != ''">
+                a.environment_type = #{environmentType},
+            </if>
+            <if test="type != null and type != ''">
+                a.type = #{type},
+            </if>
+            <if test="rebornType != null and rebornType != ''">
+                a.reborn_type = #{rebornType},
+            </if>
+            <if test="loveType != null and loveType != ''">
+                a.love_type = #{loveType},
+            </if>
+            <if test="branchType != null and branchType != ''">
+                a.branch_type = #{branchType},
+            </if>
+            <if test="spType != null and spType != ''">
+                a.sp_type = #{spType},
+            </if>
+            <if test="sexLevel != null and sexLevel != ''">
+                a.sex_level = #{sexLevel},
+            </if>
+            <if test="language != null and language != ''">
+                a.language = #{language},
+            </if>
+            <if test="area != null and area != ''">
+                a.area = #{area},
+            </if>
+            <if test="status != null and status != ''">
+                a.status = #{status},
+            </if>
+        </set>
+        where id = #{id} and deleted = 0;
+    </update>
+
+
+</mapper>
+
