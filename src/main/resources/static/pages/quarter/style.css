@@ -12,11 +12,11 @@ body {
   width: 2560px;
   height: 1440px;
   background: rgba(0, 0, 0, 0)
-    url(./static/images/24411623-95d9-429f-be06-ee42bbc2c1b6.png) no-repeat;
+    url(./static/images/b7320c0e-e869-46f7-9f3b-736d95ca7eb3.png) no-repeat;
   background-size: cover;
   overflow-x: hidden;
   transform-origin: 0px 0px;
-  filter: hue-rotate(0deg) saturate(143%) brightness(105%) contrast(100%)
+  filter: hue-rotate(0deg) saturate(126%) brightness(105%) contrast(100%)
     opacity(100%) grayscale(0%);
 }
 .container::-webkit-scrollbar {

@@ -20,7 +20,7 @@ import java.util.List;
 
 @SpringBootTest
 public class AnimeMainServiceTest {
-    @Autowired
+    /*@Autowired
     private AnimeMainService animeMainService;
     @Autowired
     private AnimeMainDao animeMainDao;
@@ -29,7 +29,7 @@ public class AnimeMainServiceTest {
     private CvCVService cvCVService;
 
     @Autowired
-    private CvWorksService cvWorksService;
+    private CvWorksService cvWorksService;*/
     /*@Test
     void testFindAll() {
         List<AnimeMain> list = animeMainService.list();
@@ -81,25 +81,25 @@ public class AnimeMainServiceTest {
 
     }*/
 
-    @Test
-    public void testSelectByCondition() throws IOException {
-        //接收参数
-        Integer id = 21499;
-        String animeRole = "刑务官A";
-        //方式二 ：接口方法参数是 实体类对象 方式调用的方法
-        //封装对象
-        CvWorks cvWorks = new CvWorks();
-        cvWorks.setId(id);
-        cvWorks.setAnimeRole(animeRole);
-//        QueryWrapper<AnimeMain> queryWrapper = new QueryWrapper<>();
-//        queryWrapper.like("name", "a");
-        cvWorksService.updateCvWorks(cvWorks);
-
-        CvWorks c = cvWorksService.selectCvWorksById(id);
-
-        System.out.println(c);
-
-    }
+//    @Test
+//    public void testSelectByCondition() throws IOException {
+//        //接收参数
+//        Integer id = 21499;
+//        String animeRole = "刑务官A";
+//        //方式二 ：接口方法参数是 实体类对象 方式调用的方法
+//        //封装对象
+//        CvWorks cvWorks = new CvWorks();
+//        cvWorks.setId(id);
+//        cvWorks.setAnimeRole(animeRole);
+////        QueryWrapper<AnimeMain> queryWrapper = new QueryWrapper<>();
+////        queryWrapper.like("name", "a");
+//        cvWorksService.updateCvWorks(cvWorks);
+//
+//        CvWorks c = cvWorksService.selectCvWorksById(id);
+//
+//        System.out.println(c);
+//
+//    }
 
 
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 
 
+@CrossOrigin
 @RestController
 @RequestMapping("/quarters")
 public class QuarterController {

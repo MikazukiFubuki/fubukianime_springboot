@@ -12,7 +12,7 @@ body {
   width: 1920px;
   height: 1080px;
   background: rgba(255, 255, 255, 1)
-    url(./static/images/397fc9a5-6055-4554-959f-af083bc4ecb4.png) no-repeat;
+    url(./static/images/7739e48a-567b-4cde-8ccd-8cdea9442605.png) no-repeat;
   background-size: cover;
   overflow-x: hidden;
   transform-origin: 0px 0px;
@@ -52,7 +52,7 @@ body {
   height: 158px;
   z-index: 19;
   transform: rotate(0deg);
-  border: 3px solid rgba(255, 255, 255, 1);
+  border: 3px solid rgba(45, 235, 216, 1);
   boxshadow: 3px 2px 10px 5px rgba(132, 132, 132, 1);
 }
 #item4e713cc7-f483-42ad-a518-f66f97b39b3d {
@@ -64,7 +64,7 @@ body {
   height: 158px;
   z-index: 18;
   transform: rotate(0deg);
-  border: 3px solid rgba(214, 46, 46, 1);
+  border: 3px solid rgba(239, 222, 29, 1);
   boxshadow: 3px 2px 10px 5px rgba(132, 132, 132, 1);
 }
 #itemad2e5c08-ba0f-4936-996b-f0ccae376541 {

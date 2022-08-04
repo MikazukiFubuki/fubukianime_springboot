@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
-
+@CrossOrigin
 @RestController
 @RequestMapping("/galGameTypes")
 public class GalGameTypeController {

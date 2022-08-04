@@ -14,8 +14,8 @@ import java.util.List;
 @SpringBootTest
 class AnimePeriodDaoTest {
 
-    @Autowired
-    private AnimePeriodDao animePeriodDao;
+    /*@Autowired
+    private AnimePeriodDao animePeriodDao;*/
 
 
 //    @Test

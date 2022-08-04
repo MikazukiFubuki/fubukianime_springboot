@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@Component
+//@Component
 public class MyCommandRunner implements CommandLineRunner {
     private static Logger logger = LoggerFactory.getLogger(MyCommandRunner.class);
 

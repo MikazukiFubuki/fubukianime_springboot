@@ -86,13 +86,13 @@
                      concat_ws('-', b.source, c.source,
                                d.source) source
               from ((anime.anime_main a
-                  join anime.anime_source b
+                  left join anime.anime_source b
                   on a.source_1 = b.id
                       or ifnull(a.source_1, 26) = b.id)
-                  join anime.anime_source c
+                  left join anime.anime_source c
                   on a.source_2 = c.id
                       or ifnull(a.source_2, 26) = c.id)
-                       join anime.anime_source d
+                       left join anime.anime_source d
                             on a.source_3 = d.id
                                 or ifnull(a.source_3, 26) = d.id
               WHERE a.deleted = 0
@@ -112,37 +112,29 @@
                      j.`create`,
                      k.status
               from (((((((anime.anime_main a
-                  join anime.anime_sexlimit b
+                  left join anime.anime_sexlimit b
                   on a.sex_limit = b.id
                       or ifnull(a.sex_limit, 6) = b.id)
-                  join anime.anime_love c
+                  left join anime.anime_love c
                   on a.love = c.id
-                      or ifnull(a.love, 12) = b.id)
-                  join anime.anime_leadergender d
+                      or ifnull(a.love, 12) = c.id)
+                  left join anime.anime_leadergender d
                   on a.leader_gender = d.id
                       or ifnull(a.leader_gender, 12) = d.id)
-                  join anime.anime_animationend e
+                  left join anime.anime_animationend e
                   on a.animation_end = e.id
                       or ifnull(a.animation_end, 5) = e.id)
-                  join anime.anime_originalend f
+                  left join anime.anime_originalend f
                   on a.original_end = f.id
                       or ifnull(a.original_end, 8) = f.id)
-                  join anime.anime_bingewatchingtype g
+                  left join anime.anime_bingewatchingtype g
                   on a.binge_watching_type = g.id
                       or ifnull(a.binge_watching_type, 6) = g.id)
-                  join anime.anime_create j
+                  left join anime.anime_create j
                   on a.`create` = j.id)
-                       join anime_status k
+                       left join anime_status k
                             on a.status = k.id
               WHERE a.deleted = 0
-                and b.deleted = 0
-                and c.deleted = 0
-                and d.deleted = 0
-                and e.deleted = 0
-                and f.deleted = 0
-                and g.deleted = 0
-                and j.deleted = 0
-                and k.deleted = 0
 
               group by a.id
               order by a.id asc) as T1,
@@ -150,13 +142,13 @@
 
              (select a.id ID3, b.type type1, c.type type2, d.type type3, concat_ws('-', b.type, c.type, d.type) type
               from ((anime.anime_main a
-                  join anime.anime_type b
+                  left join anime.anime_type b
                   on a.type_1 = b.id
                       or ifnull(a.type_1, 127) = b.id)
-                  join anime.anime_type c
+                  left join anime.anime_type c
                   on a.type_2 = c.id
                       or ifnull(a.type_2, 127) = c.id)
-                       join anime.anime_type d
+                       left join anime.anime_type d
                             on a.type_3 = d.id
                                 or ifnull(a.type_3, 127) = d.id
               WHERE a.deleted = 0
@@ -172,7 +164,7 @@
                                      if(isnull(t1.quarter_num) = 1, '', concat(t1.quarter_num, '季')),
                                      if(isnull(t1.episodes) = 1, '', concat(t1.episodes, '集'))) as layout
                     from anime_layout t1
-                             join anime_layout_type t2
+                             left join anime_layout_type t2
                                   on t1.layout_type_id = t2.id
                                       or ifnull(t1.layout_type_id, 16) = t2.id
                     WHERE t1.deleted = 0
@@ -186,9 +178,9 @@
                      t2.year                                 broadcastStartYear,
                      t3.year                                 broadcastEndYear
               from (anime_main t1
-                  join anime.anime_year t2
+                  left join anime.anime_year t2
                   on t1.broadcast_start_year = t2.id or ifnull(t1.broadcast_start_year, 102) = t2.id)
-                       join anime_year t3 on t1.broadcast_end_year = t3.id or ifnull(t1.broadcast_end_year, 102) = t3.id
+                       left join anime_year t3 on t1.broadcast_end_year = t3.id or ifnull(t1.broadcast_end_year, 102) = t3.id
               where t1.deleted = 0
              ) as T5,
 
@@ -198,11 +190,11 @@
                      concat_ws('', t2.year, t4.quarter_CN) as bingeWatchingQuarter,
                      concat_ws('', t3.year, t5.quarter_CN) as completeQuarter
               from (((anime_main t1
-                  join anime_year t2 on t1.binge_watching_year = t2.id or ifnull(t1.binge_watching_year, 102) = t2.id)
-                  join anime_year t3 on t1.complete_year = t3.id or ifnull(t1.complete_year, 102) = t3.id)
-                  join quarter t4 on t1.binge_watching_quarter = t4.id or ifnull(t1.binge_watching_quarter, 13) =
+                  left join anime_year t2 on t1.binge_watching_year = t2.id or ifnull(t1.binge_watching_year, 102) = t2.id)
+                  left join anime_year t3 on t1.complete_year = t3.id or ifnull(t1.complete_year, 102) = t3.id)
+                  left join quarter t4 on t1.binge_watching_quarter = t4.id or ifnull(t1.binge_watching_quarter, 13) =
                                                                           t4.id)
-                       join quarter t5 on t1.complete_quarter = t5.id or ifnull(t1.complete_quarter, 13) = t5.id
+                       left join quarter t5 on t1.complete_quarter = t5.id or ifnull(t1.complete_quarter, 13) = t5.id
               where t1.deleted = 0) as T6
     </sql>
 
@@ -519,7 +511,7 @@
             and T6.completeQuarter like CONCAT('%',#{completeQuarter},'%')
         </if>
         <if test="status != null and status != '' ">
-            and T1.status like CONCAT('%',#{status},'%')
+            and T1.status = #{status}
         </if>
 
         ORDER BY T0.score DESC ,T0.id ASC
@@ -568,13 +560,13 @@
         concat_ws('-', b.source, c.source,
         d.source) source
         from ((anime.anime_main a
-        join anime.anime_source b
+        left join anime.anime_source b
         on a.source_1 = b.id
         or ifnull(a.source_1, 26) = b.id)
-        join anime.anime_source c
+        left join anime.anime_source c
         on a.source_2 = c.id
         or ifnull(a.source_2, 26) = c.id)
-        join anime.anime_source d
+        left join anime.anime_source d
         on a.source_3 = d.id
         or ifnull(a.source_3, 26) = d.id
         WHERE a.deleted = 0
@@ -594,37 +586,30 @@
         j.`create`,
         k.status
         from (((((((anime.anime_main a
-        join anime.anime_sexlimit b
+        left join anime.anime_sexlimit b
         on a.sex_limit = b.id
         or ifnull(a.sex_limit, 6) = b.id)
-        join anime.anime_love c
+        left join anime.anime_love c
         on a.love = c.id
-        or ifnull(a.love, 12) = b.id)
-        join anime.anime_leadergender d
+        or ifnull(a.love, 12) = c.id)
+        left join anime.anime_leadergender d
         on a.leader_gender = d.id
         or ifnull(a.leader_gender, 12) = d.id)
-        join anime.anime_animationend e
+        left join anime.anime_animationend e
         on a.animation_end = e.id
         or ifnull(a.animation_end, 5) = e.id)
-        join anime.anime_originalend f
+        left join anime.anime_originalend f
         on a.original_end = f.id
         or ifnull(a.original_end, 8) = f.id)
-        join anime.anime_bingewatchingtype g
+        left join anime.anime_bingewatchingtype g
         on a.binge_watching_type = g.id
         or ifnull(a.binge_watching_type, 6) = g.id)
-        join anime.anime_create j
+        left join anime.anime_create j
         on a.`create` = j.id)
-        join anime_status k
+        left join anime_status k
         on a.status = k.id
         WHERE a.deleted = 0
-        and b.deleted = 0
-        and c.deleted = 0
-        and d.deleted = 0
-        and e.deleted = 0
-        and f.deleted = 0
-        and g.deleted = 0
-        and j.deleted = 0
-        and k.deleted = 0
+
 
         group by a.id
         order by a.id asc) as T1,
@@ -632,13 +617,13 @@
 
         (select a.id ID3, b.type type1, c.type type2, d.type type3, concat_ws('-', b.type, c.type, d.type) type
         from ((anime.anime_main a
-        join anime.anime_type b
+        left join anime.anime_type b
         on a.type_1 = b.id
         or ifnull(a.type_1, 127) = b.id)
-        join anime.anime_type c
+        left join anime.anime_type c
         on a.type_2 = c.id
         or ifnull(a.type_2, 127) = c.id)
-        join anime.anime_type d
+        left join anime.anime_type d
         on a.type_3 = d.id
         or ifnull(a.type_3, 127) = d.id
         WHERE a.deleted = 0
@@ -654,7 +639,7 @@
         if(isnull(t1.quarter_num) = 1, '', concat(t1.quarter_num, '季')),
         if(isnull(t1.episodes) = 1, '', concat(t1.episodes, '集'))) as layout
         from anime_layout t1
-        join anime_layout_type t2
+        left join anime_layout_type t2
         on t1.layout_type_id = t2.id
         or ifnull(t1.layout_type_id, 16) = t2.id
         WHERE t1.deleted = 0
@@ -668,9 +653,9 @@
         t2.year                                 broadcastStartYear,
         t3.year                                 broadcastEndYear
         from (anime_main t1
-        join anime.anime_year t2
+        left join anime.anime_year t2
         on t1.broadcast_start_year = t2.id or ifnull(t1.broadcast_start_year, 102) = t2.id)
-        join anime_year t3 on t1.broadcast_end_year = t3.id or ifnull(t1.broadcast_end_year, 102) = t3.id
+        left join anime_year t3 on t1.broadcast_end_year = t3.id or ifnull(t1.broadcast_end_year, 102) = t3.id
         where t1.deleted = 0
         <if test="broadcastStartYear != null and broadcastStartYear != ''">
             and t2.year &gt;= #{broadcastStartYear}
@@ -692,11 +677,11 @@
         concat_ws('', t2.year, t4.quarter_CN) as bingeWatchingQuarter,
         concat_ws('', t3.year, t5.quarter_CN) as completeQuarter
         from (((anime_main t1
-        join anime_year t2 on t1.binge_watching_year = t2.id or ifnull(t1.binge_watching_year, 102) = t2.id)
-        join anime_year t3 on t1.complete_year = t3.id or ifnull(t1.complete_year, 102) = t3.id)
-        join quarter t4 on t1.binge_watching_quarter = t4.id or ifnull(t1.binge_watching_quarter, 13) =
+        left join anime_year t2 on t1.binge_watching_year = t2.id or ifnull(t1.binge_watching_year, 102) = t2.id)
+        left join anime_year t3 on t1.complete_year = t3.id or ifnull(t1.complete_year, 102) = t3.id)
+        left join quarter t4 on t1.binge_watching_quarter = t4.id or ifnull(t1.binge_watching_quarter, 13) =
         t4.id)
-        join quarter t5 on t1.complete_quarter = t5.id or ifnull(t1.complete_quarter, 13) = t5.id
+        left join quarter t5 on t1.complete_quarter = t5.id or ifnull(t1.complete_quarter, 13) = t5.id
         where t1.deleted = 0
         <if test="bingeWatchingYear != null and bingeWatchingYear != '' and bingeWatchingQuarter != null and bingeWatchingQuarter != ''">
             and if(t2.year = #{bingeWatchingYear}, t4.quarter &gt;= #{bingeWatchingQuarter}, t2.year &gt; #{bingeWatchingYear})
@@ -752,7 +737,7 @@
              (select a.id          ID2,
                      b.layout_type layoutTypeId
               from (anime.anime_layout a
-                       join anime.anime_layout_type b
+                       left join anime.anime_layout_type b
                             on a.layout_type_id = b.id
                                 or ifnull(a.layout_type_id, 16) = b.id )
               group by a.id
@@ -781,7 +766,7 @@
                      b.layout_type layoutTypeId,
                      a.layout_id
               from (anime.anime_layout a
-                       join anime.anime_layout_type b
+                       left join anime.anime_layout_type b
                             on a.layout_type_id = b.id
                                 or ifnull(a.layout_type_id, 16) = b.id)
               group by a.id

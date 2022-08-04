@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.List;
 
 
+@CrossOrigin
 @RestController
 @RequestMapping("/animeQuarters")
 public class AnimeQuarterController {

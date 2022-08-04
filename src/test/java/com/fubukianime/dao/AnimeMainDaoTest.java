@@ -32,7 +32,7 @@ class AnimeMainDaoTest {
 
 
 
-    @Test
+    /*@Test
     public void testGetAll(){
         //接收参数
         Integer lived = 0;
@@ -42,9 +42,9 @@ class AnimeMainDaoTest {
         cvCV.setLived(lived);
         List<CvCV> list = cvCVDao.selectCVByCondition(cvCV);
         System.out.println(list);
-    }
+    }*/
 
-    @Test
+   /* @Test
     public void testSelectByCondition() throws IOException {
         //接收参数
         String name = "血";
@@ -52,28 +52,28 @@ class AnimeMainDaoTest {
         //封装对象
         AnimeMain animeMain = new AnimeMain();
         animeMain.setName(name);
-//        QueryWrapper<AnimeMain> queryWrapper = new QueryWrapper<>();
-//        queryWrapper.like("name", "a");
+        QueryWrapper<AnimeMain> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like("name", "a");
         List<AnimeMain> list = animeMainDao.selectMainByCondition(animeMain);
         System.out.println(list);;
-        //animeMain.setName(name);*/
+        //animeMain.setName(name);
 
-        /*Page<AnimeMain> page = new Page<>(1,10);
+        Page<AnimeMain> page = new Page<>(1,10);
         QueryWrapper<AnimeMain> wrapper = new QueryWrapper<>();
         wrapper.like("name", "你");
-        *//*Page<AnimeMain> page = new Page<>(1,10);*//*
+        Page<AnimeMain> page = new Page<>(1,10);
         List<AnimeMain> ipage = animeMainDao.selectMainByCondition(page, wrapper);
 
 
         System.out.println(ipage);
-*/
+
 
 
         //4. 执行方法
         //方式三 ：接口方法参数是 map集合对象 方式调用的方法
-        /*Page<AnimeMain> page = new Page<>(1,10);
+        Page<AnimeMain> page = new Page<>(1,10);
         IPage<AnimeMain> ipage = animeMainDao.selectMainByCondition(page);
-        System.out.println(ipage);*/
+        System.out.println(ipage);
 
     }
 
@@ -81,7 +81,7 @@ class AnimeMainDaoTest {
     void testGetById() {
         AnimeMain animeMain = animeMainDao.selectMainById(1482);
         System.out.println(animeMain);
-    }
+    }*/
 /*
     //分页查询
     @Test

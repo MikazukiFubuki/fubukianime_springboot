@@ -68,7 +68,7 @@
             let option = {"grid":{"top":35,"left":15,"right":15,"bottom":15,"containLabel":true},"tooltip":{"show":false,"trigger":"axis","animation":true,"alwaysShowContent":false,"triggerOn":"mousemove","confine":false,"borderColor":"#333","borderWidth":2,"padding":10,"backgroundColor":"rgba(50,50,50,0.7)","axisPointer":{"type":"line","lineStyle":{"color":"#555","width":1,"type":"dashed","cap":"butt","opacity":1},"crossStyle":{"color":"#555","width":1,"type":"dashed","cap":"butt","opacity":1},"shadowStyle":{"color":"rgba(150,150,150,0.3)","opacity":1}},"textStyle":{"color":"#fff","fontWeight":"normal","fontSize":14}},"title":{"text":"每时期总计追补番数","show":true,"link":"http://weitu.yunzhisec.com","target":"blank","textStyle":{"color":"rgba(255,255,255,1)","fontStyle":"normal","fontWeight":"bolder","fontSize":40,"lineHeight":30,"textBorderColor":"","textBorderWidth":1,"textBorderType":"solid","textBorderDashOffset":1,"textShadowColor":"transparent","textShadowBlur":1,"textShadowOffsetX":1,"textShadowOffsetY":1,"overflow":"none"},"padding":50,"itemGap":10,"z":10,"left":"center","top":"top","right":"auto","bottom":"auto","backgroundColor":"transparent","borderColor":"","borderWidth":"","borderRadius":1,"shadowBlur":0,"shadowColor":"","shadowOffsetX":"","shadowOffsetY":"","subtext":"                                                                                 已追番数--","sublink":"","subtarget":"blank","subtextStyle":{"color":"rgba(78,195,247,1)","fontStyle":"normal","fontWeight":"bold","fontSize":40,"lineHeight":1,"textBorderColor":"","textBorderWidth":1,"textBorderType":"solid","textBorderDashOffset":1,"textShadowColor":"transparent","textShadowBlur":1,"textShadowOffsetX":1,"textShadowOffsetY":1,"overflow":"none"}},"legend":{"show":true,"top":10,"left":"right","orient":"horizontal","itemWidth":16,"itemHeight":2,"itemGap":10,"icon":"roundRect","textStyle":{"color":"#ffffff","fontSize":12}},"xAxis":{"show":true,"axisLabel":{"show":true,"color":"rgba(255,255,255,1)","fontSize":17,"margin":20},"axisLine":{"show":true,"lineStyle":{"color":"#27292d","type":"solid","width":1}},"axisTick":{"show":false,"lineStyle":{"color":"#27292d","type":"solid","width":1}},"splitLine":{"show":true,"lineStyle":{"color":"#27292d","type":"solid","width":1}},"smooth":false,"type":"category","data":["入宅前","大一上期末","大一寒假","大一下期末","大一暑假","大二上期末","大二寒假","大二下期末","大二暑假","大三上期末","大三寒假","大三下期末","大三暑假","大四上期末","大四寒假","大四下期末","毕业至工作前","环新ATG"]},"yAxis":{"show":true,"axisLabel":{"show":true,"color":"rgba(241, 248, 255, 0.7)","fontSize":12,"margin":8},"axisLine":{"show":false,"lineStyle":{"color":"#27292d","type":"solid","width":1}},"axisTick":{"show":false,"lineStyle":{"color":"#27292d","type":"solid","width":1}},"splitLine":{"show":true,"lineStyle":{"color":"#27292d","type":"dashed","width":1}},"type":"value"},"color":["rgba(2,155,229,1)","#43E8F3","rgba(255,255,255,1)"],"series":[]};
             let seriesStyle = {"label":{"show":true,"position":"top","color":"rgba(34, 230, 237, 1)","fontSize":30,"offset":[0,0]},"areaStyle":{"opacity":0,"shadowBlur":6,"shadowColor":"#85a5ff","shadowOffsetX":0,"shadowOffsetY":0},"showSymbol":true,"symbol":"circle","symbolSize":12,"symbolOffset":[0,0],"step":false,"lineStyle":{"opacity":1,"type":"dashed","width":4,"shadowBlur":20,"shadowOffsetX":2,"shadowOffsetY":5},"smooth":true};
             $.ajax({
-              url: 'http://localhost:8080/animePeriods/selectComPeriodShow',
+              url: 'http://43.142.190.8:9001/animePeriods/selectComPeriodShow',
               type: 'GET',
               data: {},
               headers: {"token":null},
@@ -130,7 +130,7 @@
             let option = {"grid":{"top":35,"left":15,"right":15,"bottom":15,"containLabel":true},"tooltip":{"show":false,"trigger":"axis","animation":true,"alwaysShowContent":false,"triggerOn":"mousemove","confine":false,"borderColor":"#333","borderWidth":2,"padding":10,"backgroundColor":"rgba(50,50,50,0.7)","axisPointer":{"type":"line","lineStyle":{"color":"#555","width":1,"type":"dashed","cap":"butt","opacity":1},"crossStyle":{"color":"#555","width":1,"type":"dashed","cap":"butt","opacity":1},"shadowStyle":{"color":"rgba(150,150,150,0.3)","opacity":1}},"textStyle":{"color":"#fff","fontWeight":"normal","fontSize":14}},"title":{"text":"                     ","show":true,"link":"http://weitu.yunzhisec.com","target":"blank","textStyle":{"color":"rgba(244,68,54,1)","fontStyle":"normal","fontWeight":"bolder","fontSize":40,"lineHeight":30,"textBorderColor":"","textBorderWidth":1,"textBorderType":"solid","textBorderDashOffset":1,"textShadowColor":"transparent","textShadowBlur":1,"textShadowOffsetX":1,"textShadowOffsetY":1,"overflow":"none"},"padding":50,"itemGap":10,"z":10,"left":"center","top":"top","right":"auto","bottom":"auto","backgroundColor":"transparent","borderColor":"","borderWidth":"","borderRadius":1,"shadowBlur":0,"shadowColor":"","shadowOffsetX":"","shadowOffsetY":"","subtext":"                                               已补番数--","sublink":"","subtarget":"blank","subtextStyle":{"color":"rgba(244,68,54,1)","fontStyle":"normal","fontWeight":"bold","fontSize":40,"lineHeight":3,"textBorderColor":"","textBorderWidth":1,"textBorderType":"solid","textBorderDashOffset":1,"textShadowColor":"transparent","textShadowBlur":1,"textShadowOffsetX":1,"textShadowOffsetY":1,"overflow":"none"}},"legend":{"show":true,"top":10,"left":"right","orient":"horizontal","itemWidth":16,"itemHeight":2,"itemGap":10,"icon":"roundRect","textStyle":{"color":"#ffffff","fontSize":12}},"xAxis":{"show":true,"axisLabel":{"show":true,"color":"rgba(255,255,255,1)","fontSize":17,"margin":20},"axisLine":{"show":true,"lineStyle":{"color":"#27292d","type":"solid","width":1}},"axisTick":{"show":false,"lineStyle":{"color":"#27292d","type":"solid","width":1}},"splitLine":{"show":true,"lineStyle":{"color":"#27292d","type":"solid","width":1}},"smooth":false,"type":"category","data":["入宅前","大一上期末","大一寒假","大一下期末","大一暑假","大二上期末","大二寒假","大二下期末","大二暑假","大三上期末","大三寒假","大三下期末","大三暑假","大四上期末","大四寒假","大四下期末","毕业至工作前","环新ATG"]},"yAxis":{"show":true,"axisLabel":{"show":true,"color":"rgba(241, 248, 255, 0.7)","fontSize":12,"margin":8},"axisLine":{"show":false,"lineStyle":{"color":"#27292d","type":"solid","width":1}},"axisTick":{"show":false,"lineStyle":{"color":"#27292d","type":"solid","width":1}},"splitLine":{"show":true,"lineStyle":{"color":"#27292d","type":"dashed","width":1}},"type":"value"},"color":["rgba(244,68,54,1)","#43E8F3","rgba(255,255,255,1)"],"series":[]};
             let seriesStyle = {"label":{"show":true,"position":"bottom","color":"rgba(242, 37, 22, 1)","fontSize":30,"offset":[0,0]},"areaStyle":{"opacity":0,"shadowBlur":6,"shadowColor":"#85a5ff","shadowOffsetX":0,"shadowOffsetY":0},"showSymbol":true,"symbol":"circle","symbolSize":12,"symbolOffset":[0,0],"step":false,"lineStyle":{"opacity":1,"type":"dashed","width":4,"shadowBlur":20,"shadowOffsetX":2,"shadowOffsetY":5},"smooth":true};
             $.ajax({
-              url: 'http://localhost:8080/animePeriods/selectComPeriodShow',
+              url: 'http://43.142.190.8:9001/animePeriods/selectComPeriodShow',
               type: 'GET',
               data: {},
               headers: {"token":null},
@@ -193,7 +193,7 @@
           let seriesStyle = {"showBackground":false,"backgroundStyle":{"color":"#0F2024","opacity":1},"itemStyle":{"shadowBlur":0,"shadowColor":"#5c1717","shadowOffsetX":0,"shadowOffsetY":0,"borderRadius":0,"borderColor":"#292929","borderWidth":0,"borderType":"dotted"},"barWidth":24,"label":{"show":true,"position":"right","color":"rgba(111, 255, 59, 1)","fontSize":25,"lineHeight":16},"barGap":"50%"};
           $.ajax(
             {
-              url: 'http://localhost:8080/animePeriods/selectComPeriodShow',
+              url: 'http://43.142.190.8:9001/animePeriods/selectComPeriodShow',
               type: 'GET',
               data: {},
               headers: {"token":null},
@@ -297,7 +297,7 @@
           let seriesStyle = {"showBackground":false,"backgroundStyle":{"color":"#0F2024","opacity":1},"itemStyle":{"shadowBlur":0,"shadowColor":"#5c1717","shadowOffsetX":0,"shadowOffsetY":0,"borderRadius":0,"borderColor":"#292929","borderWidth":0,"borderType":"dotted"},"barWidth":24,"label":{"show":true,"position":"top","color":"rgba(255, 193, 7, 1)","fontSize":25,"lineHeight":16},"barGap":"50%"};
           $.ajax(
             {
-              url: 'http://localhost:8080/animePeriods/selectComPeriodShow',
+              url: 'http://43.142.190.8:9001/animePeriods/selectComPeriodShow',
               type: 'GET',
               data: {},
               headers: {"token":null},
@@ -419,15 +419,6 @@
 
 
 
-
-            /**
-             *
-             * 窗口发生改变自动刷新页面
-             * 这样做不太友好，一般做法当前页面大小发生改变去重新加载echarts对象
-             * 最好自行修改一下，当然。不要也可以，不会影响功能使用
-             *
-             */
-            $(window).resize(() => location.reload())
 
       })
 

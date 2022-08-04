@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 
+@CrossOrigin
 @RestController
 @RequestMapping("/user")
 public class LoginController {

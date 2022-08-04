@@ -11,8 +11,8 @@ import java.util.List;
 @SpringBootTest
 class AnimeQuarterDaoTest {
 
-    @Autowired
-    private AnimeQuarterDao animeQuarterDao;
+//    @Autowired
+//    private AnimeQuarterDao animeQuarterDao;
 
 
 //    @Test

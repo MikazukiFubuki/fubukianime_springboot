@@ -5,6 +5,9 @@ import com.fubukianime.domain.AnimeTypesShow;
 import com.fubukianime.service.AnimeShowService;
 import com.fubukianime.service.AnimeTypesShowService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 
+@CrossOrigin
 @RestController
 @RequestMapping("/animeTypesShow")
 public class AnimeTypesShowController {
@@ -19,49 +23,60 @@ public class AnimeTypesShowController {
     @Autowired
     private AnimeTypesShowService animeTypesShowService;
 
+    @Autowired
+    private CacheManager cacheManager;
 
+
+    @Cacheable(value = "animeSourceCache", key = "#root.methodName", unless = "#result == null")
     @GetMapping("/selectSourceShow")
     public List<AnimeTypesShow> selectSourceShow(AnimeTypesShow animeTypesShow) {
         List<AnimeTypesShow> list = animeTypesShowService.selectSourceShow(animeTypesShow);
         return list;
     }
 
+    @Cacheable(value = "animeTypeCache", key = "#root.methodName", unless = "#result == null")
     @GetMapping("/selectTypeShow")
     public List<AnimeTypesShow> selectTypeShow(AnimeTypesShow animeTypesShow) {
         List<AnimeTypesShow> list = animeTypesShowService.selectTypeShow(animeTypesShow);
         return list;
     }
 
+    @Cacheable(value = "animeLoveCache", key = "#root.methodName", unless = "#result == null")
     @GetMapping("/selectLoveShow")
     public List<AnimeTypesShow> selectLoveShow(AnimeTypesShow animeTypesShow) {
         List<AnimeTypesShow> list = animeTypesShowService.selectLoveShow(animeTypesShow);
         return list;
     }
 
+    @Cacheable(value = "animeSexLimitCache", key = "#root.methodName", unless = "#result == null")
     @GetMapping("/selectSexLimitShow")
     public List<AnimeTypesShow> selectSexLimitShow(AnimeTypesShow animeTypesShow) {
         List<AnimeTypesShow> list = animeTypesShowService.selectSexLimitShow(animeTypesShow);
         return list;
     }
 
+    @Cacheable(value = "animeCreateCache", key = "#root.methodName", unless = "#result == null")
     @GetMapping("/selectCreateShow")
     public List<AnimeTypesShow> selectCreateShow(AnimeTypesShow animeTypesShow) {
         List<AnimeTypesShow> list = animeTypesShowService.selectCreateShow(animeTypesShow);
         return list;
     }
 
+    @Cacheable(value = "animeLeaderGenderCache", key = "#root.methodName", unless = "#result == null")
     @GetMapping("/selectLeaderGenderShow")
     public List<AnimeTypesShow> selectLeaderGenderShow(AnimeTypesShow animeTypesShow) {
         List<AnimeTypesShow> list = animeTypesShowService.selectLeaderGenderShow(animeTypesShow);
         return list;
     }
 
+    @Cacheable(value = "animeAnimationEndCache", key = "#root.methodName", unless = "#result == null")
     @GetMapping("/selectAnimationEndShow")
     public List<AnimeTypesShow> selectAnimationEndShow(AnimeTypesShow animeTypesShow) {
         List<AnimeTypesShow> list = animeTypesShowService.selectAnimationEndShow(animeTypesShow);
         return list;
     }
 
+    @Cacheable(value = "animeOriginalEndCache", key = "#root.methodName", unless = "#result == null")
     @GetMapping("/selectOriginalEndShow")
     public List<AnimeTypesShow> selectOriginalEndShow(AnimeTypesShow animeTypesShow) {
         List<AnimeTypesShow> list = animeTypesShowService.selectOriginalEndShow(animeTypesShow);
