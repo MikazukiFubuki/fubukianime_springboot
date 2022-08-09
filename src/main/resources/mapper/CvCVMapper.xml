@@ -216,7 +216,7 @@
                 a.company = #{company},
             </if>
             <if test="debutYear != null and debutYear != ''">
-                a.death_day = #{debutYear},
+                a.debut_year = #{debutYear},
             </if>
         </set>
         where id = #{id}

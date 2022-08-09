@@ -208,7 +208,7 @@
         values (#{name}, null, '26', '26', '26',
                 (select c.lid from (select max(b.layout_Id) lid from anime_main b where deleted = 0) c) + 1, '127', '127', '127',
                 #{create}, null, null, null, '12', '6',
-                '4', '', '5', '8', '102', '102', '6', '1', '1', '1', '1', '1', '0')
+                '4', '', '5', '8', '102', '102', '6', null,null,null,null, '1', '0')
     </insert>
     <!--随新增动画增加其对应形式-->
     <insert id="addAnimeLayout">
@@ -330,6 +330,12 @@
             <if test="originalEnd != null and originalEnd != ''">
                 a.original_end = #{originalEnd},
             </if>
+            <if test="completeYear != null and completeYear != ''">
+                a.complete_year = (select b.id from anime.anime_year b where #{completeYear} = b.year),
+            </if>
+            <if test="completeQuarter != null and completeQuarter != ''">
+                a.complete_quarter = (select b.id from anime.quarter b where #{completeQuarter} = b.quarter),
+            </if>
 
             <if test="status != null and status != ''">
                 a.status = '3'
@@ -411,6 +417,83 @@
         update anime_layout a
         set deleted = 1
         where layout_id = #{layoutId};
+    </update>
+    <!--修改动画全部信息-->
+    <update id="updateAnime">
+        update anime_main a
+        <set>
+            <if test="name != null and source1 != ''">
+                a.name = #{name},
+            </if>
+            <if test="score != null and score != ''">
+                a.score = #{score},
+            </if>
+            <if test="source1 != null and source1 != ''">
+                a.source_1 = #{source1},
+            </if>
+            <if test="source2 != null and source2 != ''">
+                a.source_2 = #{source2},
+            </if>
+            <if test="source3 != null and source3 != ''">
+                a.source_3 = #{source3},
+            </if>
+            <if test="type1 != null and type1 != ''">
+                a.type_1 = #{type1},
+            </if>
+            <if test="type2 != null and type2 != ''">
+                a.type_2 = #{type2},
+            </if>
+            <if test="type3 != null and type3 != ''">
+                a.type_3 = #{type3},
+            </if>
+            <if test="love != null and love != ''">
+                a.love = #{love},
+            </if>
+            <if test="sexLimit != null and sexLimit != ''">
+                a.sex_limit = #{sexLimit},
+            </if>
+            <if test="create != null and create != ''">
+                a.create = #{create},
+            </if>
+            <if test="leaderGender != null and leaderGender != ''">
+                a.leader_gender = #{leaderGender},
+            </if>
+            <if test="favoriteHeroine != null and favoriteHeroine != ''">
+                a.favorite_heroine = #{favoriteHeroine},
+            </if>
+            <if test="animationEnd != null and animationEnd != ''">
+                a.animation_end = #{animationEnd},
+            </if>
+            <if test="originalEnd != null and originalEnd != ''">
+                a.original_end = #{originalEnd},
+            </if>
+            <if test="broadcastStartYear != null and broadcastStartYear != ''">
+                a.broadcast_start_year = (select b.id from anime.anime_year b where #{broadcastStartYear} = b.year),
+            </if>
+            <if test="broadcastEndYear != null and broadcastEndYear != ''">
+                a.broadcast_end_year = (select b.id from anime.anime_year b where #{broadcastEndYear} = b.year),
+            </if>
+            <if test="bingeWatchingType != null and bingeWatchingType != ''">
+                a.binge_watching_type = #{bingeWatchingType},
+            </if>
+            <if test="bingeWatchingYear != null and bingeWatchingYear != ''">
+                binge_watching_year = (select b.id from anime.anime_year b where #{bingeWatchingYear} = b.year),
+            </if>
+            <if test="bingeWatchingQuarter != null and bingeWatchingQuarter != ''">
+                a.binge_watching_quarter = (select b.id from anime.quarter b where #{bingeWatchingQuarter} = b.quarter),
+            </if>
+            <if test="completeYear != null and completeYear != ''">
+                a.complete_year = (select b.id from anime.anime_year b where #{completeYear} = b.year),
+            </if>
+            <if test="completeQuarter != null and completeQuarter != ''">
+                a.complete_quarter = (select b.id from anime.quarter b where #{completeQuarter} = b.quarter),
+            </if>
+            <if test="status != null and status != ''">
+            a.status = (select b.id from anime.anime_status b where #{status} = b.status)
+            </if>
+        </set>
+        where id = #{id}
+        and deleted = 0;
     </update>
 
 

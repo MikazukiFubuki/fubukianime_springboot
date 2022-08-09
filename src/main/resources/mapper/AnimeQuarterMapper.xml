@@ -173,6 +173,7 @@
                   OR B.id = A.id - 1
                ORDER BY A.id) C JOIN anime_year D on C.years = D.id)
                  JOIN quarter E ON C.bquarter = E.quarter
+order by C.id
 
     </select>
 
