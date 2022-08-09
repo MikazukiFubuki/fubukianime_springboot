@@ -57,7 +57,7 @@ public class AnimeMainController {
      * 对已有动画新增形式
      * @param id
      */
-    @CacheEvict(value = "animeMainCache", allEntries = true)
+    @CacheEvict(value = "animeLayoutCache", allEntries = true)
     @GetMapping("/addAnimeLayoutById/{id}")
     public R addAnimeLayoutById(@PathVariable Integer id){
         return new R(true, animeMainService.addAnimeLayoutById(id));
@@ -72,6 +72,8 @@ public class AnimeMainController {
     public R reviewAnime(@PathVariable Integer id){
         return new R(true, animeMainService.reviewAnime(id));
     }
+
+
 
     /**
      * 查找要修改动画的全部形式
@@ -187,6 +189,17 @@ public class AnimeMainController {
     @PutMapping("/endAnime")
     public R endAnime(@RequestBody AnimeMain animeMain) throws IOException {
         boolean flag = animeMainService.endAnime(animeMain);
+        return new R(flag, flag ? "修改成功^_^" : "修改失败-_-!");
+    }
+
+    /**
+     * 修改动画全部信息
+     * @param animeMain
+     */
+    @CacheEvict(value = "animeMainCache", allEntries = true)
+    @PutMapping("/updateAnime")
+    public R updateAnime(@RequestBody AnimeMain animeMain) throws IOException{
+        boolean flag = animeMainService.updateAnime(animeMain);
         return new R(flag, flag ? "修改成功^_^" : "修改失败-_-!");
     }
 

@@ -100,6 +100,17 @@ public class AnimeMainServiceImpl extends ServiceImpl<AnimeMainDao, AnimeMain> i
     }
 
     /**
+     * 修改动画全部信息
+     * @param animeMain
+     * @return
+     */
+    @Override
+    public boolean updateAnime(AnimeMain animeMain){
+        animeMainDao.updateAnime(animeMain);
+        return true;
+    }
+
+    /**
      * 对已追动画修改它的形式
      * @param animeLayout
      */

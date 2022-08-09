@@ -55,7 +55,7 @@ public class AnimeCreateController {
         return new R(true, animeCreateService.getById(id));
     }
 
-    @Cacheable(value = "animeCreateCache", key = "#animeCreate.id + '_' + #animeCreate.create + '_' + #currentPage + '_' + #pageSize", unless = "#result == null")
+    @Cacheable(value = "animeCreateCache", key = "#animeCreate.id + '_' + #animeCreate.create + '_' + #animeCreate.description + '_' + #currentPage + '_' + #pageSize", unless = "#result == null")
     @GetMapping("{currentPage}/{pageSize}")
     public R getPage(@PathVariable int currentPage,@PathVariable int pageSize,AnimeCreate animeCreate){
         IPage<AnimeCreate> page = animeCreateService.getPage(currentPage, pageSize,animeCreate);

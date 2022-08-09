@@ -56,7 +56,7 @@ public class AnimeSourceController {
         return new R(true, animeSourceService.getById(id));
     }
 
-    @Cacheable(value = "animeSourceCache", key = "#animeSource.id + '_' + #animeSource.source + '_' + #currentPage + '_' + #pageSize", unless = "#result == null")
+    @Cacheable(value = "animeSourceCache", key = "#animeSource.id + '_' + #animeSource.source + '_' + #animeSource.debut + '_' + #currentPage + '_' + #pageSize", unless = "#result == null")
     @GetMapping("{currentPage}/{pageSize}")
     public R getPage(@PathVariable int currentPage,@PathVariable int pageSize,AnimeSource animeSource){
         IPage<AnimeSource> page = animeSourceService.getPage(currentPage, pageSize,animeSource);

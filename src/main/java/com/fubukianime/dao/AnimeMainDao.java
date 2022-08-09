@@ -103,6 +103,12 @@ public interface AnimeMainDao extends BaseMapper<AnimeMain> {
     void saveLayout(AnimeLayout animeLayout);
 
     /**
+     * 修改动画全部信息
+     * @param animeMain
+     */
+    void updateAnime(AnimeMain animeMain);
+
+    /**
      * 对已追动画追更一集
      * @param animeLayout
      */

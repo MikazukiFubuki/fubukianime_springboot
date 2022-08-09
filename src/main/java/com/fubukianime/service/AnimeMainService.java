@@ -80,6 +80,13 @@ public interface AnimeMainService extends IService<AnimeMain> {
     boolean deleteAnime(AnimeMain animeMain);
 
     /**
+     * 修改动画全部信息
+     * @param animeMain
+     * @return
+     */
+    boolean updateAnime(AnimeMain animeMain);
+
+    /**
      * 根据id查询
      * @param id
      * @return
