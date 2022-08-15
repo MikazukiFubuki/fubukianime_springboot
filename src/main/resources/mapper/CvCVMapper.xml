@@ -33,7 +33,7 @@
         a.death_day deathDay,
         b.num roleNum
         from cv_cv a left join (select cv_id, count(cv_id) num
-        from cv_works
+        from cv_works c where c.deleted = 0
         group by cv_id) b on b.cv_id = a.id
         where deleted = 0
         <if test="name != null and name != ''">
@@ -77,7 +77,7 @@
                a.death_day deathDay,
                b.num roleNum
         from cv_cv a left join (select cv_id, count(cv_id) num
-                                from cv_works
+                                from cv_works c where c.deleted = 0
                                 group by cv_id) b on b.cv_id = a.id
         where deleted = 0 and a.lived = 0
         <if test="name != null and name != ''">
@@ -121,7 +121,7 @@
         a.death_day deathDay,
         b.num roleNum
         from cv_cv a left join (select cv_id, count(cv_id) num
-        from cv_works
+        from cv_works c where c.deleted = 0
         group by cv_id) b on b.cv_id = a.id
         where deleted = 0 and a.lived = 1
         <if test="name != null and name != ''">
@@ -165,7 +165,7 @@
         a.death_day deathDay,
         b.num roleNum
         from cv_cv a left join (select cv_id, count(cv_id) num
-        from cv_works
+        from cv_works c where c.deleted = 0
         group by cv_id) b on b.cv_id = a.id
         where deleted = 0 and a.id = #{id}
     </select>
