@@ -8,6 +8,7 @@
     <!--查询信息-->
     <select id="selectMusicMain" resultType="com.fubukianime.domain.MusicMain">
         SELECT a.id,
+               a.mid mid,
         a.music_name musicName,
         a.anime_name animeName,
         b.type type,
@@ -31,6 +32,9 @@
         and d.deleted = 0
         <if test="musicName != null and musicName != ''">
             and a.music_name  like CONCAT('%',#{musicName} ,'%')
+        </if>
+        <if test="mid != null and mid != ''">
+            and a.mid  like CONCAT('%',#{mid} ,'%')
         </if>
         <if test="animeName != null and animeName != ''">
             and a.anime_name like CONCAT('%',#{animeName} ,'%')
@@ -70,6 +74,7 @@
     <!--查询信息-->
     <select id="selectMusicMainById" resultType="com.fubukianime.domain.MusicMain">
         SELECT a.id,
+               a.mid mid,
                a.music_name                                                                       musicName,
                a.anime_name                                                                       animeName,
                b.type                                                                             type,
@@ -94,14 +99,33 @@
           and a.id = #{id}
     </select>
 
+    <!--根据音乐编号查找id-->
+    <select id="selectIdByMID" resultType="java.lang.Integer">
+        select a.id
+        from anime.music_main a
+        WHERE deleted = 0
+        <if test="mid != null and mid != '' ">
+            and a.mid = #{mid}
+        </if>
+    </select>
+
+    <!--查询最大音乐序号-->
+    <select id="selectMaxMId" resultType="java.lang.Integer">
+        select b.mid mid
+        from (select max(a.mid) mid
+              from anime.music_main a
+              where deleted = 0) b
+    </select>
+
     <insert id="addMusicMain">
-        insert into music_main(music_name,
+        insert into music_main(mid,music_name,
                                anime_name,
                                type,
                                time,
                                singer, score, form, source, download_type, add_type, year, quarter, src,
                                deleted)
-        values (#{musicName}, #{animeName}, #{type}, #{time}, #{singer}, #{score}, #{form}, #{source}, #{downloadType},
+        values ( (select b.mid from (select max(a.mid) mid from anime.music_main a where deleted = 0) b) + 1, #{musicName}, #{animeName},
+                #{type}, null, #{singer}, null, null, null, 1,
                 #{addType}, #{year}, #{quarter}, null, 0)
     </insert>
 
@@ -143,6 +167,42 @@
             </if>
             <if test="quarter != null and quarter != ''">
                 a.quarter = #{quarter},
+            </if>
+        </set>
+        where id = #{id} and deleted = 0;
+    </update>
+
+    <update id="Listened">
+        update music_main a
+        <set>
+            <if test="type != null and type != ''">
+                a.type = #{type},
+            </if>
+            <if test="time != null and time != ''">
+                a.time = #{time},
+            </if>
+            <if test="score != null and score != ''">
+                a.score = #{score},
+            </if>
+            <if test="form != null and form != ''">
+                a.form = #{form},
+            </if>
+            <if test="source != null and source != ''">
+                a.source = #{source},
+            </if>
+            <if test="downloadType != null and downloadType != ''">
+                a.download_type = #{downloadType},
+            </if>
+        </set>
+        where id = #{id} and deleted = 0;
+    </update>
+
+    <!--根据id修改音乐编号-->
+    <update id="updateMIDBYId">
+        update music_main a
+        <set>
+            <if test="mid != null and mid != ''">
+                a.mid = #{mid} ,
             </if>
         </set>
         where id = #{id} and deleted = 0;

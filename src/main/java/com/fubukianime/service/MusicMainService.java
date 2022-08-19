@@ -22,16 +22,22 @@ public interface MusicMainService extends IService<MusicMain> {
     MusicMain selectMusicMainById(Integer id);
 
     /**
-     * 新增角色
+     * 新增音乐
      * @param musicMain
      */
     boolean addMusicMain(MusicMain musicMain);
 
     /**
-     * 修改角色
+     * 修改音乐
      * @param musicMain
      */
     boolean updateMusicMain(MusicMain musicMain);
+
+    /**
+     * 已听音乐
+     * @param musicMain
+     */
+    boolean Listened(MusicMain musicMain);
 
     boolean removeById(MusicMain musicMain);
 }

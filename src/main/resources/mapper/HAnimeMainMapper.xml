@@ -106,6 +106,17 @@
         and deleted = 0;
     </update>
 
+    <!--对已追动画追更一集-->
+    <update id="chasingAPlay">
+        update hanime_main a
+        <set>
+            <if test="episodes != null and episodes != ''">
+                a.episodes = a.episodes + 1,
+            </if>
+        </set>
+        where id = #{id} and deleted = 0;
+    </update>
+
 
 
 </mapper>

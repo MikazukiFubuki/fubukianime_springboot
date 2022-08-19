@@ -49,6 +49,12 @@ public interface HAnimeMainDao extends BaseMapper<HAnimeMain> {
      */
     void updateHAnime(HAnimeMain hAnimeMain);
 
+    /**
+     * 对已追动画追更一集
+     * @param hAnimeMain
+     */
+    void chasingAPlay(HAnimeMain hAnimeMain);
+
 
 
 

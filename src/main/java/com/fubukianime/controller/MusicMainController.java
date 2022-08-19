@@ -59,6 +59,13 @@ public class MusicMainController {
     }
 
     @CacheEvict(value = "musicsCache", allEntries = true)
+    @PutMapping("/Listened")
+    public R Listened(@RequestBody MusicMain musicMain) {
+        boolean flag = musicMainService.Listened(musicMain);
+        return new R(flag, flag ? "鉴赏成功^_^" : "鉴赏失败-_-!");
+    }
+
+    @CacheEvict(value = "musicsCache", allEntries = true)
     @PutMapping("/musicRemove")
     public R removeById(@RequestBody MusicMain musicMain){
         boolean flag = musicMainService.removeById(musicMain);

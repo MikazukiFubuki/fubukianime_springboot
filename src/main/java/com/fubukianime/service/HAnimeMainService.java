@@ -1,6 +1,7 @@
 package com.fubukianime.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.fubukianime.domain.AnimeLayout;
 import com.fubukianime.domain.CvWorks;
 import com.fubukianime.domain.HAnimeMain;
 
@@ -34,6 +35,12 @@ public interface HAnimeMainService extends IService<HAnimeMain> {
      * @param hAnimeMain
      */
     boolean updateHAnime(HAnimeMain hAnimeMain);
+
+    /**
+     * 对已追动画追更一集
+     * @param hAnimeMain
+     */
+    boolean chasingAPlay(HAnimeMain hAnimeMain);
 
     boolean removeById(HAnimeMain hAnimeMain);
 }

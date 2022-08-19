@@ -12,6 +12,9 @@ public class MusicMain implements Serializable {
     @TableId(type = IdType.AUTO)
     private Integer id;
 
+    @TableField("mid")
+    private Integer mid;
+
     @TableField("music_name")
     private String musicName;
 

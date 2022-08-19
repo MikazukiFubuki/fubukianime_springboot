@@ -3,6 +3,7 @@ package com.fubukianime.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fubukianime.dao.CvWorksDao;
 import com.fubukianime.dao.HAnimeMainDao;
+import com.fubukianime.domain.AnimeLayout;
 import com.fubukianime.domain.CvWorks;
 import com.fubukianime.domain.HAnimeMain;
 import com.fubukianime.service.CvWorksService;
@@ -39,6 +40,16 @@ public class HAnimeMainServiceImpl extends ServiceImpl<HAnimeMainDao, HAnimeMain
     @Override
     public boolean updateHAnime(HAnimeMain hAnimeMain) {
         hAnimeMainDao.updateHAnime(hAnimeMain);
+        return true;
+    }
+
+    /**
+     * 对已追动画追更一集
+     * @param hAnimeMain
+     */
+    @Override
+    public boolean chasingAPlay(HAnimeMain hAnimeMain) {
+        hAnimeMainDao.chasingAPlay(hAnimeMain);
         return true;
     }
 

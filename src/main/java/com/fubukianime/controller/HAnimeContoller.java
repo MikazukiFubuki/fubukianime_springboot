@@ -1,6 +1,7 @@
 package com.fubukianime.controller;
 
 import com.fubukianime.controller.utils.R;
+import com.fubukianime.domain.AnimeLayout;
 import com.fubukianime.domain.CvCV;
 import com.fubukianime.domain.HAnimeMain;
 import com.fubukianime.service.HAnimeMainService;
@@ -53,6 +54,18 @@ public class HAnimeContoller {
     @PutMapping("/updateHAnime")
     public R updateHAnime(@RequestBody HAnimeMain hAnimeMain) {
         boolean flag = hAnimeMainService.updateHAnime(hAnimeMain);
+        return new R(flag, flag ? "修改成功^_^" : "修改失败-_-!");
+    }
+
+
+    /**
+     * 对已追动画追更一集
+     * @param hAnimeMain
+     */
+    @CacheEvict(value = "hanimeCache", allEntries = true)
+    @PutMapping("/chasingAPlay")
+    public R chasingAPlay(@RequestBody HAnimeMain hAnimeMain) throws IOException {
+        boolean flag = hAnimeMainService.chasingAPlay(hAnimeMain);
         return new R(flag, flag ? "修改成功^_^" : "修改失败-_-!");
     }
 
