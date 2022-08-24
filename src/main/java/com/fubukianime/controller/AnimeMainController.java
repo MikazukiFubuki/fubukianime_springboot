@@ -129,23 +129,23 @@ public class AnimeMainController {
     }
 
     /**
-     * 条件查询时间点
+     * 范围条件查询
      * @param animeMainQuery
      * @return
      */
-    @Cacheable(value = "animeMainCache", key = "#animeMainQuery.id + '_' + #animeMainQuery.name + '_' + #animeMainQuery.source + '_' " +
+    @Cacheable(value = "animeMainCache", key = "#animeMainQuery.id + '_' + #animeMainQuery.name + '_' + #animeMainQuery.score + '_' + #animeMainQuery.score2 + '_' + #animeMainQuery.source  + '_' " +
             "+ #animeMainQuery.layout + '_' + #animeMainQuery.type + '_' + #animeMainQuery.create + '_' + #animeMainQuery.love + '_' " +
-            "+ #animeMainQuery.sexLimit + '_' + #animeMainQuery.bingeWatchingId + '_' + #animeMainQuery.completeId + '_' + #animeMainQuery.reviewId " +
+            "+ #animeMainQuery.sexLimit + '_' + #animeMainQuery.bingeWatchingId + '_' + #animeMainQuery.bingeWatchingId2 + '_' + #animeMainQuery.completeId + '_' + #animeMainQuery.completeId2 + '_' + #animeMainQuery.reviewId + '_' + #animeMainQuery.reviewId2 " +
             "+ '_' + #animeMainQuery.leaderGender + '_' + #animeMainQuery.favoriteHeroine + '_' + #animeMainQuery.animationEnd " +
             "+ '_' + #animeMainQuery.originalEnd + '_' + #animeMainQuery.broadcastStartYear + '_' + #animeMainQuery.broadcastEndYear " +
             "+ '_' + #animeMainQuery.bingeWatchingType + '_' + #animeMainQuery.bingeWatchingYear + '_' + #animeMainQuery.bingeWatchingQuarter " +
             "+ '_' + #animeMainQuery.completeYear + '_' + #animeMainQuery.completeQuarter " +
             "+ '_' + #animeMainQuery.broadcastStartYear2 + '_' + #animeMainQuery.broadcastEndYear2 + '_' + #animeMainQuery.bingeWatchingYear2 " +
-            "+ '_' + #animeMainQuery.bingeWatchingQuarter2 + '_' + #animeMainQuery.completeYear2 + '_' + #animeMainQuery.completeQuarter2 + '_' + #animeMainQuery.status", unless = "#result == null")
-    @GetMapping("/byYearQuarterCondition")
-    public R selectMainByYearQuarterCondition(AnimeMainQuery animeMainQuery){
-        List<AnimeMainQuery> list = animeMainService.selectMainByYearQuarterCondition(animeMainQuery);
-        return new R(true, list);
+            "+ '_' + #animeMainQuery.bingeWatchingQuarter2 + '_' + #animeMainQuery.completeYear2 + '_' + #animeMainQuery.completeQuarter2 + '_' + #animeMainQuery.status + '_' + #currentPage+ '_' + #pageSize", unless = "#result == null")
+    @GetMapping("/byYearQuarterCondition/{currentPage}/{pageSize}")
+    public R selectMainByYearQuarterCondition(@PathVariable Integer currentPage,@PathVariable Integer pageSize, AnimeMainQuery animeMainQuery){
+        PageInfo<AnimeMainQuery> pageInfo = animeMainService.selectMainByYearQuarterCondition(currentPage, pageSize, animeMainQuery);
+        return new R(true, pageInfo);
     }
 
     /**

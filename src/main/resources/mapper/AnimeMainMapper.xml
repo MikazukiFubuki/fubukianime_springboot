@@ -634,7 +634,41 @@
         T6.completeQuarter,
         T1.status
 
-        from anime.anime_main T0,
+        from (select a.id,
+                     a.name,
+                     a.score,
+                     a.layout_id,
+                     a.binge_watching_id,
+                     a.complete_id,
+                     a.review_id,
+                     a.favorite_heroine
+        from anime.anime_main a
+        where a.deleted = 0
+        <if test="score != null and score != ''">
+            and a.score &gt;= #{score}
+        </if>
+        <if test="score2 != null and score2 != ''">
+            and a.score &lt;= #{score2}
+        </if>
+        <if test="bingeWatchingId != null and bingeWatchingId != ''">
+            and a.binge_watching_id &gt;= #{bingeWatchingId}
+        </if>
+        <if test="bingeWatchingId2 != null and bingeWatchingId2 != ''">
+            and a.binge_watching_id &lt;= #{bingeWatchingId2}
+        </if>
+        <if test="completeId != null and completeId != ''">
+            and a.complete_id &gt;= #{completeId}
+        </if>
+        <if test="completeId2 != null and completeId2 != ''">
+            and a.complete_id &lt;= #{completeId2}
+        </if>
+        <if test="reviewId != null and reviewId != ''">
+            and a.review_id &gt;= #{reviewId}
+        </if>
+        <if test="reviewId2 != null and reviewId2 != ''">
+            and a.review_id &lt;= #{reviewId2}
+        </if>
+        ) as T0,
 
         (select a.id                ID2,
         b.source            source1,
@@ -787,7 +821,6 @@
         AND T4.ID4 = T0.layout_id
         AND T5.ID5 = T0.id
         AND T6.ID6 = T0.id
-        AND T0.deleted = 0
 
         ORDER BY T0.score DESC ,T0.id ASC
     </select>

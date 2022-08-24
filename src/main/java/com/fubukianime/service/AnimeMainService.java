@@ -163,11 +163,14 @@ public interface AnimeMainService extends IService<AnimeMain> {
 
 
     /**
-     * 条件查询年间
+     * 范围条件查询
      * @param
      * @return
      */
-    List<AnimeMainQuery> selectMainByYearQuarterCondition(AnimeMainQuery animeMainQuery);
+    PageInfo<AnimeMainQuery> selectMainByYearQuarterCondition(Integer pageNum, Integer pageSize, AnimeMainQuery animeMainQuery);
+
+
+
 
 
 

@@ -206,7 +206,7 @@ public interface AnimeMainDao extends BaseMapper<AnimeMain> {
 
 
     /**
-     * 追补番年季条件查询
+     * 范围条件查询
      * @param
      * @return
      */

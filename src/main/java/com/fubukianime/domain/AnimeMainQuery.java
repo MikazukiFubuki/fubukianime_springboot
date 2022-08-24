@@ -14,6 +14,27 @@ import java.io.Serializable;
 public class AnimeMainQuery extends AnimeMain implements Serializable {
 
     /**
+     * 动画评分
+     */
+   private Double score2;
+
+    /**
+     * 动画补完序号
+     */
+    private Integer completeId2;
+
+    /**
+     * 动画追番序号
+     */
+    private Integer bingeWatchingId2;
+
+    /**
+     * 动画重温序号
+     */
+    private Integer reviewId2;
+
+
+    /**
      * 动画播出起始年份
      */
     private String broadcastStartYear2;

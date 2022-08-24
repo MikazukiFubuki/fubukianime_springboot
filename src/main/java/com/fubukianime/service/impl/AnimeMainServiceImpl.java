@@ -472,16 +472,19 @@ public class AnimeMainServiceImpl extends ServiceImpl<AnimeMainDao, AnimeMain> i
     }
 
     /**
-     * 条件查询年间
+     * 范围条件查询
      * @param
      * @return
      */
     @Override
-    public List<AnimeMainQuery> selectMainByYearQuarterCondition(AnimeMainQuery animeMainQuery) {
-
-        List<AnimeMainQuery> animeMainList = animeMainDao.selectMainByYearQuarterCondition(animeMainQuery);
-        return animeMainList;
+    public PageInfo<AnimeMainQuery> selectMainByYearQuarterCondition(Integer pageNum, Integer pageSize, AnimeMainQuery animeMainQuery) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<AnimeMainQuery> animeMainQueryList = animeMainDao.selectMainByYearQuarterCondition(animeMainQuery);
+        PageInfo<AnimeMainQuery> animeMainQueryPageInfo = new PageInfo<>(animeMainQueryList, pageSize);
+        return animeMainQueryPageInfo;
     }
+
+
 
 
 }
