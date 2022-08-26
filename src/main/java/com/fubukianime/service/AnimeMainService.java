@@ -169,6 +169,13 @@ public interface AnimeMainService extends IService<AnimeMain> {
      */
     PageInfo<AnimeMainQuery> selectMainByYearQuarterCondition(Integer pageNum, Integer pageSize, AnimeMainQuery animeMainQuery);
 
+    /**
+     * 查询全部动画名称
+     * @param animeMain
+     * @return
+     */
+    List<AnimeMain> selectAllAnimeName(AnimeMain animeMain);
+
 
 
 

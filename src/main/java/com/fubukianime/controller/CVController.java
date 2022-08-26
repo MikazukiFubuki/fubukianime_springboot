@@ -94,7 +94,7 @@ public class CVController {
         return new R(flag, flag ? "删除成功^_^" : "删除失败-_-!");
     }
 
-    @Cacheable(value = "cvCache", key = "#root.methodName  +  '_' + #cvWorks.cvName +  '_' + #cvWorks.animeName+  '_' + #cvWorks.animeRole +  '_' + #cvWorks.year", unless = "#result == null")
+    @Cacheable(value = "cvCache", key = "#root.methodName  +  '_' + #cvWorks.cvName +  '_' + #cvWorks.animeId+  '_' + #cvWorks.animeRole +  '_' + #cvWorks.year", unless = "#result == null")
     @GetMapping("/selectCvWorks")
     public R selectCvWorks(CvWorks cvWorks) {
         List<CvWorks> list = cvWorksService.selectCvWorks(cvWorks);

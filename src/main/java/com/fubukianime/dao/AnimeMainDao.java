@@ -212,6 +212,15 @@ public interface AnimeMainDao extends BaseMapper<AnimeMain> {
      */
     List<AnimeMainQuery> selectMainByYearQuarterCondition(AnimeMainQuery animeMainQuery);
 
+    /**
+     * 查询全部动画名称
+     * @param
+     * @return
+     */
+    List<AnimeMain> selectAllAnimeName(AnimeMain animeMain);
+
+
+
 
 
 

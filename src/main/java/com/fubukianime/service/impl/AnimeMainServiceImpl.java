@@ -485,6 +485,20 @@ public class AnimeMainServiceImpl extends ServiceImpl<AnimeMainDao, AnimeMain> i
     }
 
 
+    /**
+     * 查询全部动画名称
+     * @param animeMain
+     * @return
+     */
+    @Override
+    public List<AnimeMain> selectAllAnimeName(AnimeMain animeMain) {
+        List<AnimeMain> animeAllAnimeNameList = animeMainDao.selectAllAnimeName(animeMain);
+        return animeAllAnimeNameList;
+    }
+
+
+
+
 
 
 }

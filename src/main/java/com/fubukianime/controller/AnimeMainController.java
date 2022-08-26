@@ -298,4 +298,16 @@ public class AnimeMainController {
         return new R(flag, flag ? "修改成功^_^" : "修改失败-_-!");
     }
 
+    /**
+     * 查询全部动画名称
+     * @param animeMain
+     * @return
+     */
+    @Cacheable(value = "animeMainCache", key = "#animeMain.id + '_' + #animeMain.name", unless = "#result == null")
+    @GetMapping("/selectAllAnimeName")
+    public R selectAllAnimeName(AnimeMain animeMain){
+        List<AnimeMain> animeAllAnimeNameList = animeMainService.selectAllAnimeName(animeMain);
+        return new R(true, animeAllAnimeNameList);
+    }
+
 }

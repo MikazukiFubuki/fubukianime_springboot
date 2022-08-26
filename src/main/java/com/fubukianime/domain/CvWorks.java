@@ -16,6 +16,9 @@ public class CvWorks implements Serializable {
     @TableField("anime_name")
     private String animeName;
 
+    @TableField("anime_id")
+    private String animeId;
+
     @TableField("anime_role")
     private String animeRole;
 
