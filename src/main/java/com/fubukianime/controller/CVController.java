@@ -101,6 +101,13 @@ public class CVController {
         return new R(true, list);
     }
 
+    @Cacheable(value = "cvCache", key = "#root.methodName  +  '_' + #cvWorks.cvName +  '_' + #cvWorks.animeId+  '_' + #cvWorks.animeRole +  '_' + #cvWorks.year", unless = "#result == null")
+    @GetMapping("/selectAfterAdd")
+    public R selectAfterAdd(CvWorks cvWorks) {
+        List<CvWorks> list = cvWorksService.selectAfterAdd(cvWorks);
+        return new R(true, list);
+    }
+
     /**
      * 根据id查询
      * @param id
@@ -123,6 +130,13 @@ public class CVController {
     @PutMapping("/updateCvWorks")
     public R updateCvWorks(@RequestBody CvWorks cvWorks) {
         boolean flag = cvWorksService.updateCvWorks(cvWorks);
+        return new R(flag, flag ? "修改成功^_^" : "修改失败-_-!");
+    }
+
+    @CacheEvict(value = "cvCache", allEntries = true)
+    @PutMapping("/updateYear")
+    public R updateYear(@RequestBody CvWorks cvWorks) {
+        boolean flag = cvWorksService.updateYear(cvWorks);
         return new R(flag, flag ? "修改成功^_^" : "修改失败-_-!");
     }
 

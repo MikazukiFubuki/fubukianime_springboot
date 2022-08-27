@@ -58,6 +58,25 @@
         where a.deleted = 0 and a.id = #{id}
     </select>
 
+    <select id="selectAfterAdd" resultType="com.fubukianime.domain.CvWorks">
+        select a.id,
+        a.cv_id cvId,
+        b.name cvName,
+        c.name animeId,
+        a.anime_role animeRole,
+        a.start_year startYear,
+        a.end_year endYear,
+        if(a.start_year = a.end_year, a.start_year,
+        concat_ws('-', a.start_year, a.end_year)) AS year,
+        a.deleted
+        from (cv_works a
+        left join cv_cv b on b.id = a.cv_id) left join anime.anime_main c on c.id = a.anime_id
+        where a.deleted = 0
+        <if test="animeId != null and animeId != ''">
+            and a.anime_id = #{animeId}
+        </if>
+    </select>
+
     <insert id="addCvWorks">
         insert into cv_works(cv_id,
                              anime_id,
@@ -77,6 +96,19 @@
             <if test="animeRole != null and animeRole != ''">
                 a.anime_role = #{animeRole},
             </if>
+            <if test="startYear != null and startYear != ''">
+                a.start_year = #{startYear},
+            </if>
+            <if test="endYear != null and endYear != ''">
+                a.end_year = #{endYear},
+            </if>
+        </set>
+        where id = #{id} and deleted = 0;
+    </update>
+
+    <update id="updateYear">
+        update cv_works a
+        <set>
             <if test="startYear != null and startYear != ''">
                 a.start_year = #{startYear},
             </if>

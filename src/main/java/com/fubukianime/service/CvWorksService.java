@@ -15,6 +15,14 @@ public interface CvWorksService extends IService<CvWorks> {
     List<CvWorks> selectCvWorks(CvWorks cvWorks);
 
     /**
+     * 新增后条件查询
+     * @param
+     * @return
+     */
+    List<CvWorks> selectAfterAdd(CvWorks cvWorks);
+
+
+    /**
      * 根据id查询
      * @param id
      * @return
@@ -32,6 +40,12 @@ public interface CvWorksService extends IService<CvWorks> {
      * @param cvWorks
      */
     boolean updateCvWorks(CvWorks cvWorks);
+
+    /**
+     * 修改年份
+     * @param cvWorks
+     */
+    boolean updateYear(CvWorks cvWorks);
 
     boolean removeById(CvWorks cvWorks);
 }

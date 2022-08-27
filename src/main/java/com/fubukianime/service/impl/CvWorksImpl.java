@@ -22,6 +22,12 @@ public class CvWorksImpl extends ServiceImpl<CvWorksDao, CvWorks> implements CvW
         return list;
     }
 
+    @Override
+    public List<CvWorks> selectAfterAdd(CvWorks cvWorks) {
+        List<CvWorks> list = cvWorksDao.selectAfterAdd(cvWorks);
+        return list;
+    }
+
     /**
      * 根据id查询
      * @param id
@@ -35,6 +41,12 @@ public class CvWorksImpl extends ServiceImpl<CvWorksDao, CvWorks> implements CvW
     @Override
     public boolean addCvWorks(CvWorks cvWorks) {
         cvWorksDao.addCvWorks(cvWorks);
+        return true;
+    }
+
+    @Override
+    public boolean updateYear(CvWorks cvWorks) {
+        cvWorksDao.updateYear(cvWorks);
         return true;
     }
 
