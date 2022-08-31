@@ -501,6 +501,17 @@
         where id = #{id}
         and deleted = 0;
     </update>
+    <!--动画原作完结-->
+    <update id="updateOriginalEnd">
+        update anime_main a
+        <set>
+            <if test="originalEnd != null and originalEnd != ''">
+                a.original_end = #{originalEnd},
+            </if>
+        </set>
+        where id = #{id}
+        and deleted = 0;
+    </update>
 
 
     <!--查询全部并分页-->

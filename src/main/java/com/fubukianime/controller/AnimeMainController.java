@@ -310,4 +310,15 @@ public class AnimeMainController {
         return new R(true, animeAllAnimeNameList);
     }
 
+    /**
+     * 动画原作完结
+     * @param animeMain
+     */
+    @CacheEvict(value = "animeMainCache", allEntries = true)
+    @PutMapping("/updateOriginalEnd")
+    public R updateOriginalEnd(@RequestBody AnimeMain animeMain) throws IOException{
+        boolean flag = animeMainService.updateOriginalEnd(animeMain);
+        return new R(flag, flag ? "修改成功^_^" : "修改失败-_-!");
+    }
+
 }

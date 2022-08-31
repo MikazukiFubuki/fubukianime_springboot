@@ -177,6 +177,14 @@ public interface AnimeMainService extends IService<AnimeMain> {
     List<AnimeMain> selectAllAnimeName(AnimeMain animeMain);
 
 
+    /**
+     * 动画原作完结
+     * @param animeMain
+     * @return
+     */
+    boolean updateOriginalEnd(AnimeMain animeMain);
+
+
 
 
 

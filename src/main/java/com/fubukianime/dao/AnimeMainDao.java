@@ -219,6 +219,12 @@ public interface AnimeMainDao extends BaseMapper<AnimeMain> {
      */
     List<AnimeMain> selectAllAnimeName(AnimeMain animeMain);
 
+    /**
+     * 动画原作完结
+     * @param animeMain
+     */
+    void updateOriginalEnd(AnimeMain animeMain);
+
 
 
 

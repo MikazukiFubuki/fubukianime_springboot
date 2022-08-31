@@ -496,6 +496,17 @@ public class AnimeMainServiceImpl extends ServiceImpl<AnimeMainDao, AnimeMain> i
         return animeAllAnimeNameList;
     }
 
+    /**
+     * 动画原作完结
+     * @param animeMain
+     * @return
+     */
+    @Override
+    public boolean updateOriginalEnd(AnimeMain animeMain){
+        animeMainDao.updateOriginalEnd(animeMain);
+        return true;
+    }
+
 
 
 
