@@ -141,6 +141,13 @@ public class CVController {
     }
 
     @CacheEvict(value = "cvCache", allEntries = true)
+    @PutMapping("/updateRole")
+    public R updateRole(@RequestBody CvWorks cvWorks) {
+        boolean flag = cvWorksService.updateRole(cvWorks);
+        return new R(flag, flag ? "修改成功^_^" : "修改失败-_-!");
+    }
+
+    @CacheEvict(value = "cvCache", allEntries = true)
     @PutMapping("/worksRemove")
     public R removeById(@RequestBody CvWorks cvWorks) {
         boolean flag = cvWorksService.removeById(cvWorks);

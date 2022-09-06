@@ -47,5 +47,11 @@ public interface CvWorksService extends IService<CvWorks> {
      */
     boolean updateYear(CvWorks cvWorks);
 
+    /**
+     * 修改角色
+     * @param cvWorks
+     */
+    boolean updateRole(CvWorks cvWorks);
+
     boolean removeById(CvWorks cvWorks);
 }

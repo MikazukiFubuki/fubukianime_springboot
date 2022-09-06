@@ -47,4 +47,10 @@ public interface CvWorksDao extends BaseMapper<CvWorks> {
      * @param cvWorks
      */
     void updateYear(CvWorks cvWorks);
+
+    /**
+     * 修改角色
+     * @param cvWorks
+     */
+    void updateRole(CvWorks cvWorks);
 }

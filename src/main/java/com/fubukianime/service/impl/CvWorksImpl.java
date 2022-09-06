@@ -57,6 +57,12 @@ public class CvWorksImpl extends ServiceImpl<CvWorksDao, CvWorks> implements CvW
     }
 
     @Override
+    public boolean updateRole(CvWorks cvWorks) {
+        cvWorksDao.updateRole(cvWorks);
+        return true;
+    }
+
+    @Override
     public boolean removeById(CvWorks cvWorks) {
         Integer id = cvWorks.getId();
         cvWorksDao.deleteById(id);
