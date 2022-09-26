@@ -31,6 +31,13 @@ public interface CvWorksDao extends BaseMapper<CvWorks> {
     CvWorks selectCvWorksById(Integer id);
 
     /**
+     * 新增角色前查验查询
+     * @param cvWorks
+     * @return
+     */
+    CvWorks checkCvWorks(CvWorks cvWorks);
+
+    /**
      * 新增角色
      * @param cvWorks
      */

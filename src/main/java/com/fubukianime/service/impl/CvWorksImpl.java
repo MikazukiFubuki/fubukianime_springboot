@@ -38,6 +38,16 @@ public class CvWorksImpl extends ServiceImpl<CvWorksDao, CvWorks> implements CvW
         return cvWorksDao.selectCvWorksById(id);
     }
 
+    /**
+     * 新增角色前查验查询
+     * @param cvWorks
+     * @return
+     */
+    @Override
+    public CvWorks checkCvWorks(CvWorks cvWorks) {
+        return cvWorksDao.checkCvWorks(cvWorks);
+    }
+
     @Override
     public boolean addCvWorks(CvWorks cvWorks) {
         cvWorksDao.addCvWorks(cvWorks);

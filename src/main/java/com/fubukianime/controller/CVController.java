@@ -1,5 +1,6 @@
 package com.fubukianime.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.fubukianime.controller.utils.R;
 import com.fubukianime.domain.CvCV;
 import com.fubukianime.domain.CvWorks;
@@ -122,8 +123,19 @@ public class CVController {
     @CacheEvict(value = "cvCache", allEntries = true)
     @PostMapping("/addCvWorks")
     public R addCvWorks(@RequestBody CvWorks cvWorks) {
-        boolean flag = cvWorksService.addCvWorks(cvWorks);
-        return new R(flag, flag ? "添加成功^_^" : "添加失败-_-!");
+        CvWorks cvWorks1 = cvWorksService.checkCvWorks(cvWorks);
+        /*LambdaQueryWrapper<CvWorks> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(CvWorks::getAnimeId, cvWorks.getAnimeId());
+        queryWrapper.eq(CvCV::getId, cvWorks.getCvName());
+        CvWorks cvWorks1 = cvWorksService.getOne(queryWrapper);*/
+
+        if (cvWorks1 != null){
+            boolean flag = false;
+            return new R(flag, "此声优在此动画已创建角色");
+        }else {
+            boolean flag = cvWorksService.addCvWorks(cvWorks);
+            return new R(flag, flag ? "添加成功^_^" : "添加失败-_-!");
+        }
     }
 
     @CacheEvict(value = "cvCache", allEntries = true)

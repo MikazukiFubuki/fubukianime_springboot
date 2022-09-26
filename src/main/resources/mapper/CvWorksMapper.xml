@@ -87,6 +87,22 @@
         values ( (select id from cv_cv where name = #{cvName}), #{animeId}, #{animeRole}, #{startYear}, #{endYear}, 0)
     </insert>
 
+    <!--查询信息-->
+    <select id="checkCvWorks" resultType="com.fubukianime.domain.CvWorks">
+        select
+        a.cv_id cvId,
+        a.anime_id animeId
+        from cv_works a
+        left join cv_cv b on b.id = a.cv_id
+        where a.deleted = 0
+        <if test="cvName != null and cvName != ''">
+            and a.cv_id = (select id from cv_cv where cv_cv.name = #{cvName})
+        </if>
+        <if test="animeId != null and animeId != ''">
+            and a.anime_id = #{animeId}
+        </if>
+    </select>
+
     <update id="updateCvWorks">
         update cv_works a
         <set>
