@@ -428,7 +428,7 @@
     <update id="updateAnime">
         update anime_main a
         <set>
-            <if test="name != null and source1 != ''">
+            <if test="name != null and name != ''">
                 a.name = #{name},
             </if>
             <if test="score != null and score != ''">
