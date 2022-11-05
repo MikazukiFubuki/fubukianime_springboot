@@ -21,6 +21,13 @@ public interface CvWorksService extends IService<CvWorks> {
      */
     List<CvWorks> selectAfterAdd(CvWorks cvWorks);
 
+    /**
+     * 修改删除后条件查询
+     * @param
+     * @return
+     */
+    List<CvWorks> selectAfterUpdate(CvWorks cvWorks);
+
 
     /**
      * 根据id查询

@@ -24,6 +24,13 @@ public interface CvWorksDao extends BaseMapper<CvWorks> {
     List<CvWorks> selectAfterAdd(CvWorks cvWorks);
 
     /**
+     * 修改删除后条件查询
+     * @param
+     * @return
+     */
+    List<CvWorks> selectAfterUpdate(CvWorks cvWorks);
+
+    /**
      * 根据id查询
      * @param id
      * @return

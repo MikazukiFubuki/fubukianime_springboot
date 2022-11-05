@@ -109,6 +109,13 @@ public class CVController {
         return new R(true, list);
     }
 
+    @Cacheable(value = "cvCache", key = "#root.methodName  +  '_' + #cvWorks.cvName +  '_' + #cvWorks.animeId+  '_' + #cvWorks.animeRole +  '_' + #cvWorks.year", unless = "#result == null")
+    @GetMapping("/selectAfterUpdate")
+    public R selectAfterUpdate(CvWorks cvWorks) {
+        List<CvWorks> list = cvWorksService.selectAfterUpdate(cvWorks);
+        return new R(true, list);
+    }
+
     /**
      * 根据id查询
      * @param id

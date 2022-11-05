@@ -28,6 +28,12 @@ public class CvWorksImpl extends ServiceImpl<CvWorksDao, CvWorks> implements CvW
         return list;
     }
 
+    @Override
+    public List<CvWorks> selectAfterUpdate(CvWorks cvWorks) {
+        List<CvWorks> list = cvWorksDao.selectAfterUpdate(cvWorks);
+        return list;
+    }
+
     /**
      * 根据id查询
      * @param id
