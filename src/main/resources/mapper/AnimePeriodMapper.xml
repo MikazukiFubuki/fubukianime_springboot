@@ -17,7 +17,7 @@
 
     <!--新增时期点-->
     <insert id="addPeriod">
-        insert into anime_period(spid, period_name, complete_amount, binge_watching_amount, period, sp, deleted)
+        insert into anime_period(spid, period_name, binge_watching_amount, complete_amount, period, sp, deleted)
         values ((select c.spid from (select max(b.spid) spid from anime_period b where sp = #{sp} and deleted = 0) c) + 1, #{periodName},
                 (select c.bwid from (select max(b.binge_watching_id) bwid from anime_main b where deleted = 0) c),
                 (select c.cid from (select max(b.complete_id) cid from anime_main b where deleted = 0) c),  CURDATE(), #{sp}, 0)
