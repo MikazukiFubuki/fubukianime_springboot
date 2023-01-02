@@ -17,353 +17,541 @@
 
     <!--新增时期点-->
     <insert id="addPeriod">
-        insert into anime_period(spid, period_name, binge_watching_amount, complete_amount, period, sp, deleted)
-        values ((select c.spid from (select max(b.spid) spid from anime_period b where sp = #{sp} and deleted = 0) c) + 1, #{periodName},
-                (select c.bwid from (select max(b.binge_watching_id) bwid from anime_main b where deleted = 0) c),
-                (select c.cid from (select max(b.complete_id) cid from anime_main b where deleted = 0) c),  CURDATE(), #{sp}, 0)
+        insert into anime_period(spid, period_name, binge_watching_amount_id, complete_amount_id, period, sp, deleted)
+        values ((select c.spid from (select max(b.spid) spid from anime_period b where sp = #{sp} and deleted = 0) c) +
+                1, #{periodName},
+                (select id
+                 from anime_main d
+                 where d.binge_watching_id = (select c.bwid
+                                              from (select max(b.binge_watching_id) bwid
+                                                    from anime_main b
+                                                    where deleted = 0) c)),
+                (select id
+                 from anime_main d
+                 where d.complete_id =
+                       (select c.cid from (select max(b.complete_id) cid from anime_main b where deleted = 0) c)),
+                CURDATE(), #{sp}, 0)
     </insert>
 
     <!--查询普通时期点-->
     <select id="selectComPeriod" resultType="com.fubukianime.domain.AnimePeriod">
-        select T0.id             id,
-        T0.spid                  spid,
-        T0.period_name           periodName,
-        T0.complete_amount       completeAmount,
-        T0.binge_watching_amount bingeWatchingAmount,
-        T0.sp                    sp,
-        T0.deleted               deleted,
-        T0.c                     periodComplete,
-        T0.d                     periodBingeWatching,
-        T0.h                     comparePeriodComplete,
-        T0.i                     comparePeriodBingeWatching,
-        FORMAT(T0.f, 3)          averageDailyComplete,
-        FORMAT(T0.g, 3)          averageDailyBingeWatching,
-        date_format(T0.period, '%Y-%m-%d')       periods,
-        T0.period       period,
-        T0.e                     days,
-        T0.j                     comparePeriodAverageDailyComplete,
-        T0.k                     comparePeriodAverageDailyBingeWatching,
-        round(avg(T3.score), 2)  averageScoreBingeWatching
-        ,
-        round(avg(T2.score), 2)  averageScoreComplete
-        from (select T1.id, T1.spid
-        , T1.period_name
-        , T1.complete_amount
-        , T1.binge_watching_amount
-        , T1.period
-        , T1.sp
-        , T1.deleted
-        , T1.c
-        , T1.d
-        , T1.e
-        , T1.x
-        , T1.y
-        , T1.h
-        , T1.i
-        , T1.f
-        , T1.g
-        , concat(truncate((T1.f - T4.f) / T4.f * 100, 2), '%') j
-        , concat(truncate((T1.g - T4.g) / T4.g * 100, 2), '%') k
+        select T0.id                              id,
+               T0.spid                            spid,
+               T0.period_name                     periodName,
+               T0.complete_amount                 completeAmount,
+               T0.binge_watching_amount           bingeWatchingAmount,
+               T0.sp                              sp,
+               T0.deleted                         deleted,
+               T0.c                               periodComplete,
+               T0.d                               periodBingeWatching,
+               T0.h                               comparePeriodComplete,
+               T0.i                               comparePeriodBingeWatching,
+               FORMAT(T0.f, 3)                    averageDailyComplete,
+               FORMAT(T0.g, 3)                    averageDailyBingeWatching,
+               date_format(T0.period, '%Y-%m-%d') periods,
+               T0.period                          period,
+               T0.e                               days,
+               T0.j                               comparePeriodAverageDailyComplete,
+               T0.k                               comparePeriodAverageDailyBingeWatching,
+               round(avg(T3.score), 2)            averageScoreBingeWatching
+                ,
+               round(avg(T2.score), 2)            averageScoreComplete
+        from (select T1.id
+                   , T1.spid
+                   , T1.period_name
+                   , T1.complete_amount
+                   , T1.binge_watching_amount
+                   , T1.period
+                   , T1.sp
+                   , T1.deleted
+                   , T1.c
+                   , T1.d
+                   , T1.e
+                   , T1.x
+                   , T1.y
+                   , T1.h
+                   , T1.i
+                   , T1.f
+                   , T1.g
+                   , concat(truncate((T1.f - T4.f) / T4.f * 100, 2), '%') j
+                   , concat(truncate((T1.g - T4.g) / T4.g * 100, 2), '%') k
 
-        from (select t1.id, t1.spid
-        , t1.period_name
-        , t1.complete_amount
-        , t1.binge_watching_amount
-        , t1.period
-        , t1.sp
-        , t1.deleted
-        , t1.c
-        , t1.d
-        , t1.e
-        , t1.x
-        , t1.y
-        , concat(truncate((t1.c - t2.c) / t2.c * 100, 2), '%') h
-        , concat(truncate((t1.d - t2.d) / t2.d * 100, 2), '%') i
-        , ifnull(t1.c / t1.e, 0)                               f
-        , ifnull(t1.d / t1.e, 0)                               g
+              from (select t1.id
+                         , t1.spid
+                         , t1.period_name
+                         , t1.complete_amount
+                         , t1.binge_watching_amount
+                         , t1.period
+                         , t1.sp
+                         , t1.deleted
+                         , t1.c
+                         , t1.d
+                         , t1.e
+                         , t1.x
+                         , t1.y
+                         , concat(truncate((t1.c - t2.c) / t2.c * 100, 2), '%') h
+                         , concat(truncate((t1.d - t2.d) / t2.d * 100, 2), '%') i
+                         , ifnull(t1.c / t1.e, 0)                               f
+                         , ifnull(t1.d / t1.e, 0)                               g
 
-        from (select id, spid,
-        period_name,
-        complete_amount,
-        binge_watching_amount,
-        period, sp, deleted,
-        ifnull((select complete_amount from anime_period b where sp = 0 and b.spid = a.spid - 1), 0)    x,
-        ifnull((select binge_watching_amount from anime_period b where sp = 0 and b.spid = a.spid - 1),
-        0)                                                                                       y,
-        (complete_amount -
-        ifnull((select complete_amount from anime_period b where sp = 0 and b.spid = a.spid - 1),
-        0))                                                                                  as c,
-        (binge_watching_amount -
-        ifnull((select binge_watching_amount
-        from anime_period b
-        where sp = 0 and b.spid = a.spid - 1),
-        0))                                                                                  as d,
-        (datediff(period,
-        (select period from anime_period b where sp = 0 and b.spid = a.spid - 1)))         as e
-        from anime_period a
-        where sp = 0) t1,
-        (select spid,
-        period_name,
-        complete_amount,
-        binge_watching_amount,
-                period, sp, deleted,
-        ifnull((select complete_amount from anime_period b where sp = 0 and b.spid = a.spid - 1), 0)    x,
-        ifnull((select binge_watching_amount from anime_period b where sp = 0 and b.spid = a.spid - 1),
-        0)                                                                                       y,
-        (complete_amount -
-        ifnull((select complete_amount from anime_period b where sp = 0 and b.spid = a.spid - 1),
-        0))                                                                                  as c,
-        (binge_watching_amount -
-        ifnull((select binge_watching_amount
-        from anime_period b
-        where sp = 0 and b.spid = a.spid - 1),
-        0))                                                                                  as d,
-        (datediff(period,
-        (select period from anime_period b where sp = 0 and b.spid = a.spid - 1)))         as e
-        from anime_period a
-        where sp = 0) t2
-        where t1.spid = 1 and t2.spid = 1
-        or t2.spid = t1.spid - 1
-        ORDER BY t1.spid) T1,
-        (select t1.id, t1.spid
-        , t1.period_name
-        , t1.complete_amount
-        , t1.binge_watching_amount
-        , t1.period
-        , t1.sp
-        , t1.deleted
-        , t1.c
-        , t1.d
-        , t1.e
-        , t1.x
-        , t1.y
-        , concat(truncate((t1.c - t2.c) / t2.c * 100, 2), '%')
-        , concat(truncate((t1.d - t2.d) / t2.d * 100, 2), '%')
-        , ifnull(t1.c / t1.e, 0) f
-        , ifnull(t1.d / t1.e, 0) g
+                    from (select A.id,
+                                 A.spid,
+                                 A.period_name,
+                                 A.complete_amount,
+                                 A.binge_watching_amount,
+                                 A.period,
+                                 A.sp,
+                                 A.deleted,
+                                 ifnull((select P.complete_amount where P.spid = A.spid - 1), 0)                     as x,
+                                 ifnull((select P.binge_watching_amount where P.spid = A.spid - 1), 0)               as y,
+                                 A.complete_amount -
+                                 ifnull((select P.complete_amount where P.spid = A.spid - 1), 0)                     as c,
+                                 A.binge_watching_amount -
+                                 ifnull((select P.binge_watching_amount where P.spid = A.spid - 1), 0)               as d,
+                                 (datediff(A.period, P.period))                                                      as e
+                          from ((select p.id,
+                                        p.spid,
+                                        a.complete_id       complete_amount,
+                                        b.binge_watching_id binge_watching_amount,
+                                        p.period,
+                                        p.period_name,
+                                        p.sp,
+                                        p.deleted
+                                 from (anime_period p left join anime_main a on a.id = p.complete_amount_id)
+                                          left join anime_main b on b.id = p.binge_watching_amount_id
+                                 where sp = 0
+                                   and p.deleted = 0
+                                   and a.deleted = 0
+                                   and b.deleted = 0)) A
+                                   left join
+                               ((select p.id,
+                                        p.spid              spid,
+                                        a.complete_id       complete_amount,
+                                        b.binge_watching_id binge_watching_amount,
+                                        p.period
+                                 from (anime_period p left join anime_main a on a.id = p.complete_amount_id)
+                                          left join anime_main b on b.id = p.binge_watching_amount_id
+                                 where sp = 0
+                                   and p.deleted = 0
+                                   and a.deleted = 0
+                                   and b.deleted = 0)) P on P.spid = A.spid - 1) t1,
 
-        from (select id, spid,
-        period_name,
-        complete_amount,
-        binge_watching_amount,
-                     period, sp, deleted,
-        ifnull((select complete_amount from anime_period b where sp = 0 and b.spid = a.spid - 1), 0)    x,
-        ifnull((select binge_watching_amount from anime_period b where sp = 0 and b.spid = a.spid - 1),
-        0)                                                                                       y,
-        (complete_amount -
-        ifnull((select complete_amount from anime_period b where sp = 0 and b.spid = a.spid - 1),
-        0))                                                                                  as c,
-        (binge_watching_amount -
-        ifnull((select binge_watching_amount
-        from anime_period b
-        where sp = 0 and b.spid = a.spid - 1),
-        0))                                                                                  as d,
-        (datediff(period,
-        (select period from anime_period b where sp = 0 and b.spid = a.spid - 1)))         as e
-        from anime_period a
-        where sp = 0) t1,
-        (select spid,
-        period_name,
-        complete_amount,
-        binge_watching_amount,
-                period, sp, deleted,
-        ifnull((select complete_amount from anime_period b where sp = 0 and b.spid = a.spid - 1), 0)    x,
-        ifnull((select binge_watching_amount from anime_period b where sp = 0 and b.spid = a.spid - 1),
-        0)                                                                                       y,
-        (complete_amount -
-        ifnull((select complete_amount from anime_period b where sp = 0 and b.spid = a.spid - 1),
-        0))                                                                                  as c,
-        (binge_watching_amount -
-        ifnull((select binge_watching_amount
-        from anime_period b
-        where sp = 0 and b.spid = a.spid - 1),
-        0))                                                                                  as d,
-        (datediff(period,
-        (select period from anime_period b where sp = 0 and b.spid = a.spid - 1)))         as e
-        from anime_period a
-        where sp = 0) t2
-        where t1.spid = 1 and t2.spid = 1
-        or t2.spid = t1.spid - 1
-        ORDER BY t1.spid) T4
-        where T1.spid = 1 AND T4.spid = 1
-        OR T4.spid = T1.spid - 1
-        ORDER BY T1.spid) T0,
-        anime_main T2,
-        anime_main T3
+                         (select A.id,
+                                 A.spid,
+                                 A.period_name,
+                                 A.complete_amount,
+                                 A.binge_watching_amount,
+                                 A.period,
+                                 A.sp,
+                                 A.deleted,
+                                 ifnull((select P.complete_amount where P.spid = A.spid - 1), 0)                     as x,
+                                 ifnull((select P.binge_watching_amount where P.spid = A.spid - 1), 0)               as y,
+                                 A.complete_amount -
+                                 ifnull((select P.complete_amount where P.spid = A.spid - 1), 0)                     as c,
+                                 A.binge_watching_amount -
+                                 ifnull((select P.binge_watching_amount where P.spid = A.spid - 1), 0)               as d,
+                                 (datediff(A.period, P.period))                                                      as e
+                          from ((select p.id,
+                                        p.spid,
+                                        a.complete_id       complete_amount,
+                                        b.binge_watching_id binge_watching_amount,
+                                        p.period,
+                                        p.period_name,
+                                        p.sp,
+                                        p.deleted
+                                 from (anime_period p left join anime_main a on a.id = p.complete_amount_id)
+                                          left join anime_main b on b.id = p.binge_watching_amount_id
+                                 where sp = 0
+                                   and p.deleted = 0
+                                   and a.deleted = 0
+                                   and b.deleted = 0)) A
+                                   left join
+                               ((select p.id,
+                                        p.spid              spid,
+                                        a.complete_id       complete_amount,
+                                        b.binge_watching_id binge_watching_amount,
+                                        p.period
+                                 from (anime_period p left join anime_main a on a.id = p.complete_amount_id)
+                                          left join anime_main b on b.id = p.binge_watching_amount_id
+                                 where sp = 0
+                                   and p.deleted = 0
+                                   and a.deleted = 0
+                                   and b.deleted = 0)) P on P.spid = A.spid - 1) t2
+
+                    where t1.spid = 1 and t2.spid = 1
+                       or t2.spid = t1.spid - 1
+                    ORDER BY t1.spid) T1,
+
+
+                   (select t1.id
+                         , t1.spid
+                         , t1.period_name
+                         , t1.complete_amount
+                         , t1.binge_watching_amount
+                         , t1.period
+                         , t1.sp
+                         , t1.deleted
+                         , t1.c
+                         , t1.d
+                         , t1.e
+                         , t1.x
+                         , t1.y
+                         , concat(truncate((t1.c - t2.c) / t2.c * 100, 2), '%')
+                         , concat(truncate((t1.d - t2.d) / t2.d * 100, 2), '%')
+                         , ifnull(t1.c / t1.e, 0) f
+                         , ifnull(t1.d / t1.e, 0) g
+
+                    from (select A.id,
+                                 A.spid,
+                                 A.period_name,
+                                 A.complete_amount,
+                                 A.binge_watching_amount,
+                                 A.period,
+                                 A.sp,
+                                 A.deleted,
+                                 ifnull((select P.complete_amount where P.spid = A.spid - 1), 0)                     as x,
+                                 ifnull((select P.binge_watching_amount where P.spid = A.spid - 1), 0)               as y,
+                                 A.complete_amount -
+                                 ifnull((select P.complete_amount where P.spid = A.spid - 1), 0)                     as c,
+                                 A.binge_watching_amount -
+                                 ifnull((select P.binge_watching_amount where P.spid = A.spid - 1), 0)               as d,
+                                 (datediff(A.period, P.period))                                                      as e
+                          from ((select p.id,
+                                        p.spid,
+                                        a.complete_id       complete_amount,
+                                        b.binge_watching_id binge_watching_amount,
+                                        p.period,
+                                        p.period_name,
+                                        p.sp,
+                                        p.deleted
+                                 from (anime_period p left join anime_main a on a.id = p.complete_amount_id)
+                                          left join anime_main b on b.id = p.binge_watching_amount_id
+                                 where sp = 0
+                                   and p.deleted = 0
+                                   and a.deleted = 0
+                                   and b.deleted = 0)) A
+                                   left join
+                               ((select p.id,
+                                        p.spid              spid,
+                                        a.complete_id       complete_amount,
+                                        b.binge_watching_id binge_watching_amount,
+                                        p.period
+                                 from (anime_period p left join anime_main a on a.id = p.complete_amount_id)
+                                          left join anime_main b on b.id = p.binge_watching_amount_id
+                                 where sp = 0
+                                   and p.deleted = 0
+                                   and a.deleted = 0
+                                   and b.deleted = 0)) P on P.spid = A.spid - 1) t1,
+
+
+                         (select A.id,
+                                 A.spid,
+                                 A.period_name,
+                                 A.complete_amount,
+                                 A.binge_watching_amount,
+                                 A.period,
+                                 A.sp,
+                                 A.deleted,
+                                 ifnull((select P.complete_amount where P.spid = A.spid - 1), 0)                     as x,
+                                 ifnull((select P.binge_watching_amount where P.spid = A.spid - 1), 0)               as y,
+                                 A.complete_amount -
+                                 ifnull((select P.complete_amount where P.spid = A.spid - 1), 0)                     as c,
+                                 A.binge_watching_amount -
+                                 ifnull((select P.binge_watching_amount where P.spid = A.spid - 1), 0)               as d,
+                                 (datediff(A.period, P.period))                                                      as e
+                          from ((select p.id,
+                                        p.spid,
+                                        a.complete_id       complete_amount,
+                                        b.binge_watching_id binge_watching_amount,
+                                        p.period,
+                                        p.period_name,
+                                        p.sp,
+                                        p.deleted
+                                 from (anime_period p left join anime_main a on a.id = p.complete_amount_id)
+                                          left join anime_main b on b.id = p.binge_watching_amount_id
+                                 where sp = 0
+                                   and p.deleted = 0
+                                   and a.deleted = 0
+                                   and b.deleted = 0)) A
+                                   left join
+                               ((select p.id,
+                                        p.spid              spid,
+                                        a.complete_id       complete_amount,
+                                        b.binge_watching_id binge_watching_amount,
+                                        p.period
+                                 from (anime_period p left join anime_main a on a.id = p.complete_amount_id)
+                                          left join anime_main b on b.id = p.binge_watching_amount_id
+                                 where sp = 0
+                                   and p.deleted = 0
+                                   and a.deleted = 0
+                                   and b.deleted = 0)) P on P.spid = A.spid - 1) t2
+
+                    where t1.spid = 1 and t2.spid = 1
+                       or t2.spid = t1.spid - 1
+                    ORDER BY t1.spid) T4
+
+
+              where T1.spid = 1 AND T4.spid = 1
+                 OR T4.spid = T1.spid - 1
+              ORDER BY T1.spid) T0,
+
+             anime_main T2,
+
+             anime_main T3
         where T2.complete_id &gt; T0.x
-        and T2.complete_id &lt;= T0.complete_amount
-        and T3.binge_watching_id &gt; T0.y
-        and T3.binge_watching_id &lt;= T0.binge_watching_amount
+          and T2.complete_id &lt;= T0.complete_amount
+          and T3.binge_watching_id &gt; T0.y
+          and T3.binge_watching_id &lt;= T0.binge_watching_amount
 
         group by T0.spid
-        order by T0.spid
+        order by T0.spid;
+
 
     </select>
 
     <!--查询特殊时期点-->
     <select id="selectSPPeriod" resultType="com.fubukianime.domain.AnimePeriod">
-        select T0.id             id,
-               T0.spid                  spid,
-               T0.period_name           periodName,
-               T0.complete_amount       completeAmount,
-               T0.binge_watching_amount bingeWatchingAmount,
-               T0.sp                    sp,
-               T0.deleted               deleted,
-               T0.c                     periodComplete,
-               T0.d                     periodBingeWatching,
-               /*T0.h                     comparePeriodComplete,
-               T0.i                     comparePeriodBingeWatching,*/
-               FORMAT(T0.f, 3)          averageDailyComplete,
-               FORMAT(T0.g, 3)          averageDailyBingeWatching,
-               date_format(T0.period, '%Y-%m-%d')       periods,
-               T0.period       period,
-               T0.e                     days,
-               /*T0.j                     comparePeriodAverageDailyComplete,
-               T0.k                     comparePeriodAverageDailyBingeWatching,*/
-               round(avg(T3.score), 2)  averageScoreBingeWatching,
-               round(avg(T2.score), 2)  averageScoreComplete
-        from (select T1.id,T1.spid
-        , T1.period_name
-        , T1.complete_amount
-        , T1.binge_watching_amount
-        , T1.period
-        , T1.sp
-        , T1.deleted
-        , T1.c
-        , T1.d
-        , T1.e
-        , T1.x
-        , T1.y
-        /*, T1.h
-        , T1.i*/
-        , T1.f
-        , T1.g
-        /*, concat(truncate((T1.f - T4.f) / T4.f * 100, 2), '%') j
-        , concat(truncate((T1.g - T4.g) / T4.g * 100, 2), '%') k*/
+        select T0.id                              id,
+               T0.spid                            spid,
+               T0.period_name                     periodName,
+               T0.complete_amount                 completeAmount,
+               T0.binge_watching_amount           bingeWatchingAmount,
+               T0.sp                              sp,
+               T0.deleted                         deleted,
+               T0.c                               periodComplete,
+               T0.d                               periodBingeWatching,
+               FORMAT(T0.f, 3)                    averageDailyComplete,
+               FORMAT(T0.g, 3)                    averageDailyBingeWatching,
+               date_format(T0.period, '%Y-%m-%d') periods,
+               T0.period                          period,
+               T0.e                               days,
+               round(avg(T3.score), 2)            averageScoreBingeWatching,
+               round(avg(T2.score), 2)            averageScoreComplete
+        from (select T1.id
+                   , T1.spid
+                   , T1.period_name
+                   , T1.complete_amount
+                   , T1.binge_watching_amount
+                   , T1.period
+                   , T1.sp
+                   , T1.deleted
+                   , T1.c
+                   , T1.d
+                   , T1.e
+                   , T1.x
+                   , T1.y
+                   , T1.f
+                   , T1.g
 
-        from (select t1.id,t1.spid
-        , t1.period_name
-        , t1.complete_amount
-        , t1.binge_watching_amount
-        , t1.period
-        , t1.sp
-        , t1.deleted
-        , t1.c
-        , t1.d
-        , t1.e
-        , t1.x
-        , t1.y
-        /*, concat(truncate((t1.c - t2.c) / t2.c * 100, 2), '%') h
-        , concat(truncate((t1.d - t2.d) / t2.d * 100, 2), '%') i*/
-        , ifnull(t1.c / t1.e, 0) f
-        , ifnull(t1.d / t1.e, 0) g
+              from (select t1.id
+                         , t1.spid
+                         , t1.period_name
+                         , t1.complete_amount
+                         , t1.binge_watching_amount
+                         , t1.period
+                         , t1.sp
+                         , t1.deleted
+                         , t1.c
+                         , t1.d
+                         , t1.e
+                         , t1.x
+                         , t1.y
+                         , ifnull(t1.c / t1.e, 0) f
+                         , ifnull(t1.d / t1.e, 0) g
 
-        from (select id,spid,
-        period_name,
-        complete_amount,
-        binge_watching_amount,
-        period,sp,deleted,
-        ifnull((select complete_amount from anime_period b where sp = 1 and b.spid = a.spid - 1), 0) x,
-        ifnull((select binge_watching_amount from anime_period b where sp = 1 and b.spid = a.spid - 1),
-        0)                                                                                    y,
-        (complete_amount - 8)                                                               as       c,
-        (binge_watching_amount -
-        8)                                                                                 as       d,
-        (datediff(period, (select period from anime_period b where sp = 1 and b.spid = 1))) as       e
-        from anime_period a
-        where sp = 1) t1,
-        (select id,spid,
-        period_name,
-        complete_amount,
-        binge_watching_amount,
-                period,sp,deleted,
-        ifnull((select complete_amount from anime_period b where sp = 1 and b.spid = a.spid - 1), 0) x,
-        ifnull((select binge_watching_amount from anime_period b where sp = 1 and b.spid = a.spid - 1),
-        0)                                                                                    y,
-        (complete_amount -
-        8)                                                                                 as       c,
-        (binge_watching_amount -
-        8)                                                                                 as       d,
-        (datediff(period, (select period from anime_period b where sp = 1 and b.spid = 1))) as       e
-        from anime_period a
-        where sp = 1) t2
-        where t1.spid = 1 and t2.spid = 1
-        or t2.spid = t1.spid - 1
-        ORDER BY t1.spid) T1,
-        (select t1.id,t1.spid
-        , t1.period_name
-        , t1.complete_amount
-        , t1.binge_watching_amount
-        , t1.period
-                     , t1.sp
-                     , t1.deleted
-        , t1.c
-        , t1.d
-        , t1.e
-        , t1.x
-        , t1.y
-        , concat(truncate((t1.c - t2.c) / t2.c * 100, 2), '%')
-        , concat(truncate((t1.d - t2.d) / t2.d * 100, 2), '%')
-        , ifnull(t1.c / t1.e, 0) f
-        , ifnull(t1.d / t1.e, 0) g
+                    from (select A.id,
+                                 A.spid,
+                                 A.period_name,
+                                 A.complete_amount,
+                                 A.binge_watching_amount,
+                                 A.period,
+                                 A.sp,
+                                 A.deleted,
+                                 ifnull((select P.complete_amount where P.spid = A.spid - 1), 0)       as x,
+                                 ifnull((select P.binge_watching_amount where P.spid = A.spid - 1), 0) as y,
+                                 (A.complete_amount - 8)                                               as c,
+                                 (A.binge_watching_amount - 8)                                         as d,
+                                 (datediff(A.period, '2017-11-03'))                                    as e
+                          from ((select p.id,
+                                        p.spid,
+                                        a.complete_id       complete_amount,
+                                        b.binge_watching_id binge_watching_amount,
+                                        p.period,
+                                        p.period_name,
+                                        p.sp,
+                                        p.deleted
+                                 from (anime_period p left join anime_main a on a.id = p.complete_amount_id)
+                                          left join anime_main b on b.id = p.binge_watching_amount_id
+                                 where sp = 1
+                                   and p.deleted = 0
+                                   and a.deleted = 0
+                                   and b.deleted = 0)) A
+                                   left join
+                               ((select p.id,
+                                        p.spid              spid,
+                                        a.complete_id       complete_amount,
+                                        b.binge_watching_id binge_watching_amount,
+                                        p.period
+                                 from (anime_period p left join anime_main a on a.id = p.complete_amount_id)
+                                          left join anime_main b on b.id = p.binge_watching_amount_id
+                                 where sp = 1
+                                   and p.deleted = 0
+                                   and a.deleted = 0
+                                   and b.deleted = 0)) P on P.spid = A.spid - 1) t1,
 
-        from (select id,spid,
-        period_name,
-        complete_amount,
-        binge_watching_amount,
-                     period,sp,deleted,
-        ifnull((select complete_amount from anime_period b where sp = 1 and b.spid = a.spid - 1), 0) x,
-        ifnull((select binge_watching_amount from anime_period b where sp = 1 and b.spid = a.spid - 1),
-        0)                                                                                    y,
-        (complete_amount -
-        ifnull((select complete_amount from anime_period b where sp = 1 and b.spid = a.spid - 1),
-        0))                                                                          as      c,
-        (binge_watching_amount -
-        ifnull((select binge_watching_amount
-        from anime_period b
-        where sp = 1
-        and b.spid = a.spid - 1),
-        0))                                                                          as      d,
-        (datediff(period,
-        (select period from anime_period b where sp = 1 and b.spid = a.spid - 1))) as      e
-        from anime_period a
-        where sp = 1) t1,
-        (select id,spid,
-        period_name,
-        complete_amount,
-        binge_watching_amount,
-                period,sp,deleted,
-        ifnull((select complete_amount from anime_period b where sp = 1 and b.spid = a.spid - 1), 0) x,
-        ifnull((select binge_watching_amount from anime_period b where sp = 1 and b.spid = a.spid - 1),
-        0)                                                                                    y,
-        (complete_amount -
-        ifnull((select complete_amount from anime_period b where sp = 1 and b.spid = a.spid - 1),
-        0))                                                                          as      c,
-        (binge_watching_amount -
-        ifnull((select binge_watching_amount
-        from anime_period b
-        where sp = 1
-        and b.spid = a.spid - 1),
-        0))                                                                          as      d,
-        (datediff(period,
-        (select period from anime_period b where sp = 1 and b.spid = a.spid - 1))) as      e
-        from anime_period a
-        where sp = 1) t2
-        where t1.spid = 1 and t2.spid = 1
-        or t2.spid = t1.spid - 1
-        ORDER BY t1.spid) T4
-        where T1.spid = 1 AND T4.spid = 1
-        OR T4.spid = T1.spid - 1
-        ORDER BY T1.spid) T0,
-        anime_main T2,
-        anime_main T3
-        where IF(spid = 1, T2.complete_id &gt;= 1
-        and T2.complete_id &lt;= 8
-        and T3.binge_watching_id &gt;= 1
-        and T3.binge_watching_id &lt;= 8, T2.complete_id &gt; 8
-        and T2.complete_id &lt;= T0.complete_amount
-        and T3.binge_watching_id &gt; 8
-        and T3.binge_watching_id &lt;= T0.binge_watching_amount)
+                         (select A.id,
+                                 A.spid,
+                                 A.period_name,
+                                 A.complete_amount,
+                                 A.binge_watching_amount,
+                                 A.period,
+                                 A.sp,
+                                 A.deleted,
+                                 ifnull((select P.complete_amount where P.spid = A.spid - 1), 0)       as x,
+                                 ifnull((select P.binge_watching_amount where P.spid = A.spid - 1), 0) as y,
+                                 (A.complete_amount - 8)                                               as c,
+                                 (A.binge_watching_amount - 8)                                         as d,
+                                 (datediff(A.period, '2017-11-03'))                                    as e
+                          from ((select p.id,
+                                        p.spid,
+                                        a.complete_id       complete_amount,
+                                        b.binge_watching_id binge_watching_amount,
+                                        p.period,
+                                        p.period_name,
+                                        p.sp,
+                                        p.deleted
+                                 from (anime_period p left join anime_main a on a.id = p.complete_amount_id)
+                                          left join anime_main b on b.id = p.binge_watching_amount_id
+                                 where sp = 1
+                                   and p.deleted = 0
+                                   and a.deleted = 0
+                                   and b.deleted = 0)) A
+                                   left join
+                               ((select p.id,
+                                        p.spid              spid,
+                                        a.complete_id       complete_amount,
+                                        b.binge_watching_id binge_watching_amount,
+                                        p.period
+                                 from (anime_period p left join anime_main a on a.id = p.complete_amount_id)
+                                          left join anime_main b on b.id = p.binge_watching_amount_id
+                                 where sp = 1
+                                   and p.deleted = 0
+                                   and a.deleted = 0
+                                   and b.deleted = 0)) P on P.spid = A.spid - 1) t2
+                    where t1.spid = 1 and t2.spid = 1
+                       or t2.spid = t1.spid - 1
+                    ORDER BY t1.spid) T1,
+                   (select t1.id
+                         , t1.spid
+                         , t1.period_name
+                         , t1.complete_amount
+                         , t1.binge_watching_amount
+                         , t1.period
+                         , t1.sp
+                         , t1.deleted
+                         , t1.c
+                         , t1.d
+                         , t1.e
+                         , t1.x
+                         , t1.y
+                         , ifnull(t1.c / t1.e, 0) f
+                         , ifnull(t1.d / t1.e, 0) g
+
+                    from (select A.id,
+                                 A.spid,
+                                 A.period_name,
+                                 A.complete_amount,
+                                 A.binge_watching_amount,
+                                 A.period,
+                                 A.sp,
+                                 A.deleted,
+                                 ifnull((select P.complete_amount where P.spid = A.spid - 1), 0)       as x,
+                                 ifnull((select P.binge_watching_amount where P.spid = A.spid - 1), 0) as y,
+                                 (A.complete_amount - 8)                                               as c,
+                                 (A.binge_watching_amount - 8)                                         as d,
+                                 (datediff(A.period, '2017-11-03'))                                    as e
+                          from ((select p.id,
+                                        p.spid,
+                                        a.complete_id       complete_amount,
+                                        b.binge_watching_id binge_watching_amount,
+                                        p.period,
+                                        p.period_name,
+                                        p.sp,
+                                        p.deleted
+                                 from (anime_period p left join anime_main a on a.id = p.complete_amount_id)
+                                          left join anime_main b on b.id = p.binge_watching_amount_id
+                                 where sp = 1
+                                   and p.deleted = 0
+                                   and a.deleted = 0
+                                   and b.deleted = 0)) A
+                                   left join
+                               ((select p.id,
+                                        p.spid              spid,
+                                        a.complete_id       complete_amount,
+                                        b.binge_watching_id binge_watching_amount,
+                                        p.period
+                                 from (anime_period p left join anime_main a on a.id = p.complete_amount_id)
+                                          left join anime_main b on b.id = p.binge_watching_amount_id
+                                 where sp = 1
+                                   and p.deleted = 0
+                                   and a.deleted = 0
+                                   and b.deleted = 0)) P on P.spid = A.spid - 1) t1,
+                         (select A.id,
+                                 A.spid,
+                                 A.period_name,
+                                 A.complete_amount,
+                                 A.binge_watching_amount,
+                                 A.period,
+                                 A.sp,
+                                 A.deleted,
+                                 ifnull((select P.complete_amount where P.spid = A.spid - 1), 0)       as x,
+                                 ifnull((select P.binge_watching_amount where P.spid = A.spid - 1), 0) as y,
+                                 (A.complete_amount - 8)                                               as c,
+                                 (A.binge_watching_amount - 8)                                         as d,
+                                 (datediff(A.period, '2017-11-03'))                                    as e
+                          from ((select p.id,
+                                        p.spid,
+                                        a.complete_id       complete_amount,
+                                        b.binge_watching_id binge_watching_amount,
+                                        p.period,
+                                        p.period_name,
+                                        p.sp,
+                                        p.deleted
+                                 from (anime_period p left join anime_main a on a.id = p.complete_amount_id)
+                                          left join anime_main b on b.id = p.binge_watching_amount_id
+                                 where sp = 1
+                                   and p.deleted = 0
+                                   and a.deleted = 0
+                                   and b.deleted = 0)) A
+                                   left join
+                               ((select p.id,
+                                        p.spid              spid,
+                                        a.complete_id       complete_amount,
+                                        b.binge_watching_id binge_watching_amount,
+                                        p.period
+                                 from (anime_period p left join anime_main a on a.id = p.complete_amount_id)
+                                          left join anime_main b on b.id = p.binge_watching_amount_id
+                                 where sp = 1
+                                   and p.deleted = 0
+                                   and a.deleted = 0
+                                   and b.deleted = 0)) P on P.spid = A.spid - 1) t2
+                    where t1.spid = 1 and t2.spid = 1
+                       or t2.spid = t1.spid - 1
+                    ORDER BY t1.spid) T4
+              where T1.spid = 1 AND T4.spid = 1
+                 OR T4.spid = T1.spid - 1
+              ORDER BY T1.spid) T0,
+             anime_main T2,
+             anime_main T3
+        where IF(spid = 1,
+                 T2.complete_id &gt;= (select am.complete_id from anime_main am where id = 2)
+                     and T2.complete_id &lt; (select am.complete_id from anime_main am where id = 3)
+                     and T3.binge_watching_id &gt;= (select am.binge_watching_id from anime_main am where id = 2)
+                     and T3.binge_watching_id &lt;= (select am.binge_watching_id from anime_main am where id = 3),
+                 T2.complete_id &gt;= (select am.complete_id from anime_main am where id = 3)
+                     and T2.complete_id &lt;= T0.complete_amount
+                     and T3.binge_watching_id &gt;= (select am.complete_id from anime_main am where id = 3)
+                     and T3.binge_watching_id &lt;= T0.binge_watching_amount)
 
 
         group by T0.spid
