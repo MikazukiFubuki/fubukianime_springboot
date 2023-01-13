@@ -52,6 +52,12 @@ public class AnimePeriod implements Serializable {
     private Integer bingeWatchingAmount;
 
     /**
+     * 实际已补番数
+     */
+    @TableField(exist = false)
+    private Integer reCompleteAmount;
+
+    /**
      * 判断是否特殊时间点
      */
     @TableField("sp")

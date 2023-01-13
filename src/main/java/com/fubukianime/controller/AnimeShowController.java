@@ -21,6 +21,10 @@ public class AnimeShowController {
     @Autowired
     private AnimeShowService animeShowService;
 
+    @Autowired
+    private CacheManager cacheManager;
+
+    @Cacheable(value = "animeMainCache", key = "#root.methodName", unless = "#result == null")
     @GetMapping("/selectAnimeShow")
     public List<AnimeShow> selectAnimeShow(AnimeShow animeShow){
         List<AnimeShow> list = animeShowService.selectAnimeShow(animeShow);

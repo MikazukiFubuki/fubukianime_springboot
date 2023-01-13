@@ -33,7 +33,7 @@ public class AnimeQuarterController {
      * @param
      * @return
      */
-    @Cacheable(value = "animeQuarterCache", key = "#root.methodName", unless = "#result == null")
+    @Cacheable(value = "animeMainCache", key = "#root.methodName", unless = "#result == null")
     @GetMapping("/selectComQuarter")
     public R selectComQuarter(AnimeQuarter animeQuarter){
         List<AnimeQuarter> list = animeQuarterService.selectComQuarter(animeQuarter);
@@ -41,7 +41,7 @@ public class AnimeQuarterController {
     }
 
 
-    @Cacheable(value = "animeQuarterCache", key = "#root.methodName", unless = "#result == null")
+    @Cacheable(value = "animeMainCache", key = "#root.methodName", unless = "#result == null")
     @GetMapping("/selectComQuarterShow")
     public List<AnimeQuarter> selectComQuarterShow(AnimeQuarter animeQuarter){
         List<AnimeQuarter> list = animeQuarterService.selectComQuarter(animeQuarter);
@@ -50,7 +50,7 @@ public class AnimeQuarterController {
 
 
 
-    @CacheEvict(value = "animeQuarterCache", allEntries = true)
+    @CacheEvict(value = "animeMainCache", allEntries = true)
     @PostMapping("/addComQuarter")
     public R addComQuarter(@RequestBody AnimeQuarter animeQuarter) throws IOException {
         boolean flag = animeQuarterService.addComQuarter(animeQuarter);
