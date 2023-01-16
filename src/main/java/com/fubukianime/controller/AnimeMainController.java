@@ -321,4 +321,15 @@ public class AnimeMainController {
         return new R(flag, flag ? "修改成功^_^" : "修改失败-_-!");
     }
 
+    /**
+     * 动画播出跨年
+     * @param animeMain
+     */
+    @CacheEvict(value = "animeMainCache", allEntries = true)
+    @PutMapping("/overYear")
+    public R overYear(@RequestBody AnimeMain animeMain) throws IOException{
+        boolean flag = animeMainService.overYear(animeMain);
+        return new R(flag, flag ? "修改成功^_^" : "修改失败-_-!");
+    }
+
 }

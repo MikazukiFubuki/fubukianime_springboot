@@ -507,6 +507,16 @@ public class AnimeMainServiceImpl extends ServiceImpl<AnimeMainDao, AnimeMain> i
         return true;
     }
 
+    /**
+     * 动画播出跨年
+     * @param animeMain
+     * @return
+     */
+    @Override
+    public boolean overYear(AnimeMain animeMain){
+        animeMainDao.overYear(animeMain);
+        return true;
+    }
 
 
 

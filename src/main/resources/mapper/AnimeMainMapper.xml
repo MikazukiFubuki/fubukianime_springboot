@@ -512,6 +512,18 @@
         and deleted = 0;
     </update>
 
+    <!--动画播出跨年-->
+    <update id="overYear">
+        update anime_main a
+        <set>
+            <if test="broadcastEndYear != null and broadcastEndYear != ''">
+                a.broadcast_end_year = a.broadcast_end_year + 1
+            </if>
+        </set>
+        where id = #{id}
+        and deleted = 0;
+    </update>
+
 
     <!--
     - 查询区

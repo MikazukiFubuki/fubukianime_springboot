@@ -184,6 +184,13 @@ public interface AnimeMainService extends IService<AnimeMain> {
      */
     boolean updateOriginalEnd(AnimeMain animeMain);
 
+    /**
+     * 动画播出跨年
+     * @param animeMain
+     * @return
+     */
+    boolean overYear(AnimeMain animeMain);
+
 
 
 

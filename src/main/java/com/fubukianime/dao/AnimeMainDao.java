@@ -226,6 +226,13 @@ public interface AnimeMainDao extends BaseMapper<AnimeMain> {
     void updateOriginalEnd(AnimeMain animeMain);
 
 
+    /**
+     * 动画播出跨年
+     * @param animeMain
+     */
+    void overYear(AnimeMain animeMain);
+
+
 
 
 
