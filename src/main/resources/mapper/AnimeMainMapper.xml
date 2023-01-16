@@ -79,6 +79,7 @@
 
         from anime.anime_main T0,
 
+            /*动画来源查询T2*/
              (select a.id                ID2,
                      b.source            source1,
                      c.source            source2,
@@ -87,21 +88,17 @@
                                d.source) source
               from ((anime.anime_main a
                   left join anime.anime_source b
-                  on a.source_1 = b.id
-                      or ifnull(a.source_1, 26) = b.id)
+                     on a.source_1 = b.id and b.deleted = 0)
+
                   left join anime.anime_source c
-                  on a.source_2 = c.id
-                      or ifnull(a.source_2, 26) = c.id)
+                    on a.source_2 = c.id
+                        and c.deleted = 0)
                        left join anime.anime_source d
                                  on a.source_3 = d.id
-                                     or ifnull(a.source_3, 26) = d.id
-              WHERE a.deleted = 0
-                and b.deleted = 0
-                and c.deleted = 0
-                and d.deleted = 0
-              group by a.id
-             ) as T2,
+                                     and d.deleted = 0
+              WHERE a.deleted = 0) as T2,
 
+            /*动画限制级、恋爱类型、主角类型、动画结局、原作结局、追番类型、创作类型、状态查询T1*/
              (select a.id as ID1,
                      b.sex_limit,
                      c.love,
@@ -113,93 +110,80 @@
                      k.status
               from (((((((anime.anime_main a
                   left join anime.anime_sexlimit b
-                  on a.sex_limit = b.id
-                      or ifnull(a.sex_limit, 6) = b.id)
+                          on a.sex_limit = b.id and b.deleted = 0)
                   left join anime.anime_love c
-                  on a.love = c.id
-                      or ifnull(a.love, 12) = c.id)
+                         on a.love = c.id and c.deleted = 0)
                   left join anime.anime_leadergender d
-                  on a.leader_gender = d.id
-                      or ifnull(a.leader_gender, 12) = d.id)
+                        on a.leader_gender = d.id and d.deleted = 0)
                   left join anime.anime_animationend e
-                  on a.animation_end = e.id
-                      or ifnull(a.animation_end, 5) = e.id)
+                       on a.animation_end = e.id and e.deleted = 0)
                   left join anime.anime_originalend f
-                  on a.original_end = f.id
-                      or ifnull(a.original_end, 8) = f.id)
+                      on a.original_end = f.id and f.deleted = 0)
                   left join anime.anime_bingewatchingtype g
-                  on a.binge_watching_type = g.id
-                      or ifnull(a.binge_watching_type, 6) = g.id)
+                     on a.binge_watching_type = g.id and g.deleted = 0)
                   left join anime.anime_create j
-                  on a.`create` = j.id)
+                    on a.`create` = j.id and j.deleted = 0)
                        left join anime_status k
-                                 on a.status = k.id
+                                 on a.status = k.id and k.deleted = 0
               WHERE a.deleted = 0
-
               group by a.id
               order by a.id asc) as T1,
 
-
+            /*动画类型查询T3*/
              (select a.id ID3, b.type type1, c.type type2, d.type type3, concat_ws('-', b.type, c.type, d.type) type
               from ((anime.anime_main a
                   left join anime.anime_type b
-                  on a.type_1 = b.id
-                      or ifnull(a.type_1, 127) = b.id)
+                     on a.type_1 = b.id and b.deleted = 0)
                   left join anime.anime_type c
-                  on a.type_2 = c.id
-                      or ifnull(a.type_2, 127) = c.id)
+                    on a.type_2 = c.id and c.deleted = 0)
                        left join anime.anime_type d
-                                 on a.type_3 = d.id
-                                     or ifnull(a.type_3, 127) = d.id
+                                 on a.type_3 = d.id and d.deleted = 0
               WHERE a.deleted = 0
-                and b.deleted = 0
-                and c.deleted = 0
-                and d.deleted = 0
               group by a.id) as T3,
 
+            /*动画形式查询T4*/
              (select layout_id ID4, group_concat(t3.layout separator '、') layout
               from (select t1.id,
                            t1.layout_id,
                            concat_ws('', t1.another_name, t2.layout_type,
                                      if(isnull(t1.quarter_num) = 1, '', concat(t1.quarter_num, '季')),
                                      if(isnull(t1.episodes) = 1, '', concat(t1.episodes, '集'))) as layout
-                    from anime_layout t1
-                             left join anime_layout_type t2
-                                       on t1.layout_type_id = t2.id
-                                           or ifnull(t1.layout_type_id, 16) = t2.id
+                    from anime_layout t1 left join anime_layout_type t2
+                                                   on t1.layout_type_id = t2.id and t2.deleted = 0
                     WHERE t1.deleted = 0
-                      and t2.deleted = 0
+
                     order by t1.layout_id) as t3
               group by t3.layout_id) as T4,
 
+            /*动画播出总时间、开始时间、结束时间查询T5*/
              (select t1.id                                   ID5,
                      if(t2.year = t3.year, t2.year,
-                        concat_ws('-', t2.year, t3.year)) AS broadcastYear,
+                        concat_ws('~', t2.year, t3.year)) AS broadcastYear,
                      t2.year                                 broadcastStartYear,
                      t3.year                                 broadcastEndYear
               from (anime_main t1
                   left join anime.anime_year t2
-                  on t1.broadcast_start_year = t2.id or ifnull(t1.broadcast_start_year, 102) = t2.id)
+                    on t1.broadcast_start_year = t2.id and t2.deleted = 0)
                        left join anime_year t3
-                                 on t1.broadcast_end_year = t3.id or ifnull(t1.broadcast_end_year, 102) = t3.id
-              where t1.deleted = 0
-             ) as T5,
-
+                                 on t1.broadcast_end_year = t3.id and t3.deleted = 0
+              where t1.deleted = 0) as T5,
+            /*动画追番开始年季、追番结束年季查询T6*/
              (select t1.id                                    ID6,
                      t2.year                                  bingeWatchingYear,
                      t3.year                                  completeYear,
                      concat_ws('', t2.year, t4.quarter_CN) as bingeWatchingQuarter,
                      concat_ws('', t3.year, t5.quarter_CN) as completeQuarter
               from (((anime_main t1
-                  left join anime_year t2 on t1.binge_watching_year = t2.id or
-                                             ifnull(t1.binge_watching_year, 102) = t2.id)
-                  left join anime_year t3 on t1.complete_year = t3.id or ifnull(t1.complete_year, 102) = t3.id)
-                  left join quarter t4 on t1.binge_watching_quarter = t4.id or ifnull(t1.binge_watching_quarter, 13) =
-                                                                               t4.id)
-                       left join quarter t5 on t1.complete_quarter = t5.id or ifnull(t1.complete_quarter, 13) = t5.id
+                  left join anime_year t2 on t1.binge_watching_year = t2.id and t2.deleted = 0)
+                  left join anime_year t3 on t1.complete_year = t3.id and t3.deleted = 0)
+                  left join quarter t4 on t1.binge_watching_quarter = t4.id)
+                       left join quarter t5 on t1.complete_quarter = t5.id
               where t1.deleted = 0) as T6
     </sql>
 
+    <!--
+    - 新增区
+    -->
     <!--新增动画-->
     <insert id="addAnime">
         insert into anime_main(name, score, source_1, source_2, source_3, layout_id, type_1, type_2, type_3, `create`,
@@ -207,25 +191,30 @@
                                favorite_heroine, animation_end, original_end, broadcast_start_year, broadcast_end_year,
                                binge_watching_type, binge_watching_year, complete_year, complete_quarter,
                                binge_watching_quarter, status, deleted)
-        values (#{name}, null, '26', '26', '26',
-                (select c.lid from (select max(b.layout_Id) lid from anime_main b where deleted = 0) c) + 1, '127',
-                '127', '127',
-                #{create}, null, null, null, '12', '6',
-                '4', '', '5', '8', '102', '102', '6', null, null, null, null, '1', '0')
+        values (#{name}, null, null, null, null,
+                (select c.lid from (select max(b.layout_Id) lid from anime_main b where deleted = 0) c) + 1, null,
+                null, null,
+                #{create}, null, null, null, null, null,
+                null, '', null, null, null, null, null, null, null, null, null, '1', '0')
     </insert>
+
     <!--随新增动画增加其对应形式-->
     <insert id="addAnimeLayout">
         insert into anime_layout(layout_id, layout_type_id, another_name, quarter_num, `episodes`, deleted)
-        values ((select c.lid from (select max(b.layout_Id) lid from anime_layout b where deleted = 0) c) + 1, '16', '',
+        values ((select c.lid from (select max(b.layout_Id) lid from anime_layout b where deleted = 0) c) + 1, null, '',
                 null, null, '0')
     </insert>
+
     <!--在已有动画上增加对应形式-->
     <insert id="addAnimeLayoutById">
         insert into anime_layout(layout_id, layout_type_id, another_name, quarter_num, `episodes`, deleted)
-        values ((select a.layout_Id from anime_main a where a.id = #{id} and deleted = 0), '16', '', null, null, '0')
+        values ((select a.layout_Id from anime_main a where a.id = #{id} and deleted = 0), null, '', null, null, '0')
     </insert>
 
 
+    <!--
+    - 修改区
+    -->
     <!--开始追番，修改动画信息-->
     <update id="startAnime">
         update anime_main a
@@ -265,6 +254,7 @@
         where id = #{id}
         and deleted = 0;
     </update>
+
     <!--新增动画来源-->
     <update id="addSource">
         update anime_main a
@@ -350,6 +340,7 @@
         where a.id = #{id}
         and deleted = 0;
     </update>
+
     <!--番剧重温-->
     <update id="reviewAnime">
         update anime_main a
@@ -359,6 +350,7 @@
         where id = #{id}
         and deleted = 0;
     </update>
+
     <!--对已追动画修改它的形式-->
     <update id="saveLayout">
         update anime_layout a
@@ -378,6 +370,7 @@
         </set>
         where layout_id = #{layoutId} and id = #{id} and deleted = 0;
     </update>
+
     <!--对已追动画追更一集-->
     <update id="chasingAPlay">
         update anime_layout a
@@ -388,6 +381,7 @@
         </set>
         where layout_id = #{layoutId} and id = #{id} and deleted = 0;
     </update>
+
     <!--根据id修改补番序号-->
     <update id="updateCompleteId">
         update anime_main a
@@ -398,6 +392,7 @@
         </set>
         where id = #{id} and deleted = 0;
     </update>
+
     <!--根据id修改追番序号-->
     <update id="updateBingeWatchingId">
         update anime_main a
@@ -408,6 +403,7 @@
         </set>
         where id = #{id} and deleted = 0;
     </update>
+
     <!--根据id修改重温序号-->
     <update id="updateReviewId">
         update anime_main a
@@ -418,12 +414,14 @@
         </set>
         where id = #{id} and deleted = 0;
     </update>
+
     <!--删除某一动画同时，让其形式对应id的deleted改为1-->
     <update id="deleteAnimeLayout">
         update anime_layout a
         set deleted = 1
         where layout_id = #{layoutId};
     </update>
+
     <!--修改动画全部信息-->
     <update id="updateAnime">
         update anime_main a
@@ -501,6 +499,7 @@
         where id = #{id}
         and deleted = 0;
     </update>
+
     <!--动画原作完结-->
     <update id="updateOriginalEnd">
         update anime_main a
@@ -514,6 +513,9 @@
     </update>
 
 
+    <!--
+    - 查询区
+    -->
     <!--查询全部并分页-->
     <select id="selectMainAll" resultType="com.fubukianime.domain.AnimeMain">
         <include refid="selectAllAnime"></include>
@@ -652,7 +654,9 @@
         T6.completeQuarter,
         T1.status
 
-        from (select a.id,
+        from
+        /*根据评分、追番id、补番id、重温id范围查询T0*/
+        (select a.id,
         a.name,
         a.score,
         a.layout_id,
@@ -688,29 +692,26 @@
         </if>
         ) as T0,
 
-        (select a.id ID2,
-        b.source source1,
-        c.source source2,
-        d.source source3,
+        /*动画来源查询T2*/
+        (select a.id                ID2,
+        b.source            source1,
+        c.source            source2,
+        d.source            source3,
         concat_ws('-', b.source, c.source,
         d.source) source
         from ((anime.anime_main a
         left join anime.anime_source b
-        on a.source_1 = b.id
-        or ifnull(a.source_1, 26) = b.id)
+        on a.source_1 = b.id and b.deleted = 0)
+
         left join anime.anime_source c
         on a.source_2 = c.id
-        or ifnull(a.source_2, 26) = c.id)
+        and c.deleted = 0)
         left join anime.anime_source d
         on a.source_3 = d.id
-        or ifnull(a.source_3, 26) = d.id
-        WHERE a.deleted = 0
-        and b.deleted = 0
-        and c.deleted = 0
         and d.deleted = 0
-        group by a.id
-        ) as T2,
+        WHERE a.deleted = 0) as T2,
 
+        /*动画限制级、恋爱类型、主角类型、动画结局、原作结局、追番类型、创作类型、状态查询T1*/
         (select a.id as ID1,
         b.sex_limit,
         c.love,
@@ -722,75 +723,62 @@
         k.status
         from (((((((anime.anime_main a
         left join anime.anime_sexlimit b
-        on a.sex_limit = b.id
-        or ifnull(a.sex_limit, 6) = b.id)
+        on a.sex_limit = b.id and b.deleted = 0)
         left join anime.anime_love c
-        on a.love = c.id
-        or ifnull(a.love, 12) = c.id)
+        on a.love = c.id and c.deleted = 0)
         left join anime.anime_leadergender d
-        on a.leader_gender = d.id
-        or ifnull(a.leader_gender, 12) = d.id)
+        on a.leader_gender = d.id and d.deleted = 0)
         left join anime.anime_animationend e
-        on a.animation_end = e.id
-        or ifnull(a.animation_end, 5) = e.id)
+        on a.animation_end = e.id and e.deleted = 0)
         left join anime.anime_originalend f
-        on a.original_end = f.id
-        or ifnull(a.original_end, 8) = f.id)
+        on a.original_end = f.id and f.deleted = 0)
         left join anime.anime_bingewatchingtype g
-        on a.binge_watching_type = g.id
-        or ifnull(a.binge_watching_type, 6) = g.id)
+        on a.binge_watching_type = g.id and g.deleted = 0)
         left join anime.anime_create j
-        on a.`create` = j.id)
+        on a.`create` = j.id and j.deleted = 0)
         left join anime_status k
-        on a.status = k.id
+        on a.status = k.id and k.deleted = 0
         WHERE a.deleted = 0
-
-
         group by a.id
         order by a.id asc) as T1,
 
 
+        /*动画类型查询T3*/
         (select a.id ID3, b.type type1, c.type type2, d.type type3, concat_ws('-', b.type, c.type, d.type) type
         from ((anime.anime_main a
         left join anime.anime_type b
-        on a.type_1 = b.id
-        or ifnull(a.type_1, 127) = b.id)
+        on a.type_1 = b.id and b.deleted = 0)
         left join anime.anime_type c
-        on a.type_2 = c.id
-        or ifnull(a.type_2, 127) = c.id)
+        on a.type_2 = c.id and c.deleted = 0)
         left join anime.anime_type d
-        on a.type_3 = d.id
-        or ifnull(a.type_3, 127) = d.id
+        on a.type_3 = d.id and d.deleted = 0
         WHERE a.deleted = 0
-        and b.deleted = 0
-        and c.deleted = 0
-        and d.deleted = 0
         group by a.id) as T3,
 
+        /*动画形式查询T4*/
         (select layout_id ID4, group_concat(t3.layout separator '、') layout
         from (select t1.id,
         t1.layout_id,
         concat_ws('', t1.another_name, t2.layout_type,
         if(isnull(t1.quarter_num) = 1, '', concat(t1.quarter_num, '季')),
         if(isnull(t1.episodes) = 1, '', concat(t1.episodes, '集'))) as layout
-        from anime_layout t1
-        left join anime_layout_type t2
-        on t1.layout_type_id = t2.id
-        or ifnull(t1.layout_type_id, 16) = t2.id
+        from anime_layout t1 left join anime_layout_type t2
+        on t1.layout_type_id = t2.id and t2.deleted = 0
         WHERE t1.deleted = 0
-        and t2.deleted = 0
+
         order by t1.layout_id) as t3
         group by t3.layout_id) as T4,
 
+        /*根据动画播出开始结束年时间范围查询T5*/
         (select t1.id ID5,
         if(t2.year = t3.year, t2.year,
-        concat_ws('-', t2.year, t3.year)) AS broadcastYear,
+        concat_ws('~', t2.year, t3.year)) AS broadcastYear,
         t2.year broadcastStartYear,
         t3.year broadcastEndYear
         from (anime_main t1
         left join anime.anime_year t2
-        on t1.broadcast_start_year = t2.id or ifnull(t1.broadcast_start_year, 102) = t2.id)
-        left join anime_year t3 on t1.broadcast_end_year = t3.id or ifnull(t1.broadcast_end_year, 102) = t3.id
+        on t1.broadcast_start_year = t2.id and t2.deleted = 0)
+        left join anime_year t3 on t1.broadcast_end_year = t3.id and t3.deleted = 0
         where t1.deleted = 0
         <if test="broadcastStartYear != null and broadcastStartYear != ''">
             and t2.year &gt;= #{broadcastStartYear}
@@ -806,17 +794,17 @@
         </if>
         ) as T5,
 
+        /*根据动画追番开始年季、追番结束年季时间范围查询T6*/
         (select t1.id ID6,
         t2.year bingeWatchingYear,
         t3.year completeYear,
         concat_ws('', t2.year, t4.quarter_CN) as bingeWatchingQuarter,
         concat_ws('', t3.year, t5.quarter_CN) as completeQuarter
         from (((anime_main t1
-        left join anime_year t2 on t1.binge_watching_year = t2.id or ifnull(t1.binge_watching_year, 102) = t2.id)
-        left join anime_year t3 on t1.complete_year = t3.id or ifnull(t1.complete_year, 102) = t3.id)
-        left join quarter t4 on t1.binge_watching_quarter = t4.id or ifnull(t1.binge_watching_quarter, 13) =
-        t4.id)
-        left join quarter t5 on t1.complete_quarter = t5.id or ifnull(t1.complete_quarter, 13) = t5.id
+        left join anime_year t2 on t1.binge_watching_year = t2.id and t2.deleted = 0)
+        left join anime_year t3 on t1.complete_year = t3.id and t3.deleted = 0)
+        left join quarter t4 on t1.binge_watching_quarter = t4.id)
+        left join quarter t5 on t1.complete_quarter = t5.id
         where t1.deleted = 0
         <if test="bingeWatchingYear != null and bingeWatchingYear != '' and bingeWatchingQuarter != null and bingeWatchingQuarter != ''">
             and if(t2.year = #{bingeWatchingYear}, t4.quarter &gt;= #{bingeWatchingQuarter}, t2.year &gt;
@@ -872,10 +860,10 @@
              anime_main T2,
              (select a.id          ID2,
                      b.layout_type layoutTypeId
-              from (anime.anime_layout a
+              from anime.anime_layout a
                        left join anime.anime_layout_type b
-                                 on a.layout_type_id = b.id
-                                     or ifnull(a.layout_type_id, 16) = b.id )
+                                 on a.layout_type_id = b.id and b.deleted = 0
+              where a.deleted = 0
               group by a.id
              ) as T1
 
@@ -903,8 +891,8 @@
                      a.layout_id
               from (anime.anime_layout a
                        left join anime.anime_layout_type b
-                                 on a.layout_type_id = b.id
-                                     or ifnull(a.layout_type_id, 16) = b.id)
+                                 on a.layout_type_id = b.id and b.deleted = 0)
+              where a.deleted = 0
               group by a.id
              ) as T1
 
@@ -988,17 +976,5 @@
         where deleted = 0
     </select>
 
-    <!--固定几个需要查询的字段-->
-    <!--<sql id="Base_Column_List">
-        id,name,score,
-        source_1,source_2,source_3,
-        type_1,type_2,type_3,
-        complete_id,binge_watching_type,original_end,
-        status,broadcast_end_year,favorite_heroine,
-        binge_watching_id,create,sex_limit,
-        complete_quarter,binge_watching_quarter,broadcast_start_year,
-        animation_end,leader_gender,review_id,
-        love,layout_id
-    </sql>-->
 </mapper>
 

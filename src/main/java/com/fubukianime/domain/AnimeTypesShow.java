@@ -8,6 +8,14 @@ import java.io.Serializable;
 @Data
 public class AnimeTypesShow implements Serializable {
 
+    private static final long serialVersionUID = 8827235867366993400L;
+
+    /**
+     * 类型ID
+     */
+    @TableField(exist = false)
+    private Integer id;
+
     /**
      * 类型细目名
      */

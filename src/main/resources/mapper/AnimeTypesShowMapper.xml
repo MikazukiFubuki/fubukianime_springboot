@@ -6,7 +6,7 @@
 
     <!--查询来源信息-->
     <select id="selectSourceShow" resultType="com.fubukianime.domain.AnimeTypesShow">
-        select IF(T2.source = '', '未定', T2.source) typesName, count(T1.source) typesNum
+        select T2.id, T2.source typesName, count(T1.source) typesNum
         from (select source_1 source
               from anime_main
               union all
@@ -22,7 +22,7 @@
 
     <!--查询类型信息-->
     <select id="selectTypeShow" resultType="com.fubukianime.domain.AnimeTypesShow">
-        select IF(T2.type = '', '未定', T2.type) typesName, count(T1.type) typesNum
+        select T2.id, T2.type typesName, count(T1.type) typesNum
         from (select type_1 type
               from anime_main
               union all
@@ -38,7 +38,7 @@
 
     <!--查询恋爱信息-->
     <select id="selectLoveShow" resultType="com.fubukianime.domain.AnimeTypesShow">
-        SELECT IF(T2.love = '', '未定', T2.love) typesName, count(T1.love) typesNum
+        SELECT T2.id, T2.love typesName, count(T1.love) typesNum
         FROM anime_main T1
                  join anime_love T2 ON T1.love = T2.id
         GROUP BY T1.love
@@ -47,7 +47,7 @@
 
     <!--查询工口信息-->
     <select id="selectSexLimitShow" resultType="com.fubukianime.domain.AnimeTypesShow">
-        SELECT IF(T2.sex_limit = '', '未定', T2.sex_limit) typesName, count(T1.sex_limit) typesNum
+        SELECT T2.id, T2.sex_limit typesName, count(T1.sex_limit) typesNum
         FROM anime_main T1
                  join anime_sexlimit T2 ON T1.sex_limit = T2.id
         GROUP BY T1.sex_limit
@@ -56,7 +56,7 @@
 
     <!--查询创作信息-->
     <select id="selectCreateShow" resultType="com.fubukianime.domain.AnimeTypesShow">
-        SELECT IF(T2.`create` = '', '未定', T2.`create`) typesName, count(T1.`create`) typesNum
+        SELECT T2.id, T2.`create` typesName, count(T1.`create`) typesNum
         FROM anime_main T1
                  join anime_create T2 ON T1.`create` = T2.id
         GROUP BY T1.`create`
@@ -65,7 +65,7 @@
 
     <!--查询主角信息-->
     <select id="selectLeaderGenderShow" resultType="com.fubukianime.domain.AnimeTypesShow">
-        SELECT IF(T2.leader_gender = '', '未定', T2.leader_gender) typesName, count(T1.leader_gender) typesNum
+        SELECT T2.id, T2.leader_gender typesName, count(T1.leader_gender) typesNum
         FROM anime_main T1
                  join anime_leadergender T2 ON T1.leader_gender = T2.id
         GROUP BY T1.leader_gender
@@ -74,7 +74,7 @@
 
     <!--查询动画结局信息-->
     <select id="selectAnimationEndShow" resultType="com.fubukianime.domain.AnimeTypesShow">
-        SELECT IF(T2.animation_end = '', '未定', T2.animation_end) typesName, count(T1.animation_end) typesNum
+        SELECT T2.id, T2.animation_end typesName, count(T1.animation_end) typesNum
         FROM anime_main T1
                  join anime_animationend T2 ON T1.animation_end = T2.id
         GROUP BY T1.animation_end
@@ -84,7 +84,7 @@
 
     <!--查询原作结局信息-->
     <select id="selectOriginalEndShow" resultType="com.fubukianime.domain.AnimeTypesShow">
-        SELECT IF(T2.original_end = '', '未定', T2.original_end) typesName, count(T1.original_end) typesNum
+        SELECT T2.id, T2.original_end typesName, count(T1.original_end) typesNum
         FROM anime_main T1
                  join anime_originalend T2 ON T1.original_end = T2.id
         GROUP BY T1.original_end

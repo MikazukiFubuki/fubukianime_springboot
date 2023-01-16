@@ -1,5 +1,6 @@
 package com.fubukianime.controller;
 
+import com.fubukianime.controller.utils.R;
 import com.fubukianime.domain.AnimeShow;
 import com.fubukianime.domain.AnimeTypesShow;
 import com.fubukianime.service.AnimeShowService;
@@ -27,6 +28,11 @@ public class AnimeTypesShowController {
     private CacheManager cacheManager;
 
 
+    /**
+     * 用于展示统计
+     * @param animeTypesShow
+     * @return
+     */
     @Cacheable(value = "animeSourceCache", key = "#root.methodName", unless = "#result == null")
     @GetMapping("/selectSourceShow")
     public List<AnimeTypesShow> selectSourceShow(AnimeTypesShow animeTypesShow) {
@@ -81,6 +87,68 @@ public class AnimeTypesShowController {
     public List<AnimeTypesShow> selectOriginalEndShow(AnimeTypesShow animeTypesShow) {
         List<AnimeTypesShow> list = animeTypesShowService.selectOriginalEndShow(animeTypesShow);
         return list;
+    }
+
+
+    /**
+     * 用于主表选择框
+     * @param animeTypesShow
+     * @return
+     */
+    @Cacheable(value = "animeSourceCache", key = "#root.methodName", unless = "#result == null")
+    @GetMapping("/selectSource")
+    public R selectSource(AnimeTypesShow animeTypesShow) {
+        List<AnimeTypesShow> list = animeTypesShowService.selectSourceShow(animeTypesShow);
+        return new R(true, list);
+    }
+
+    @Cacheable(value = "animeTypeCache", key = "#root.methodName", unless = "#result == null")
+    @GetMapping("/selectType")
+    public R selectType(AnimeTypesShow animeTypesShow) {
+        List<AnimeTypesShow> list = animeTypesShowService.selectTypeShow(animeTypesShow);
+        return new R(true, list);
+    }
+
+    @Cacheable(value = "animeLoveCache", key = "#root.methodName", unless = "#result == null")
+    @GetMapping("/selectLove")
+    public R selectLove(AnimeTypesShow animeTypesShow) {
+        List<AnimeTypesShow> list = animeTypesShowService.selectLoveShow(animeTypesShow);
+        return new R(true, list);
+    }
+
+    @Cacheable(value = "animeSexLimitCache", key = "#root.methodName", unless = "#result == null")
+    @GetMapping("/selectSexLimit")
+    public R selectSexLimit(AnimeTypesShow animeTypesShow) {
+        List<AnimeTypesShow> list = animeTypesShowService.selectSexLimitShow(animeTypesShow);
+        return new R(true, list);
+    }
+
+    @Cacheable(value = "animeCreateCache", key = "#root.methodName", unless = "#result == null")
+    @GetMapping("/selectCreate")
+    public R selectCreate(AnimeTypesShow animeTypesShow) {
+        List<AnimeTypesShow> list = animeTypesShowService.selectCreateShow(animeTypesShow);
+        return new R(true, list);
+    }
+
+    @Cacheable(value = "animeLeaderGenderCache", key = "#root.methodName", unless = "#result == null")
+    @GetMapping("/selectLeaderGender")
+    public R selectLeaderGender(AnimeTypesShow animeTypesShow) {
+        List<AnimeTypesShow> list = animeTypesShowService.selectLeaderGenderShow(animeTypesShow);
+        return new R(true, list);
+    }
+
+    @Cacheable(value = "animeAnimationEndCache", key = "#root.methodName", unless = "#result == null")
+    @GetMapping("/selectAnimationEnd")
+    public R selectAnimationEnd(AnimeTypesShow animeTypesShow) {
+        List<AnimeTypesShow> list = animeTypesShowService.selectAnimationEndShow(animeTypesShow);
+        return new R(true, list);
+    }
+
+    @Cacheable(value = "animeOriginalEndCache", key = "#root.methodName", unless = "#result == null")
+    @GetMapping("/selectOriginalEnd")
+    public R selectOriginalEnd(AnimeTypesShow animeTypesShow) {
+        List<AnimeTypesShow> list = animeTypesShowService.selectOriginalEndShow(animeTypesShow);
+        return new R(true, list);
     }
 
 
