@@ -145,7 +145,7 @@
              (select layout_id ID4, group_concat(t3.layout separator '、') layout
               from (select t1.id,
                            t1.layout_id,
-                           concat_ws('', t1.another_name, t2.layout_type,
+                           concat_ws('', t2.layout_type, t1.another_name,
                                      if(isnull(t1.quarter_num) = 1, '', concat(t1.quarter_num, '季')),
                                      if(isnull(t1.episodes) = 1, '', concat(t1.episodes, '集'))) as layout
                     from anime_layout t1 left join anime_layout_type t2
@@ -361,8 +361,14 @@
             <if test="anotherName != null and anotherName != ''">
                 a.another_name = #{anotherName},
             </if>
+            <if test="quarterNum = null and quarterNum = ''">
+                a.quarter_num = null,
+            </if>
             <if test="quarterNum != null and quarterNum != ''">
                 a.quarter_num = #{quarterNum},
+            </if>
+            <if test="episodes = null and episodes = ''">
+                a.episodes = null,
             </if>
             <if test="episodes != null and episodes != ''">
                 a.episodes = #{episodes},
@@ -771,7 +777,7 @@
         (select layout_id ID4, group_concat(t3.layout separator '、') layout
         from (select t1.id,
         t1.layout_id,
-        concat_ws('', t1.another_name, t2.layout_type,
+        concat_ws('', t2.layout_type, t1.another_name,
         if(isnull(t1.quarter_num) = 1, '', concat(t1.quarter_num, '季')),
         if(isnull(t1.episodes) = 1, '', concat(t1.episodes, '集'))) as layout
         from anime_layout t1 left join anime_layout_type t2
