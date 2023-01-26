@@ -361,15 +361,9 @@
             <if test="anotherName != null and anotherName != ''">
                 a.another_name = #{anotherName},
             </if>
-            <if test="quarterNum = null and quarterNum = ''">
-                a.quarter_num = null,
-            </if>
-            <if test="quarterNum != null and quarterNum != ''">
-                a.quarter_num = #{quarterNum},
-            </if>
-            <if test="episodes = null and episodes = ''">
-                a.episodes = null,
-            </if>
+
+            a.quarter_num = #{quarterNum},
+
             <if test="episodes != null and episodes != ''">
                 a.episodes = #{episodes},
             </if>
