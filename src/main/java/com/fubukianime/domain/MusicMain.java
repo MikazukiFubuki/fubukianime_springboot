@@ -18,8 +18,11 @@ public class MusicMain implements Serializable {
     @TableField("music_name")
     private String musicName;
 
-    @TableField("anime_name")
-    private String animeName;
+    @TableField("anime_id")
+    private String animeId;
+
+    @TableField("sp_name")
+    private String spName;
 
     @TableField("type")
     private String type;
@@ -53,6 +56,9 @@ public class MusicMain implements Serializable {
 
     @TableField(exist = false)
     private String bingeTime;
+
+    @TableField(exist = false)
+    private String animeName;
 
     @TableLogic(value="0",delval="1")
     //value为正常数据的值，delval为删除数据的值

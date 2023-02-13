@@ -8,9 +8,10 @@
     <!--查询信息-->
     <select id="selectMusicMain" resultType="com.fubukianime.domain.MusicMain">
         SELECT a.id,
-               a.mid mid,
+        a.mid mid,
         a.music_name musicName,
-        a.anime_name animeName,
+        a.sp_name spName,
+        if(e.name is null, a.sp_name, e.name) animeName,
         b.type type,
         a.time time,
         a.singer singer,
@@ -22,22 +23,20 @@
         a.year year,
         f.quarter_CN quarter,
         if(a.year is null and f.quarter_CN is null , '', concat(a.year, '年', f.quarter_CN)) bingeTime
-        from (((music_main a left join music_type b on a.type = b.id)
-        left join music_downloadtype c on a.download_type = c.id)
-        left join music_addtype d on a.add_type = d.id)
-        left join quarter f on a.quarter = f.id
+        from ((((music_main a left join music_type b on a.type = b.id and b.deleted = 0)
+        left join music_downloadtype c on a.download_type = c.id and c.deleted = 0)
+        left join music_addtype d on a.add_type = d.id and d.deleted = 0)
+        left join quarter f on a.quarter = f.id)
+        left join anime_main e on a.anime_id = e.id and e.deleted = 0
         where a.deleted = 0
-        and b.deleted = 0
-        and c.deleted = 0
-        and d.deleted = 0
         <if test="musicName != null and musicName != ''">
-            and a.music_name  like CONCAT('%',#{musicName} ,'%')
+            and a.music_name like CONCAT('%',#{musicName} ,'%')
         </if>
         <if test="mid != null and mid != ''">
-            and a.mid  like CONCAT('%',#{mid} ,'%')
+            and a.mid like CONCAT('%',#{mid} ,'%')
         </if>
         <if test="animeName != null and animeName != ''">
-            and a.anime_name like CONCAT('%',#{animeName} ,'%')
+            and if(e.name is null, a.sp_name like CONCAT('%',#{animeName} ,'%'), e.name like CONCAT('%',#{animeName} ,'%'))
         </if>
         <if test="type != null and type != ''">
             and a.type = #{type}
@@ -69,33 +68,34 @@
         <if test="quarter != null and quarter != ''">
             and a.quarter = #{quarter}
         </if>
+        order by mid
+
     </select>
 
     <!--查询信息-->
     <select id="selectMusicMainById" resultType="com.fubukianime.domain.MusicMain">
         SELECT a.id,
                a.mid mid,
-               a.music_name                                                                       musicName,
-               a.anime_name                                                                       animeName,
-               b.type                                                                             type,
-               a.time                                                                             time,
-               a.singer                                                                           singer,
-               a.score                                                                            score,
-               a.form                                                                             form,
-               a.source                                                                           source,
-               c.downloadType                                                                     downloadType,
-               d.addType                                                                          addType,
-               a.year                                                                             year,
-               f.quarter_CN                                                                       quarter,
-               if(a.year is null and f.quarter_CN is null, '', concat(a.year, '年', f.quarter_CN)) bingeTime
-        from (((music_main a left join music_type b on a.type = b.id)
-            left join music_downloadtype c on a.download_type = c.id)
-            left join music_addtype d on a.add_type = d.id)
-                 left join quarter f on a.quarter = f.id
+               a.music_name musicName,
+               a.sp_name spName,
+               if(e.name is null, a.sp_name, e.name) animeName,
+               b.type type,
+               a.time time,
+       a.singer singer,
+       a.score score,
+       a.form form,
+       a.source source,
+       c.downloadType downloadType,
+       d.addType addType,
+       a.year year,
+       f.quarter_CN quarter,
+       if(a.year is null and f.quarter_CN is null , '', concat(a.year, '年', f.quarter_CN)) bingeTime
+        from ((((music_main a left join music_type b on a.type = b.id and b.deleted = 0)
+            left join music_downloadtype c on a.download_type = c.id and c.deleted = 0)
+            left join music_addtype d on a.add_type = d.id and d.deleted = 0)
+            left join quarter f on a.quarter = f.id)
+            left join anime_main e on a.anime_id = e.id and e.deleted = 0
         where a.deleted = 0
-          and b.deleted = 0
-          and c.deleted = 0
-          and d.deleted = 0
           and a.id = #{id}
     </select>
 
@@ -118,13 +118,14 @@
     </select>
 
     <insert id="addMusicMain">
-        insert into music_main(mid,music_name,
-                               anime_name,
+        insert into music_main(mid, music_name,
+                               anime_id, sp_name,
                                type,
                                time,
                                singer, score, form, source, download_type, add_type, year, quarter, src,
                                deleted)
-        values ( (select b.mid from (select max(a.mid) mid from anime.music_main a where deleted = 0) b) + 1, #{musicName}, #{animeName},
+        values ((select b.mid from (select max(a.mid) mid from anime.music_main a where deleted = 0) b) + 1,
+                #{musicName}, #{animeId}, #{spName},
                 #{type}, null, #{singer}, null, null, null, 1,
                 #{addType}, #{year}, #{quarter}, null, 0)
     </insert>
@@ -135,8 +136,11 @@
             <if test="musicName != null and musicName != ''">
                 a.music_name = #{musicName},
             </if>
-            <if test="animeName != null and animeName != ''">
-                a.anime_name = #{animeName},
+
+                a.anime_id = #{animeId},
+
+            <if test="spName != null and spName != ''">
+                a.sp_name = #{spName},
             </if>
             <if test="type != null and type != ''">
                 a.type = #{type},
