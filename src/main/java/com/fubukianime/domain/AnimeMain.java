@@ -210,6 +210,12 @@ public class AnimeMain implements Serializable {
     @TableField(exist = false)
     private Integer modifyId;
 
+    /**
+     * 动画分数排位
+     */
+    @TableField(exist = false)
+    private Integer scoreRank;
+
     @TableLogic(value="0",delval="1")
     //value为正常数据的值，delval为删除数据的值
     private Integer deleted;

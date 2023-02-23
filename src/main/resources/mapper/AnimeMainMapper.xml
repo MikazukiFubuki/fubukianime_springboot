@@ -47,7 +47,7 @@
     <sql id="selectAllAnime">
         select T0.id,
                T0.name,
-               FORMAT(T0.score, 2)    score,
+               T0.score,
                T2.source1,
                T2.source2,
                T2.source3,
@@ -530,6 +530,44 @@
     -->
     <!--查询全部并分页-->
     <select id="selectMainAll" resultType="com.fubukianime.domain.AnimeMain">
+        select S.id,
+        name,
+        if(score is null, scoreRank is null , scoreRank)scoreRank,
+        score,
+        source1,
+        source2,
+        source3,
+        source,
+        layout,
+        type1,
+        type2,
+        type3,
+        type,
+        love,
+        sexLimit,
+        `create`,
+        bingeWatchingId,
+        completeId,
+        reviewId,
+        leaderGender,
+        favoriteHeroine,
+        animationEnd,
+        originalEnd,
+        broadcastStartYear,
+        broadcastEndYear,
+        broadcastYear,
+        bingeWatchingType,
+        bingeWatchingYear,
+        completeYear,
+        bingeWatchingQuarter,
+        completeQuarter,
+        status
+        from (select S1.*,
+        r.*,
+        IF(@Score = S1.score, @dense_rank := @dense_rank, @dense_rank := @dense_rank + 1) AS scoreRank,
+        @Score := S1.score
+        from (
+
         <include refid="selectAllAnime"></include>
 
         WHERE T2.ID2 = T0.id
@@ -539,11 +577,50 @@
         AND T5.ID5 = T0.id
         AND T6.ID6 = T0.id
         AND T0.deleted = 0
-        ORDER BY T0.score DESC, T0.id ASC
+        ORDER BY T0.score DESC, T0.id ASC) S1,
+        (select @Score := NULL, @dense_rank := 0) r
+        order by S1.score DESC) S
     </select>
 
     <!--条件模糊查询-->
     <select id="selectMainByCondition" parameterType="java.util.List" resultType="com.fubukianime.domain.AnimeMain">
+        select S.id,
+        name,
+        if(score is null, scoreRank is null , scoreRank)scoreRank,
+        score,
+        source1,
+        source2,
+        source3,
+        source,
+        layout,
+        type1,
+        type2,
+        type3,
+        type,
+        love,
+        sexLimit,
+        `create`,
+        bingeWatchingId,
+        completeId,
+        reviewId,
+        leaderGender,
+        favoriteHeroine,
+        animationEnd,
+        originalEnd,
+        broadcastStartYear,
+        broadcastEndYear,
+        broadcastYear,
+        bingeWatchingType,
+        bingeWatchingYear,
+        completeYear,
+        bingeWatchingQuarter,
+        completeQuarter,
+        status
+        from (select S1.*,
+        r.*,
+        IF(@Score = S1.score, @dense_rank := @dense_rank, @dense_rank := @dense_rank + 1) AS scoreRank,
+        @Score := S1.score
+        from (
         <include refid="selectAllAnime"></include>
 
         WHERE T2.ID2 = T0.id
@@ -628,12 +705,51 @@
             and T1.status = #{status}
         </if>
 
-        ORDER BY T0.score DESC ,T0.id ASC
+        ORDER BY T0.score DESC ,T0.id ASC) S1,
+        (select @Score := NULL, @dense_rank := 0) r
+        order by S1.score DESC) S
     </select>
 
     <!--追补番年季条件查询-->
     <select id="selectMainByYearQuarterCondition" parameterType="java.util.List"
             resultType="com.fubukianime.domain.AnimeMainQuery">
+        select S.id,
+        name,
+        if(score is null, scoreRank is null , scoreRank)scoreRank,
+        score,
+        source1,
+        source2,
+        source3,
+        source,
+        layout,
+        type1,
+        type2,
+        type3,
+        type,
+        love,
+        sexLimit,
+        `create`,
+        bingeWatchingId,
+        completeId,
+        reviewId,
+        leaderGender,
+        favoriteHeroine,
+        animationEnd,
+        originalEnd,
+        broadcastStartYear,
+        broadcastEndYear,
+        broadcastYear,
+        bingeWatchingType,
+        bingeWatchingYear,
+        completeYear,
+        bingeWatchingQuarter,
+        completeQuarter,
+        status
+        from (select S1.*,
+        r.*,
+        IF(@Score = S1.score, @dense_rank := @dense_rank, @dense_rank := @dense_rank + 1) AS scoreRank,
+        @Score := S1.score # 这里记得将子查询的值赋值
+        from (
         select T0.id,
         T0.name,
         FORMAT(T0.score, 2) score,
@@ -842,7 +958,9 @@
         AND T5.ID5 = T0.id
         AND T6.ID6 = T0.id
 
-        ORDER BY T0.score DESC ,T0.id ASC
+        ORDER BY T0.score DESC ,T0.id ASC) S1,
+        (select @Score := NULL, @dense_rank := 0) r
+        order by S1.score DESC) S
     </select>
 
     <!--根据id查询-->
