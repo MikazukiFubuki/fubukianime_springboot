@@ -577,7 +577,7 @@
         AND T5.ID5 = T0.id
         AND T6.ID6 = T0.id
         AND T0.deleted = 0
-        ORDER BY T0.score DESC, T0.id ASC) S1,
+        ORDER BY T0.score DESC, T0.binge_watching_id ASC) S1,
         (select @Score := NULL, @dense_rank := 0) r
         order by S1.score DESC) S
     </select>
@@ -705,7 +705,7 @@
             and T1.status = #{status}
         </if>
 
-        ORDER BY T0.score DESC ,T0.id ASC) S1,
+        ORDER BY T0.score DESC ,T0.binge_watching_id ASC) S1,
         (select @Score := NULL, @dense_rank := 0) r
         order by S1.score DESC) S
     </select>
@@ -958,7 +958,7 @@
         AND T5.ID5 = T0.id
         AND T6.ID6 = T0.id
 
-        ORDER BY T0.score DESC ,T0.id ASC) S1,
+        ORDER BY T0.score DESC ,T0.binge_watching_id ASC) S1,
         (select @Score := NULL, @dense_rank := 0) r
         order by S1.score DESC) S
     </select>
