@@ -15,6 +15,7 @@ import java.io.IOException;
 /**
  * 检查是否完成登录
  */
+
 @WebFilter(filterName = "loginCheckFilter", urlPatterns = "/*")
 @Slf4j
 public class LoginCheckFilter implements Filter {
@@ -73,11 +74,12 @@ public class LoginCheckFilter implements Filter {
 
     }
 
-    /**
+/**
      * 路径匹配，检查本次请求是否放行
      * @param requestURI
      * @return
      */
+
     public boolean check(String[] urls, String requestURI){
         for (String url : urls){
             boolean match = PATH_MATCHER.match(url, requestURI);

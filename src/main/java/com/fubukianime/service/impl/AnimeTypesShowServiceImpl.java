@@ -63,4 +63,48 @@ public class AnimeTypesShowServiceImpl extends ServiceImpl<AnimeTypesShowDao, An
         List<AnimeTypesShow> list = animeTypesShowDao.selectOriginalEndShow(animeTypesShow);
         return list;
     }
+
+    @Override
+    public List<AnimeTypesShow> selectLayoutTypeShow(AnimeTypesShow animeTypesShow) {
+        List<AnimeTypesShow> list = animeTypesShowDao.selectLayoutTypeShow(animeTypesShow);
+        return list;
+    }
+
+    @Override
+    public List<AnimeTypesShow> selectBingeWatchingTypeShow(AnimeTypesShow animeTypesShow) {
+        List<AnimeTypesShow> list = animeTypesShowDao.selectBingeWatchingTypeShow(animeTypesShow);
+        return list;
+    }
+
+    @Override
+    public List<AnimeTypesShow> selectStatusShow(AnimeTypesShow animeTypesShow) {
+        List<AnimeTypesShow> list = animeTypesShowDao.selectStatusShow(animeTypesShow);
+        return list;
+    }
+
+    @Override
+    public List<AnimeTypesShow> selectMusicTypeShow(AnimeTypesShow animeTypesShow) {
+        List<AnimeTypesShow> list = animeTypesShowDao.selectMusicTypeShow(animeTypesShow);
+        return list;
+    }
+
+    @Override
+    public List<AnimeTypesShow> selectScoreShow(AnimeTypesShow animeTypesShow) {
+        List<AnimeTypesShow> list = animeTypesShowDao.selectScoreShow(animeTypesShow);
+        return list;
+    }
+
+    @Override
+    public List<AnimeTypesShow> selectHAnimeTypeShow(AnimeTypesShow animeTypesShow) {
+        List<AnimeTypesShow> list = animeTypesShowDao.selectHAnimeTypeShow(animeTypesShow);
+        return list;
+    }
+
+    @Override
+    public List<AnimeTypesShow> selectDimensionalShow(AnimeTypesShow animeTypesShow) {
+        List<AnimeTypesShow> list = animeTypesShowDao.selectDimensionalShow(animeTypesShow);
+        return list;
+    }
+
+
 }

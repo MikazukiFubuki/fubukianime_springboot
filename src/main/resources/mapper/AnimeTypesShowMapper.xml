@@ -91,6 +91,67 @@
         ORDER BY count(T1.original_end) DESC;
     </select>
 
+    <!--查询形式信息-->
+    <select id="selectLayoutTypeShow" resultType="com.fubukianime.domain.AnimeTypesShow">
+        SELECT T2.id, T2.layout_type typesName, count(T1.layout_type_id) typesNum
+        FROM anime_layout T1
+                 join anime_layout_type T2 ON T1.layout_type_id = T2.id
+        GROUP BY T1.layout_type_id
+        ORDER BY count(T1.layout_type_id) DESC;
+    </select>
+
+    <!--查询追番情况信息-->
+    <select id="selectBingeWatchingTypeShow" resultType="com.fubukianime.domain.AnimeTypesShow">
+        SELECT T2.id, T2.binge_watching_type typesName, count(T1.binge_watching_type) typesNum
+        FROM anime_main T1
+                 join anime_bingewatchingtype T2 ON T1.binge_watching_type = T2.id
+        GROUP BY T1.binge_watching_type
+        ORDER BY count(T1.binge_watching_type) DESC;
+    </select>
+
+    <!--查询状态信息-->
+    <select id="selectStatusShow" resultType="com.fubukianime.domain.AnimeTypesShow">
+        SELECT T2.id, T2.status typesName, count(T1.status) typesNum
+        FROM anime_main T1
+                 join anime_status T2 ON T1.status = T2.id
+        GROUP BY T1.status
+        ORDER BY count(T1.status) DESC;
+    </select>
+
+    <!--查询音乐类型信息-->
+    <select id="selectMusicTypeShow" resultType="com.fubukianime.domain.AnimeTypesShow">
+        SELECT T2.id, T2.type typesName, count(T1.type) typesNum
+        FROM music_main T1
+                 join music_type T2 ON T1.type = T2.id
+        GROUP BY T1.type
+        ORDER BY count(T1.type) DESC;
+    </select>
+
+    <!--查询音乐评分信息-->
+    <select id="selectScoreShow" resultType="com.fubukianime.domain.AnimeTypesShow">
+        SELECT ifnull(T1.score, '未定') typesName, count(ifnull(T1.score, '未定')) typesNum
+        FROM music_main T1
+        GROUP BY ifnull(T1.score, '未定')
+        ORDER BY count(ifnull(T1.score, '未定')) DESC;
+    </select>
+
+    <!--查询H动漫类型信息-->
+    <select id="selectHAnimeTypeShow" resultType="com.fubukianime.domain.AnimeTypesShow">
+        SELECT T2.id, T2.type typesName, count(T1.type) typesNum
+        FROM hanime_main T1
+                 join hanime_type T2 ON T1.type = T2.id
+        GROUP BY T1.type
+        ORDER BY count(T1.type) DESC;
+    </select>
+
+    <!--查询H动漫维度信息-->
+    <select id="selectDimensionalShow" resultType="com.fubukianime.domain.AnimeTypesShow">
+        SELECT ifnull(T1.dimensional, '未定') typesName, count(ifnull(T1.dimensional, '未定')) typesNum
+        FROM hanime_main T1
+        GROUP BY ifnull(T1.dimensional, '未定')
+        ORDER BY count(ifnull(T1.dimensional, '未定')) DESC;
+    </select>
+
 
 
 

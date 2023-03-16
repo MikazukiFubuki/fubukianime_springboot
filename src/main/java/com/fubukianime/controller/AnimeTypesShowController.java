@@ -89,6 +89,55 @@ public class AnimeTypesShowController {
         return list;
     }
 
+    @Cacheable(value = "animeLayoutCache", key = "#root.methodName", unless = "#result == null")
+    @GetMapping("/selectLayoutTypeShow")
+    public List<AnimeTypesShow> selectLayoutTypeShow(AnimeTypesShow animeTypesShow) {
+        List<AnimeTypesShow> list = animeTypesShowService.selectLayoutTypeShow(animeTypesShow);
+        return list;
+    }
+
+    @Cacheable(value = "animeBingeWatchingTypeCache", key = "#root.methodName", unless = "#result == null")
+    @GetMapping("/selectBingeWatchingTypeShow")
+    public List<AnimeTypesShow> selectBingeWatchingTypeShow(AnimeTypesShow animeTypesShow) {
+        List<AnimeTypesShow> list = animeTypesShowService.selectBingeWatchingTypeShow(animeTypesShow);
+        return list;
+    }
+
+    @Cacheable(value = "animeStatusCache", key = "#root.methodName", unless = "#result == null")
+    @GetMapping("/selectStatusShow")
+    public List<AnimeTypesShow> selectStatusShow(AnimeTypesShow animeTypesShow) {
+        List<AnimeTypesShow> list = animeTypesShowService.selectStatusShow(animeTypesShow);
+        return list;
+    }
+
+    @Cacheable(value = "musicTypeCache", key = "#root.methodName", unless = "#result == null")
+    @GetMapping("/selectMusicTypeShow")
+    public List<AnimeTypesShow> selectMusicTypeShow(AnimeTypesShow animeTypesShow) {
+        List<AnimeTypesShow> list = animeTypesShowService.selectMusicTypeShow(animeTypesShow);
+        return list;
+    }
+
+    @Cacheable(value = "musicsCache", key = "#root.methodName", unless = "#result == null")
+    @GetMapping("/selectScoreShow")
+    public List<AnimeTypesShow> selectScoreShow(AnimeTypesShow animeTypesShow) {
+        List<AnimeTypesShow> list = animeTypesShowService.selectScoreShow(animeTypesShow);
+        return list;
+    }
+
+    @Cacheable(value = "hAnimeTypeCache", key = "#root.methodName", unless = "#result == null")
+    @GetMapping("/selectHAnimeTypeShow")
+    public List<AnimeTypesShow> selectHAnimeTypeShow(AnimeTypesShow animeTypesShow) {
+        List<AnimeTypesShow> list = animeTypesShowService.selectHAnimeTypeShow(animeTypesShow);
+        return list;
+    }
+
+    @Cacheable(value = "hanimeCache", key = "#root.methodName", unless = "#result == null")
+    @GetMapping("/selectDimensionalShow")
+    public List<AnimeTypesShow> selectDimensionalShow(AnimeTypesShow animeTypesShow) {
+        List<AnimeTypesShow> list = animeTypesShowService.selectDimensionalShow(animeTypesShow);
+        return list;
+    }
+
 
     /**
      * 用于主表选择框
@@ -150,6 +199,14 @@ public class AnimeTypesShowController {
         List<AnimeTypesShow> list = animeTypesShowService.selectOriginalEndShow(animeTypesShow);
         return new R(true, list);
     }
+
+    @Cacheable(value = "animeLayoutCache", key = "#root.methodName", unless = "#result == null")
+    @GetMapping("/selectLayoutType")
+    public R selectLayoutType(AnimeTypesShow animeTypesShow) {
+        List<AnimeTypesShow> list = animeTypesShowService.selectLayoutTypeShow(animeTypesShow);
+        return new R(true, list);
+    }
+
 
 
 

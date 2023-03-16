@@ -10,8 +10,8 @@ import {
 	Vector3,
 	Vector4
 } from '../../build/three.module.js';
-import { LineSegmentsGeometry } from './LineSegmentsGeometry.js';
-import { LineMaterial } from './LineMaterial.js';
+import { LineSegmentsGeometry } from '../lines/LineSegmentsGeometry.js';
+import { LineMaterial } from '../lines/LineMaterial.js';
 
 const _start = new Vector3();
 const _end = new Vector3();

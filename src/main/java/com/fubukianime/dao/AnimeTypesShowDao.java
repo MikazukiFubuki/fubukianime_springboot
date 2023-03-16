@@ -67,6 +67,55 @@ public interface AnimeTypesShowDao extends BaseMapper<AnimeTypesShow> {
      */
     List<AnimeTypesShow> selectOriginalEndShow(AnimeTypesShow animeTypesShow);
 
+    /**
+     * 查询形式信息
+     * @param
+     * @return
+     */
+    List<AnimeTypesShow> selectLayoutTypeShow(AnimeTypesShow animeTypesShow);
+
+    /**
+     * 查询追番情况信息
+     * @param
+     * @return
+     */
+    List<AnimeTypesShow> selectBingeWatchingTypeShow(AnimeTypesShow animeTypesShow);
+
+    /**
+     * 查询状态信息
+     * @param
+     * @return
+     */
+    List<AnimeTypesShow> selectStatusShow(AnimeTypesShow animeTypesShow);
+
+    /**
+     * 查询音乐类型信息
+     * @param
+     * @return
+     */
+    List<AnimeTypesShow> selectMusicTypeShow(AnimeTypesShow animeTypesShow);
+
+    /**
+     * 查询音乐评分信息
+     * @param
+     * @return
+     */
+    List<AnimeTypesShow> selectScoreShow(AnimeTypesShow animeTypesShow);
+
+    /**
+     * 查询H动漫类型信息
+     * @param
+     * @return
+     */
+    List<AnimeTypesShow> selectHAnimeTypeShow(AnimeTypesShow animeTypesShow);
+
+    /**
+     * 查询H动漫维度信息
+     * @param
+     * @return
+     */
+    List<AnimeTypesShow> selectDimensionalShow(AnimeTypesShow animeTypesShow);
+
 
 
 

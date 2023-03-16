@@ -1,4 +1,4 @@
-import { LineSegmentsGeometry } from './LineSegmentsGeometry.js';
+import { LineSegmentsGeometry } from '../lines/LineSegmentsGeometry.js';
 
 class LineGeometry extends LineSegmentsGeometry {
 
