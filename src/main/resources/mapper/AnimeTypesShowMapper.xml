@@ -15,8 +15,8 @@
               union all
               select source_3 source
               from anime_main) T1
-                 join anime_source T2 on T1.source = T2.id
-        group by T1.source
+                 right join anime_source T2 on T1.source = T2.id
+        group by T2.source
         ORDER BY count(T1.source) DESC;
     </select>
 
@@ -31,8 +31,8 @@
               union all
               select type_3 type
               from anime_main) T1
-                 join anime_type T2 on T1.type = T2.id
-        group by T1.type
+                 right join anime_type T2 on T1.type = T2.id
+        group by T2.type
         order by count(T1.type) DESC;
     </select>
 
@@ -40,8 +40,8 @@
     <select id="selectLoveShow" resultType="com.fubukianime.domain.AnimeTypesShow">
         SELECT T2.id, T2.love typesName, count(T1.love) typesNum
         FROM anime_main T1
-                 join anime_love T2 ON T1.love = T2.id
-        GROUP BY T1.love
+                 right join anime_love T2 ON T1.love = T2.id
+        GROUP BY T2.love
         ORDER BY count(T1.love) DESC;
     </select>
 
@@ -49,8 +49,8 @@
     <select id="selectSexLimitShow" resultType="com.fubukianime.domain.AnimeTypesShow">
         SELECT T2.id, T2.sex_limit typesName, count(T1.sex_limit) typesNum
         FROM anime_main T1
-                 join anime_sexlimit T2 ON T1.sex_limit = T2.id
-        GROUP BY T1.sex_limit
+                 right join anime_sexlimit T2 ON T1.sex_limit = T2.id
+        GROUP BY T2.sex_limit
         ORDER BY count(T1.sex_limit) DESC;
     </select>
 
@@ -58,8 +58,8 @@
     <select id="selectCreateShow" resultType="com.fubukianime.domain.AnimeTypesShow">
         SELECT T2.id, T2.`create` typesName, count(T1.`create`) typesNum
         FROM anime_main T1
-                 join anime_create T2 ON T1.`create` = T2.id
-        GROUP BY T1.`create`
+                 right join anime_create T2 ON T1.`create` = T2.id
+        GROUP BY T2.`create`
         ORDER BY count(T1.`create`) DESC;
     </select>
 
@@ -67,8 +67,8 @@
     <select id="selectLeaderGenderShow" resultType="com.fubukianime.domain.AnimeTypesShow">
         SELECT T2.id, T2.leader_gender typesName, count(T1.leader_gender) typesNum
         FROM anime_main T1
-                 join anime_leadergender T2 ON T1.leader_gender = T2.id
-        GROUP BY T1.leader_gender
+                 right join anime_leadergender T2 ON T1.leader_gender = T2.id
+        GROUP BY T2.leader_gender
         ORDER BY count(T1.leader_gender) DESC;
     </select>
 
@@ -76,8 +76,8 @@
     <select id="selectAnimationEndShow" resultType="com.fubukianime.domain.AnimeTypesShow">
         SELECT T2.id, T2.animation_end typesName, count(T1.animation_end) typesNum
         FROM anime_main T1
-                 join anime_animationend T2 ON T1.animation_end = T2.id
-        GROUP BY T1.animation_end
+                 right join anime_animationend T2 ON T1.animation_end = T2.id
+        GROUP BY T2.animation_end
         ORDER BY count(T1.animation_end) DESC;
 
     </select>
@@ -86,8 +86,8 @@
     <select id="selectOriginalEndShow" resultType="com.fubukianime.domain.AnimeTypesShow">
         SELECT T2.id, T2.original_end typesName, count(T1.original_end) typesNum
         FROM anime_main T1
-                 join anime_originalend T2 ON T1.original_end = T2.id
-        GROUP BY T1.original_end
+                 right join anime_originalend T2 ON T1.original_end = T2.id
+        GROUP BY T2.original_end
         ORDER BY count(T1.original_end) DESC;
     </select>
 
@@ -95,8 +95,8 @@
     <select id="selectLayoutTypeShow" resultType="com.fubukianime.domain.AnimeTypesShow">
         SELECT T2.id, T2.layout_type typesName, count(T1.layout_type_id) typesNum
         FROM anime_layout T1
-                 join anime_layout_type T2 ON T1.layout_type_id = T2.id
-        GROUP BY T1.layout_type_id
+                 right join anime_layout_type T2 ON T1.layout_type_id = T2.id
+        GROUP BY T2.layout_type_id
         ORDER BY count(T1.layout_type_id) DESC;
     </select>
 
@@ -104,8 +104,8 @@
     <select id="selectBingeWatchingTypeShow" resultType="com.fubukianime.domain.AnimeTypesShow">
         SELECT T2.id, T2.binge_watching_type typesName, count(T1.binge_watching_type) typesNum
         FROM anime_main T1
-                 join anime_bingewatchingtype T2 ON T1.binge_watching_type = T2.id
-        GROUP BY T1.binge_watching_type
+                 right join anime_bingewatchingtype T2 ON T1.binge_watching_type = T2.id
+        GROUP BY T2.binge_watching_type
         ORDER BY count(T1.binge_watching_type) DESC;
     </select>
 
@@ -113,8 +113,8 @@
     <select id="selectStatusShow" resultType="com.fubukianime.domain.AnimeTypesShow">
         SELECT T2.id, T2.status typesName, count(T1.status) typesNum
         FROM anime_main T1
-                 join anime_status T2 ON T1.status = T2.id
-        GROUP BY T1.status
+                 right join anime_status T2 ON T1.status = T2.id
+        GROUP BY T2.status
         ORDER BY count(T1.status) DESC;
     </select>
 
@@ -122,8 +122,8 @@
     <select id="selectMusicTypeShow" resultType="com.fubukianime.domain.AnimeTypesShow">
         SELECT T2.id, T2.type typesName, count(T1.type) typesNum
         FROM music_main T1
-                 join music_type T2 ON T1.type = T2.id
-        GROUP BY T1.type
+                 right join music_type T2 ON T1.type = T2.id
+        GROUP BY T2.type
         ORDER BY count(T1.type) DESC;
     </select>
 
@@ -139,8 +139,8 @@
     <select id="selectHAnimeTypeShow" resultType="com.fubukianime.domain.AnimeTypesShow">
         SELECT T2.id, T2.type typesName, count(T1.type) typesNum
         FROM hanime_main T1
-                 join hanime_type T2 ON T1.type = T2.id
-        GROUP BY T1.type
+                 right join hanime_type T2 ON T1.type = T2.id
+        GROUP BY T2.type
         ORDER BY count(T1.type) DESC;
     </select>
 
