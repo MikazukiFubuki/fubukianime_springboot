@@ -96,7 +96,7 @@
         SELECT T2.id, T2.layout_type typesName, count(T1.layout_type_id) typesNum
         FROM anime_layout T1
                  right join anime_layout_type T2 ON T1.layout_type_id = T2.id
-        GROUP BY T2.layout_type_id
+        GROUP BY T2.layout_type
         ORDER BY count(T1.layout_type_id) DESC;
     </select>
 
