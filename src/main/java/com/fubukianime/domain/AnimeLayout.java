@@ -18,6 +18,8 @@ public class AnimeLayout implements Serializable {
     private String anotherName;
     @TableField("quarter_num")
     private Integer quarterNum;
+    @TableField("part")
+    private Integer part;
     @TableField("episodes")
     private Integer episodes;
     @TableField(exist = false)
