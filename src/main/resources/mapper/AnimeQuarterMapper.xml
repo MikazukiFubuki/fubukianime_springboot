@@ -28,7 +28,9 @@
                C.QIAN                       lastSeasonNum,
                C.TING                       stopLiveNum,
                C.AVGSCORE                   averageScore
-        FROM ((select A.id,
+        FROM (
+        <!--C为A加上与上季追番数量比-->
+            (select A.id,
                       A.years,
                       A.bquarter,
                       A.SUM,
@@ -37,72 +39,80 @@
                       A.QIAN,
                       A.TING,
                       TRUNCATE(A.AVGSCORE, 2)                                   AVGSCORE
-               from (select T1.id,
+               from (
+        <!--A为每季数量总和、当季跨季停播数量、平均分-->
+               select T1.id,
                             T1.years,
                             T1.bquarter,
                             T1.x + IFNULL(T2.y, 0) + IFNULL(T3.z, 0)     SUM,
-                            T1.x                                         BEN,
-                            IFNULL(T2.y, 0)                              QIAN,
-                            IFNULL(T3.z, 0)                              TING,
-                            if(t3s is null, if(t2s is null, t1s / T1.x, (t1s + t2s) / (T1.x + T2.y)),
-                               (t1s + t2s + t3s) / (T1.x + T2.y + T3.z)) AVGSCORE
-                     from (select b.id,
-                                  b.years,
-                                  b.quarter    bquarter,
-                                  a.binge_watching_year,
-                                  c.quarter,
-                                  count(*)     x,
-                                  sum(a.score) t1s
-                           from anime_main a
-                                    join quarter c on a.binge_watching_quarter = c.id,
-                                anime_quarter b
-                           where a.binge_watching_type = 2 and a.binge_watching_year = b.years and c.quarter = b.quarter
-                              or a.binge_watching_type = 3 and a.binge_watching_year = b.years and c.quarter = b.quarter
-                              or a.binge_watching_type = 4 and a.binge_watching_year = b.years and c.quarter = b.quarter
-                           group by b.years, b.quarter
-                           order by b.years, b.quarter) T1
-                              LEFT JOIN (select b.id,
-                                                b.years,
-                                                b.quarter    bquarter,
-                                                a.complete_year,
-                                                d.quarter,
-                                                count(*)     y,
-                                                sum(a.score) t2s
-                                         from anime_quarter b,
-                                              (anime_main a join quarter c on a.binge_watching_quarter = c.id)
-                                                  join quarter d on a.complete_quarter = d.id
-                                         where a.binge_watching_type = 3 and a.complete_year = b.years and
-                                               a.binge_watching_year = b.years and c.quarter &lt; b.quarter and
-                                               d.quarter &gt;= b.quarter
-                                            or a.binge_watching_type = 3 and a.complete_year = b.years and
-                                               a.binge_watching_year &lt; b.years and d.quarter &gt;= b.quarter
-                                            or a.binge_watching_type = 3 and a.complete_year &gt; b.years and
-                                               if(a.binge_watching_year = b.years, c.quarter &lt; b.quarter,
-                                                  b.years &gt; a.binge_watching_year)
-                                         group by b.years, b.quarter
-                                         order by b.years, b.quarter) T2
-                                        ON T1.years = T2.years AND T1.bquarter = T2.bquarter
-                              LEFT JOIN (select b.id,
-                                                b.years,
-                                                b.quarter    bquarter,
-                                                a.complete_year,
-                                                d.quarter,
-                                                count(*)     z,
-                                                sum(a.score) t3s
-                                         from anime_quarter b,
-                                              (anime_main a join quarter c on a.binge_watching_quarter = c.id)
-                                                  join quarter d on a.complete_quarter = d.id
-                                         where a.binge_watching_type = 4 and a.complete_year = b.years and
-                                               a.binge_watching_year = b.years and c.quarter &lt; b.quarter and
-                                               d.quarter &gt;= b.quarter
-                                            or a.binge_watching_type = 4 and a.complete_year = b.years and
-                                               a.binge_watching_year &lt; b.years and d.quarter &gt;= b.quarter
-                                            or a.binge_watching_type = 4 and a.complete_year &gt; b.years and
-                                               if(a.binge_watching_year = b.years, c.quarter &lt; b.quarter,
-                                                  b.years &gt; a.binge_watching_year)
-                                         group by b.years, b.quarter
-                                         order by b.years, b.quarter) T3
-                                        ON T1.years = T3.years AND T1.bquarter = T3.bquarter) A,
+                    T1.x                                         BEN,
+                    IFNULL(T2.y, 0)                              QIAN,
+                    IFNULL(T3.z, 0)                              TING,
+                    if(t3s is null, if(t2s is null, t1s / T1.x, (t1s + t2s) / (T1.x + T2.y)),
+                       (t1s + t2s + t3s) / (T1.x + T2.y + T3.z)) AVGSCORE
+                     from (
+                         <!--T1为当季追番数量和评分总和-->
+                         select b.id,
+                         b.years,
+                         b.quarter    bquarter,
+                         a.binge_watching_year,
+                         c.quarter,
+                         count(*)     x,
+                         ifnull(sum(a.score), 0) t1s
+                         from anime_main a
+                         join quarter c on a.binge_watching_quarter = c.id,
+                         anime_quarter b
+                         where a.binge_watching_type = 2 and a.binge_watching_year = b.years and c.quarter = b.quarter
+                         or a.binge_watching_type = 3 and a.binge_watching_year = b.years and c.quarter = b.quarter
+                         or a.binge_watching_type = 4 and a.binge_watching_year = b.years and c.quarter = b.quarter
+                         group by b.years, b.quarter
+                         order by b.years, b.quarter) T1
+                         LEFT JOIN (
+                            <!--T2为跨季追番数量和评分总和-->
+                         select b.id,
+                         b.years,
+                         b.quarter    bquarter,
+                         a.complete_year,
+                         d.quarter,
+                         count(*)     y,
+                         ifnull(sum(a.score), 0) t2s
+                         from anime_quarter b,
+                         (anime_main a join quarter c on a.binge_watching_quarter = c.id)
+                         join quarter d on a.complete_quarter = d.id
+                         where a.binge_watching_type = 3 and a.complete_year = b.years and
+                         a.binge_watching_year = b.years and c.quarter &lt; b.quarter and
+                         d.quarter &gt;= b.quarter
+                         or a.binge_watching_type = 3 and a.complete_year = b.years and
+                         a.binge_watching_year &lt; b.years and d.quarter &gt;= b.quarter
+                         or a.binge_watching_type = 3 and a.complete_year &gt; b.years and
+                         if(a.binge_watching_year = b.years, c.quarter &lt; b.quarter,
+                         b.years &gt; a.binge_watching_year)
+                         group by b.years, b.quarter
+                         order by b.years, b.quarter) T2
+                     ON T1.years = T2.years AND T1.bquarter = T2.bquarter
+                         LEFT JOIN (
+                        <!--T3为停播续追数量和评分总和-->
+                         select b.id,
+                         b.years,
+                         b.quarter    bquarter,
+                         a.complete_year,
+                         d.quarter,
+                         count(*)     z,
+                         ifnull(sum(a.score), 0) t3s
+                         from anime_quarter b,
+                         (anime_main a join quarter c on a.binge_watching_quarter = c.id)
+                         join quarter d on a.complete_quarter = d.id
+                         where a.binge_watching_type = 4 and a.complete_year = b.years and
+                         a.binge_watching_year = b.years and c.quarter &lt; b.quarter and
+                         d.quarter &gt;= b.quarter
+                         or a.binge_watching_type = 4 and a.complete_year = b.years and
+                         a.binge_watching_year &lt; b.years and d.quarter &gt;= b.quarter
+                         or a.binge_watching_type = 4 and a.complete_year &gt; b.years and
+                         if(a.binge_watching_year = b.years, c.quarter &lt; b.quarter,
+                         b.years &gt; a.binge_watching_year)
+                         group by b.years, b.quarter
+                         order by b.years, b.quarter) T3 #
+                         ON T1.years = T3.years AND T1.bquarter = T3.bquarter) A,
                     (select T1.id,
                             T1.years,
                             T1.bquarter,
@@ -118,7 +128,7 @@
                                   a.binge_watching_year,
                                   c.quarter,
                                   count(*)     x,
-                                  sum(a.score) t1s
+                                  ifnull(sum(a.score), 0) t1s
                            from anime_main a
                                     join quarter c on a.binge_watching_quarter = c.id,
                                 anime_quarter b
@@ -133,7 +143,7 @@
                                                 a.complete_year,
                                                 d.quarter,
                                                 count(*)     y,
-                                                sum(a.score) t2s
+                                                ifnull(sum(a.score), 0) t2s
                                          from anime_quarter b,
                                               (anime_main a join quarter c on a.binge_watching_quarter = c.id)
                                                   join quarter d on a.complete_quarter = d.id
@@ -154,7 +164,7 @@
                                                 a.complete_year,
                                                 d.quarter,
                                                 count(*)     z,
-                                                sum(a.score) t3s
+                                                ifnull(sum(a.score), 0) t3s
                                          from anime_quarter b,
                                               (anime_main a join quarter c on a.binge_watching_quarter = c.id)
                                                   join quarter d on a.complete_quarter = d.id
@@ -173,7 +183,7 @@
                   OR B.id = A.id - 1
                ORDER BY A.id) C JOIN anime_year D on C.years = D.id)
                  JOIN quarter E ON C.bquarter = E.quarter
-order by C.id
+        order by C.id
 
     </select>
 
