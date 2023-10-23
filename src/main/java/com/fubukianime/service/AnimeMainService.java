@@ -191,6 +191,19 @@ public interface AnimeMainService extends IService<AnimeMain> {
      */
     boolean overYear(AnimeMain animeMain);
 
+    /**
+     * 修改动画名
+     * @param animeMain
+     * @return
+     */
+    boolean updateAnimeName(AnimeMain animeMain);
+
+    /**
+     * 修改动画评分
+     * @param animeMain
+     * @return
+     */
+    boolean updateAnimeScore(AnimeMain animeMain);
 
 
 

@@ -529,6 +529,30 @@
         and deleted = 0;
     </update>
 
+    <!--修改动画名-->
+    <update id="updateAnimeName">
+        update anime_main a
+        <set>
+            <if test="name != null and name != ''">
+                a.name = #{name},
+            </if>
+        </set>
+        where id = #{id}
+        and deleted = 0;
+    </update>
+
+    <!--修改动画评分-->
+    <update id="updateAnimeScore">
+        update anime_main a
+        <set>
+            <if test="score != null and score != ''">
+                a.score = #{score},
+            </if>
+        </set>
+        where id = #{id}
+        and deleted = 0;
+    </update>
+
 
     <!--
     - 查询区

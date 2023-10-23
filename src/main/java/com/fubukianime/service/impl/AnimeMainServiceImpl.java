@@ -518,6 +518,28 @@ public class AnimeMainServiceImpl extends ServiceImpl<AnimeMainDao, AnimeMain> i
         return true;
     }
 
+    /**
+     * 修改动画名
+     * @param animeMain
+     * @return
+     */
+    @Override
+    public boolean updateAnimeName(AnimeMain animeMain){
+        animeMainDao.updateAnimeName(animeMain);
+        return true;
+    }
+
+    /**
+     * 修改动画评分
+     * @param animeMain
+     * @return
+     */
+    @Override
+    public boolean updateAnimeScore(AnimeMain animeMain){
+        animeMainDao.updateAnimeScore(animeMain);
+        return true;
+    }
+
 
 
 

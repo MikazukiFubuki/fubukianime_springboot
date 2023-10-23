@@ -232,6 +232,18 @@ public interface AnimeMainDao extends BaseMapper<AnimeMain> {
      */
     void overYear(AnimeMain animeMain);
 
+    /**
+     * 修改动画名
+     * @param animeMain
+     */
+    void updateAnimeName(AnimeMain animeMain);
+
+    /**
+     * 修改动画评分
+     * @param animeMain
+     */
+    void updateAnimeScore(AnimeMain animeMain);
+
 
 
 

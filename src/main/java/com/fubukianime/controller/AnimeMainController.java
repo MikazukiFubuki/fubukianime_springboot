@@ -332,4 +332,26 @@ public class AnimeMainController {
         return new R(flag, flag ? "修改成功^_^" : "修改失败-_-!");
     }
 
+    /**
+     * 修改动画名
+     * @param animeMain
+     */
+    @CacheEvict(value = "animeMainCache", allEntries = true)
+    @PutMapping("/updateAnimeName")
+    public R updateAnimeName(@RequestBody AnimeMain animeMain) throws IOException{
+        boolean flag = animeMainService.updateAnimeName(animeMain);
+        return new R(flag, flag ? "修改成功^_^" : "修改失败-_-!");
+    }
+
+    /**
+     * 修改动画评分
+     * @param animeMain
+     */
+    @CacheEvict(value = "animeMainCache", allEntries = true)
+    @PutMapping("/updateAnimeScore")
+    public R updateAnimeScore(@RequestBody AnimeMain animeMain) throws IOException{
+        boolean flag = animeMainService.updateAnimeScore(animeMain);
+        return new R(flag, flag ? "修改成功^_^" : "修改失败-_-!");
+    }
+
 }
