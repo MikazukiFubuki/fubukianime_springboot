@@ -2,23 +2,31 @@ server:
   port: 9001
 
 spring:
-  cache:
-    redis:
-      time-to-live: 1800000 #设置缓存过期时间
-  redis:
-    host: 127.0.0.1
-    port: 6379
-    password: fubuki0728anime
-    database: 0
+  profiles:
+    # active: dev
+    active: prod
 
-  datasource:
-    druid:
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/anime?serverTimezone=UTC&serverTimezone=GMT%2b8&characterEncoding=utf8
-      username: root
-      password: fubuki0728anime
-  jackson:
-    time-zone: GMT+8
+#  cache:
+#    redis:
+#      time-to-live: 1800000 #设置缓存过期时间
+#  redis:
+#    host: 127.0.0.1
+#    #host: redis
+#    port: 6379
+#    password:
+#    #password: fubuki0728anime
+#    database: 0
+#
+#  datasource:
+#    druid:
+#      driver-class-name: com.mysql.cj.jdbc.Driver
+#      url: jdbc:mysql://localhost:3306/anime?serverTimezone=UTC&serverTimezone=GMT%2b8&characterEncoding=utf8
+#      #url: jdbc:mysql://mysql:3306/anime?serverTimezone=UTC&serverTimezone=GMT%2b8&characterEncoding=utf8
+#      username: root
+#      password: 123456
+#      #password: fubuki0728anime
+#  jackson:
+#    time-zone: GMT+8
 
 mybatis-plus:
   configuration:

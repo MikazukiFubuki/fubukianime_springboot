@@ -1,0 +1,22 @@
+# application-dev.yml (测试环境配置)
+
+spring:
+  # Redis 配置
+  cache:
+    redis:
+      time-to-live: 1800000 #设置缓存过期时间
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password:
+    database: 0
+
+# MySQL 配置
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/anime?serverTimezone=UTC&serverTimezone=GMT%2b8&characterEncoding=utf8
+      username: root
+      password: 123456
+  jackson:
+    time-zone: GMT+8
