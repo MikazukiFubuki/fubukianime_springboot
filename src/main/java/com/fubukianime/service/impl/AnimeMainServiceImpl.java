@@ -541,6 +541,149 @@ public class AnimeMainServiceImpl extends ServiceImpl<AnimeMainDao, AnimeMain> i
     }
 
     /**
+     * 修改动画来源
+     * @param animeMain
+     * @return
+     */
+    @Override
+    public boolean updateAnimeSource(AnimeMain animeMain){
+        animeMainDao.updateAnimeSource(animeMain);
+        return true;
+    }
+
+    /**
+     * 修改动画全部类型
+     * @param animeMain
+     * @return
+     */
+    @Override
+    public boolean updateAnimeType(AnimeMain animeMain){
+        animeMainDao.updateAnimeType(animeMain);
+        return true;
+    }
+
+    /**
+     * 修改动画恋爱
+     * @param animeMain
+     * @return
+     */
+    @Override
+    public boolean updateAnimeLove(AnimeMain animeMain){
+        animeMainDao.updateAnimeLove(animeMain);
+        return true;
+    }
+
+    /**
+     * 修改动画工口
+     * @param animeMain
+     * @return
+     */
+    @Override
+    public boolean updateAnimeSexLimit(AnimeMain animeMain){
+        animeMainDao.updateAnimeSexLimit(animeMain);
+        return true;
+    }
+
+    /**
+     * 修改动画创作
+     * @param animeMain
+     * @return
+     */
+    @Override
+    public boolean updateAnimeCreate(AnimeMain animeMain){
+        animeMainDao.updateAnimeCreate(animeMain);
+        return true;
+    }
+
+    /**
+     * 修改动画主角
+     * @param animeMain
+     * @return
+     */
+    @Override
+    public boolean updateAnimeLeaderGender(AnimeMain animeMain){
+        animeMainDao.updateAnimeLeaderGender(animeMain);
+        return true;
+    }
+
+    /**
+     * 修改动画女主
+     * @param animeMain
+     * @return
+     */
+    @Override
+    public boolean updateAnimeFavoriteHeroine(AnimeMain animeMain){
+        animeMainDao.updateAnimeFavoriteHeroine(animeMain);
+        return true;
+    }
+
+    /**
+     * 修改动画动画结局
+     * @param animeMain
+     * @return
+     */
+    @Override
+    public boolean updateAnimeAnimationEnd(AnimeMain animeMain){
+        animeMainDao.updateAnimeAnimationEnd(animeMain);
+        return true;
+    }
+
+    /**
+     * 修改动画播出年份
+     * @param animeMain
+     * @return
+     */
+    @Override
+    public boolean updateAnimeBroadcastYear(AnimeMain animeMain){
+        animeMainDao.updateAnimeBroadcastYear(animeMain);
+        return true;
+    }
+
+    /**
+     * 修改动画播出类型
+     * @param animeMain
+     * @return
+     */
+    @Override
+    public boolean updateAnimeBingeWatchingType(AnimeMain animeMain){
+        animeMainDao.updateAnimeBingeWatchingType(animeMain);
+        return true;
+    }
+
+    /**
+     * 修改动画追番时间
+     * @param animeMain
+     * @return
+     */
+    @Override
+    public boolean updateAnimeBingeWatching(AnimeMain animeMain){
+        animeMainDao.updateAnimeBingeWatching(animeMain);
+        return true;
+    }
+
+    /**
+     * 修改动画补完时间
+     * @param animeMain
+     * @return
+     */
+    @Override
+    public boolean updateAnimeComplete(AnimeMain animeMain){
+        animeMainDao.updateAnimeComplete(animeMain);
+        return true;
+    }
+
+    /**
+     * 修改动画状态
+     * @param animeMain
+     * @return
+     */
+    @Override
+    public boolean updateAnimeStatus(AnimeMain animeMain){
+        animeMainDao.updateAnimeStatus(animeMain);
+        return true;
+    }
+
+    /**
      * 查询全部动画名及其评分
      * @param animeMain
      * @return

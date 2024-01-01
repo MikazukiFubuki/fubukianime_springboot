@@ -355,6 +355,149 @@ public class AnimeMainController {
     }
 
     /**
+     * 修改动画来源
+     * @param animeMain
+     */
+    @CacheEvict(value = "animeMainCache", allEntries = true)
+    @PutMapping("/updateAnimeSource")
+    public R updateAnimeSource(@RequestBody AnimeMain animeMain) throws IOException{
+        boolean flag = animeMainService.updateAnimeSource(animeMain);
+        return new R(flag, flag ? "修改成功^_^" : "修改失败-_-!");
+    }
+
+    /**
+     * 修改动画全部类型
+     * @param animeMain
+     */
+    @CacheEvict(value = "animeMainCache", allEntries = true)
+    @PutMapping("/updateAnimeType")
+    public R updateAnimeType(@RequestBody AnimeMain animeMain) throws IOException{
+        boolean flag = animeMainService.updateAnimeType(animeMain);
+        return new R(flag, flag ? "修改成功^_^" : "修改失败-_-!");
+    }
+
+    /**
+     * 修改动画恋爱
+     * @param animeMain
+     */
+    @CacheEvict(value = "animeMainCache", allEntries = true)
+    @PutMapping("/updateAnimeLove")
+    public R updateAnimeLove(@RequestBody AnimeMain animeMain) throws IOException{
+        boolean flag = animeMainService.updateAnimeLove(animeMain);
+        return new R(flag, flag ? "修改成功^_^" : "修改失败-_-!");
+    }
+
+    /**
+     * 修改动画工口
+     * @param animeMain
+     */
+    @CacheEvict(value = "animeMainCache", allEntries = true)
+    @PutMapping("/updateAnimeSexLimit")
+    public R updateAnimeSexLimit(@RequestBody AnimeMain animeMain) throws IOException{
+        boolean flag = animeMainService.updateAnimeSexLimit(animeMain);
+        return new R(flag, flag ? "修改成功^_^" : "修改失败-_-!");
+    }
+
+    /**
+     * 修改动画创作
+     * @param animeMain
+     */
+    @CacheEvict(value = "animeMainCache", allEntries = true)
+    @PutMapping("/updateAnimeCreate")
+    public R updateAnimeCreate(@RequestBody AnimeMain animeMain) throws IOException{
+        boolean flag = animeMainService.updateAnimeCreate(animeMain);
+        return new R(flag, flag ? "修改成功^_^" : "修改失败-_-!");
+    }
+
+    /**
+     * 修改动画主角
+     * @param animeMain
+     */
+    @CacheEvict(value = "animeMainCache", allEntries = true)
+    @PutMapping("/updateAnimeLeaderGender")
+    public R updateAnimeLeaderGender(@RequestBody AnimeMain animeMain) throws IOException{
+        boolean flag = animeMainService.updateAnimeLeaderGender(animeMain);
+        return new R(flag, flag ? "修改成功^_^" : "修改失败-_-!");
+    }
+
+    /**
+     * 修改动画女主
+     * @param animeMain
+     */
+    @CacheEvict(value = "animeMainCache", allEntries = true)
+    @PutMapping("/updateAnimeFavoriteHeroine")
+    public R updateAnimeFavoriteHeroine(@RequestBody AnimeMain animeMain) throws IOException{
+        boolean flag = animeMainService.updateAnimeFavoriteHeroine(animeMain);
+        return new R(flag, flag ? "修改成功^_^" : "修改失败-_-!");
+    }
+
+    /**
+     * 修改动画动画结局
+     * @param animeMain
+     */
+    @CacheEvict(value = "animeMainCache", allEntries = true)
+    @PutMapping("/updateAnimeAnimationEnd")
+    public R updateAnimeAnimationEnd(@RequestBody AnimeMain animeMain) throws IOException{
+        boolean flag = animeMainService.updateAnimeAnimationEnd(animeMain);
+        return new R(flag, flag ? "修改成功^_^" : "修改失败-_-!");
+    }
+
+    /**
+     * 修改动画播出年份
+     * @param animeMain
+     */
+    @CacheEvict(value = "animeMainCache", allEntries = true)
+    @PutMapping("/updateAnimeBroadcastYear")
+    public R updateAnimeBroadcastYear(@RequestBody AnimeMain animeMain) throws IOException{
+        boolean flag = animeMainService.updateAnimeBroadcastYear(animeMain);
+        return new R(flag, flag ? "修改成功^_^" : "修改失败-_-!");
+    }
+
+    /**
+     * 修改动画播出类型
+     * @param animeMain
+     */
+    @CacheEvict(value = "animeMainCache", allEntries = true)
+    @PutMapping("/updateAnimeBingeWatchingType")
+    public R updateAnimeBingeWatchingType(@RequestBody AnimeMain animeMain) throws IOException{
+        boolean flag = animeMainService.updateAnimeBingeWatchingType(animeMain);
+        return new R(flag, flag ? "修改成功^_^" : "修改失败-_-!");
+    }
+
+    /**
+     * 修改动画追番时间
+     * @param animeMain
+     */
+    @CacheEvict(value = "animeMainCache", allEntries = true)
+    @PutMapping("/updateAnimeBingeWatching")
+    public R updateAnimeBingeWatching(@RequestBody AnimeMain animeMain) throws IOException{
+        boolean flag = animeMainService.updateAnimeBingeWatching(animeMain);
+        return new R(flag, flag ? "修改成功^_^" : "修改失败-_-!");
+    }
+
+    /**
+     * 修改动画补完时间
+     * @param animeMain
+     */
+    @CacheEvict(value = "animeMainCache", allEntries = true)
+    @PutMapping("/updateAnimeComplete")
+    public R updateAnimeComplete(@RequestBody AnimeMain animeMain) throws IOException{
+        boolean flag = animeMainService.updateAnimeComplete(animeMain);
+        return new R(flag, flag ? "修改成功^_^" : "修改失败-_-!");
+    }
+
+    /**
+     * 修改动画状态
+     * @param animeMain
+     */
+    @CacheEvict(value = "animeMainCache", allEntries = true)
+    @PutMapping("/updateAnimeStatus")
+    public R updateAnimeStatus(@RequestBody AnimeMain animeMain) throws IOException{
+        boolean flag = animeMainService.updateAnimeStatus(animeMain);
+        return new R(flag, flag ? "修改成功^_^" : "修改失败-_-!");
+    }
+
+    /**
      * 查询全部动画名及其评分
      * @param animeMain
      * @return

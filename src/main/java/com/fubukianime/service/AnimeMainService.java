@@ -205,6 +205,84 @@ public interface AnimeMainService extends IService<AnimeMain> {
      */
     boolean updateAnimeScore(AnimeMain animeMain);
 
+    /**
+     * 修改动画来源
+     * @param animeMain
+     */
+    boolean updateAnimeSource(AnimeMain animeMain);
+
+    /**
+     * 修改动画全部类型
+     * @param animeMain
+     */
+    boolean updateAnimeType(AnimeMain animeMain);
+
+    /**
+     * 修改动画恋爱
+     * @param animeMain
+     */
+    boolean updateAnimeLove(AnimeMain animeMain);
+
+    /**
+     * 修改动画工口
+     * @param animeMain
+     */
+    boolean updateAnimeSexLimit(AnimeMain animeMain);
+
+    /**
+     * 修改动画创作
+     * @param animeMain
+     */
+    boolean updateAnimeCreate(AnimeMain animeMain);
+
+    /**
+     * 修改动画主角
+     * @param animeMain
+     */
+    boolean updateAnimeLeaderGender(AnimeMain animeMain);
+
+    /**
+     * 修改动画女主
+     * @param animeMain
+     */
+    boolean updateAnimeFavoriteHeroine(AnimeMain animeMain);
+
+    /**
+     * 修改动画动画结局
+     * @param animeMain
+     */
+    boolean updateAnimeAnimationEnd(AnimeMain animeMain);
+
+    /**
+     * 修改动画播出年份
+     * @param animeMain
+     */
+    boolean updateAnimeBroadcastYear(AnimeMain animeMain);
+
+    /**
+     * 修改动画播出类型
+     * @param animeMain
+     */
+    boolean updateAnimeBingeWatchingType(AnimeMain animeMain);
+
+    /**
+     * 修改动画追番时间
+     * @param animeMain
+     */
+    boolean updateAnimeBingeWatching(AnimeMain animeMain);
+
+    /**
+     * 修改动画补完时间
+     * @param animeMain
+     */
+    boolean updateAnimeComplete(AnimeMain animeMain);
+
+    /**
+     * 修改动画状态
+     * @param animeMain
+     */
+    boolean updateAnimeStatus(AnimeMain animeMain);
+
 
     /**
      * 查询全部动画名及其评分

@@ -244,6 +244,84 @@ public interface AnimeMainDao extends BaseMapper<AnimeMain> {
      */
     void updateAnimeScore(AnimeMain animeMain);
 
+    /**
+     * 修改动画来源
+     * @param animeMain
+     */
+    void updateAnimeSource(AnimeMain animeMain);
+
+    /**
+     * 修改动画全部类型
+     * @param animeMain
+     */
+    void updateAnimeType(AnimeMain animeMain);
+
+    /**
+     * 修改动画恋爱
+     * @param animeMain
+     */
+    void updateAnimeLove(AnimeMain animeMain);
+
+    /**
+     * 修改动画工口
+     * @param animeMain
+     */
+    void updateAnimeSexLimit(AnimeMain animeMain);
+
+    /**
+     * 修改动画创作
+     * @param animeMain
+     */
+    void updateAnimeCreate(AnimeMain animeMain);
+
+    /**
+     * 修改动画主角
+     * @param animeMain
+     */
+    void updateAnimeLeaderGender(AnimeMain animeMain);
+
+    /**
+     * 修改动画女主
+     * @param animeMain
+     */
+    void updateAnimeFavoriteHeroine(AnimeMain animeMain);
+
+    /**
+     * 修改动画动画结局
+     * @param animeMain
+     */
+    void updateAnimeAnimationEnd(AnimeMain animeMain);
+
+    /**
+     * 修改动画播出年份
+     * @param animeMain
+     */
+    void updateAnimeBroadcastYear(AnimeMain animeMain);
+
+    /**
+     * 修改动画播出类型
+     * @param animeMain
+     */
+    void updateAnimeBingeWatchingType(AnimeMain animeMain);
+
+    /**
+     * 修改动画追番时间
+     * @param animeMain
+     */
+    void updateAnimeBingeWatching(AnimeMain animeMain);
+
+    /**
+     * 修改动画补完时间
+     * @param animeMain
+     */
+    void updateAnimeComplete(AnimeMain animeMain);
+
+    /**
+     * 修改动画状态
+     * @param animeMain
+     */
+    void updateAnimeStatus(AnimeMain animeMain);
+
 
     /**
      * 查询全部动画名及其评分
