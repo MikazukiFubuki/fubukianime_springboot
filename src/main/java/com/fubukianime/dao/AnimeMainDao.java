@@ -245,6 +245,15 @@ public interface AnimeMainDao extends BaseMapper<AnimeMain> {
     void updateAnimeScore(AnimeMain animeMain);
 
 
+    /**
+     * 查询全部动画名及其评分
+     * @param animeMain
+     * @return
+     */
+    List<AnimeMain> selectAnimeWithScore(AnimeMain animeMain);
+
+
+
 
 
 

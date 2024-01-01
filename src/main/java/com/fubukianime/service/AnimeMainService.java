@@ -206,6 +206,14 @@ public interface AnimeMainService extends IService<AnimeMain> {
     boolean updateAnimeScore(AnimeMain animeMain);
 
 
+    /**
+     * 查询全部动画名及其评分
+     * @param animeMain
+     * @return
+     */
+    List<AnimeMain> selectAnimeWithScore(AnimeMain animeMain);
+
+
 
 
 

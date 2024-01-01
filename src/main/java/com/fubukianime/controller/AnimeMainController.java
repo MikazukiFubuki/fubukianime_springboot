@@ -354,4 +354,16 @@ public class AnimeMainController {
         return new R(flag, flag ? "修改成功^_^" : "修改失败-_-!");
     }
 
+    /**
+     * 查询全部动画名及其评分
+     * @param animeMain
+     * @return
+     */
+    @Cacheable(value = "animeMainCache", key = "#animeMain.name + '_' + #animeMain.score", unless = "#result == null")
+    @GetMapping("/selectAnimeWithScore")
+    public R selectAnimeWithScore(AnimeMain animeMain){
+        List<AnimeMain> selectAnimeWithScoreList = animeMainService.selectAnimeWithScore(animeMain);
+        return new R(true, selectAnimeWithScoreList);
+    }
+
 }

@@ -1140,5 +1140,14 @@
         where deleted = 0
     </select>
 
+    <!--查询全部动画名及其评分-->
+    <select id="selectAnimeWithScore" resultType="com.fubukianime.domain.AnimeMain">
+        select name, score
+        from anime_main
+        where score is not null
+        group by score
+        ORDER BY score desc
+    </select>
+
 </mapper>
 

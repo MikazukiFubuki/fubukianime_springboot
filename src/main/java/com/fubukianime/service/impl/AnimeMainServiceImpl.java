@@ -540,6 +540,17 @@ public class AnimeMainServiceImpl extends ServiceImpl<AnimeMainDao, AnimeMain> i
         return true;
     }
 
+    /**
+     * 查询全部动画名及其评分
+     * @param animeMain
+     * @return
+     */
+    @Override
+    public List<AnimeMain> selectAnimeWithScore(AnimeMain animeMain) {
+        List<AnimeMain> selectAnimeWithScoreList = animeMainDao.selectAnimeWithScore(animeMain);
+        return selectAnimeWithScoreList;
+    }
+
 
 
 
