@@ -40,9 +40,9 @@
               :default-active="defAct"
               :unique-opened="false"
               :collapse-transition="false"
-              background-color="#000066"
-              text-color="#ffffff"
-              active-text-color="#aaaaaa"
+              background-color="#409EFF"
+              text-color="#000000"
+              active-text-color="#F56C6C"
             >
               <div v-for="item in menuList" :key="item.id">
                 <el-submenu :index="item.id" v-if="item.children && item.children.length>0">
@@ -126,7 +126,7 @@
                     id: '1-1',
                     name: '统计表展示',
                     url: 'pages/show5/index.html',
-                    icon: 'icon-member'
+                    icon: 'icon-category'
                   },
                   {
                     id: '1-2',
@@ -363,18 +363,24 @@
                 },
                 {
                     id: '6',
-                    name: 'H动漫系统管理',
+                    name: '漫画&里番系统管理',
                     children: [
                         {
                             id: '6-1',
-                            name: 'H动漫管理',
+                            name: '里番管理',
                             url: 'pages/hanimes.html',
                             icon: 'icon-order'
                         },
                         {
                             id: '6-2',
-                            name: 'H动漫类型管理',
+                            name: 'H漫类型管理',
                             url: 'pages/htypes.html',
+                            icon: 'icon-order'
+                        },
+                        {
+                            id: '6-3',
+                            name: '漫画管理',
+                            url: 'pages/comics.html',
                             icon: 'icon-order'
                         },
                     ],

@@ -2,17 +2,20 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.fubukianime.dao.HAnimeMainDao">
+<mapper namespace="com.fubukianime.dao.ComicMainDao">
 
 
     <!--条件查询信息-->
-    <select id="selectMainByCondition" resultType="com.fubukianime.domain.HAnimeMain">
-        select a.id, a.name, a.content, b.type, concat(a.episodes, '集') layout,
-        a.episodes, a.dimensional, a.status
-        from hanime_main a left join hanime_type b on a.type = b.id
-        where a.deleted = 0 and b.deleted = 0
+    <select id="selectMainByCondition" resultType="com.fubukianime.domain.ComicMain">
+        select a.id, a.name, a.author, a.content, b.type, concat(a.episodes, '话') layout,
+        a.episodes, c.sex_limit sex, a.dimensional, a.status
+        from (comic_main a left join hanime_type b on a.type = b.id) left join anime_sexlimit c on a.sex = c.id
+        where a.deleted = 0 and b.deleted = 0 and c.deleted = 0
         <if test="name != null and name != ''">
             and a.name like CONCAT('%',#{name} ,'%')
+        </if>
+        <if test="author != null and author != ''">
+            and a.author like CONCAT('%',#{author} ,'%')
         </if>
         <if test="content != null and content != ''">
             and a.content like CONCAT('%',#{content} ,'%')
@@ -23,6 +26,9 @@
         <if test="dimensional != null and dimensional != ''">
             and a.dimensional = #{dimensional}
         </if>
+        <if test="sex != null and sex != ''">
+            and a.sex = #{sex}
+        </if>
         <if test="status != null and status != ''">
             and a.status = #{status}
         </if>
@@ -30,38 +36,45 @@
     </select>
 
     <!--查询单项信息-->
-    <select id="selectMainById" resultType="com.fubukianime.domain.HAnimeMain">
+    <select id="selectMainById" resultType="com.fubukianime.domain.ComicMain">
         select a.id,
                a.name,
+               a.author,
                a.content,
                b.type,
-               concat(a.episodes, '集') layout,
+               concat(a.episodes, '话') layout,
                a.episodes,
+               c.sex_limit sex,
                a.dimensional,
                a.status
-        from hanime_main a left join hanime_type b on a.type = b.id
+        from (comic_main a left join hanime_type b on a.type = b.id) left join anime_sexlimit c on a.sex = c.id
         where a.id = #{id}
           and a.deleted = 0
           and b.deleted = 0
-
+          and c.deleted = 0
     </select>
 
-    <insert id="addHAnime">
-        insert into hanime_main(name,
+    <insert id="addComic">
+        insert into comic_main(name,
+                               author,
                                 content,
                                 type,
                                 episodes,
+                                sex,
                                 dimensional,
                                 status,
                                 deleted)
-        values (#{name}, #{content}, #{type}, #{episodes}, #{dimensional}, #{status}, 0)
+        values (#{name}, #{author}, #{content}, #{type}, #{episodes}, #{sex}, #{dimensional}, #{status}, 0)
     </insert>
 
-    <update id="updateHAnime">
-        update hanime_main a
+    <update id="updateComic">
+        update comic_main a
         <set>
             <if test="name != null and name != ''">
                 a.name = #{name},
+            </if>
+            <if test="author != null and author != ''">
+                a.author= #{author},
             </if>
             <if test="content != null and content != ''">
                 a.content = #{content},
@@ -71,6 +84,9 @@
             </if>
             <if test="episodes != null and episodes != ''">
                 a.episodes = #{episodes},
+            </if>
+            <if test="sex != null and sex != ''">
+                a.sex = #{sex},
             </if>
             <if test="dimensional != null and dimensional != ''">
                 a.dimensional = #{dimensional},
@@ -85,7 +101,7 @@
 
     <!--对已追动画追更一集-->
     <update id="chasingAPlay">
-        update hanime_main a
+        update comic_main a
         <set>
             <if test="episodes != null and episodes != ''">
                 a.episodes = a.episodes + 1,
