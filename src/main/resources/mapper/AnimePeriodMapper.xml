@@ -15,6 +15,10 @@
         <result property="deleted" column="deleted" jdbcType="INTEGER"/>
     </resultMap>
 
+    <sql id="selectPeriod">
+        
+    </sql>
+
     <!--新增时期点-->
     <insert id="addPeriod">
         insert into anime_period(spid, period_name, binge_watching_amount_id, complete_amount_id, period, sp, deleted)
@@ -376,66 +380,66 @@
                       , T1.g
 
                  from (/*查询为T1，特殊时期点每时期id、spid、名称、补番数、追番数、实际补番数、时期点、期间补番数、期间追番数、时期点日数、期间日补番数、期间日追番数*/
-            select t1.id
-                 , t1.spid
-                 , t1.period_name
-                 , t1.complete_amount
-                 , t1.binge_watching_amount
-                 , t1.re_complete_amount
-                 , t1.period
-                 , t1.sp
-                 , t1.deleted
-                 , t1.c
-                 , t1.d
-                 , t1.e
+                          select t1.id
+                               , t1.spid
+                               , t1.period_name
+                               , t1.complete_amount
+                               , t1.binge_watching_amount
+                               , t1.re_complete_amount
+                               , t1.period
+                               , t1.sp
+                               , t1.deleted
+                               , t1.c
+                               , t1.d
+                               , t1.e
 
-                 , ifnull(t1.c / t1.e, 0) f
-                 , ifnull(t1.d / t1.e, 0) g
+                               , ifnull(t1.c / t1.e, 0) f
+                               , ifnull(t1.d / t1.e, 0) g
 
-            from (/*查询为t1，特殊时期点每时期id、spid、名称、补番数、追番数、实际补番数、时期点、期间补番数、期间追番数、时期点日数*/
-                  select A.id,
-                         A.spid,
-                         A.period_name,
-                         A.complete_amount,
-                         A.binge_watching_amount,
-                         A.re_complete_amount,
-                         A.period,
-                         A.sp,
-                         A.deleted,
+                          from (/*查询为t1，特殊时期点每时期id、spid、名称、补番数、追番数、实际补番数、时期点、期间补番数、期间追番数、时期点日数*/
+                                   select A.id,
+                                          A.spid,
+                                          A.period_name,
+                                          A.complete_amount,
+                                          A.binge_watching_amount,
+                                          A.re_complete_amount,
+                                          A.period,
+                                          A.sp,
+                                          A.deleted,
 
-                         (A.complete_amount - 8)                                               as c,
-                         (A.binge_watching_amount - 8)                                         as d,
-                         (datediff(A.period, '2017-11-03'))                                    as e
-                  from (/*查询为A，特殊时期点每时期id、spid、补番数、追番数、实际补番数、时期点、名称*/
-                      (select p.id,
-                                p.spid,
-                                a.complete_id       complete_amount,
-                                b.binge_watching_id binge_watching_amount,
-                                (select count(distinct (c.score)) from anime_main c where c.complete_id &lt;= a.complete_id) re_complete_amount,
-                                p.period,
-                                p.period_name,
-                                p.sp,
-                                p.deleted
-                         from (anime_period p left join anime_main a on a.id = p.complete_amount_id)
-                                  left join anime_main b on b.id = p.binge_watching_amount_id
-                         where sp = 1
-                           and p.deleted = 0
-                           and a.deleted = 0
-                           and b.deleted = 0)) A
-                           left join
-                       (/*查询为P，特殊时期点每时期id、spid、补番数、追番数、时期点 用作上期对比*/
-                           (select p.id,
-                                p.spid              spid,
-                                a.complete_id       complete_amount,
-                                b.binge_watching_id binge_watching_amount,
-                                p.period
-                         from (anime_period p left join anime_main a on a.id = p.complete_amount_id)
-                                  left join anime_main b on b.id = p.binge_watching_amount_id
-                         where sp = 1
-                           and p.deleted = 0
-                           and a.deleted = 0
-                           and b.deleted = 0)) P on P.spid = A.spid - 1) t1
-            ORDER BY t1.spid) T1
+                                          (A.complete_amount - 8)                                               as c,
+                                          (A.binge_watching_amount - 8)                                         as d,
+                                          (datediff(A.period, '2017-11-03'))                                    as e
+                                   from (/*查询为A，特殊时期点每时期id、spid、补番数、追番数、实际补番数、时期点、名称*/
+                                            (select p.id,
+                                                    p.spid,
+                                                    a.complete_id       complete_amount,
+                                                    b.binge_watching_id binge_watching_amount,
+                                                    (select count(distinct (c.score)) from anime_main c where c.complete_id &lt;= a.complete_id) re_complete_amount,
+                                                    p.period,
+                                                    p.period_name,
+                                                    p.sp,
+                                                    p.deleted
+                                             from (anime_period p left join anime_main a on a.id = p.complete_amount_id)
+                                                      left join anime_main b on b.id = p.binge_watching_amount_id
+                                             where sp = 1
+                                               and p.deleted = 0
+                                               and a.deleted = 0
+                                               and b.deleted = 0)) A
+                                            left join
+                                        (/*查询为P，特殊时期点每时期id、spid、补番数、追番数、时期点 用作上期对比*/
+                                            (select p.id,
+                                                    p.spid              spid,
+                                                    a.complete_id       complete_amount,
+                                                    b.binge_watching_id binge_watching_amount,
+                                                    p.period
+                                             from (anime_period p left join anime_main a on a.id = p.complete_amount_id)
+                                                      left join anime_main b on b.id = p.binge_watching_amount_id
+                                             where sp = 1
+                                               and p.deleted = 0
+                                               and a.deleted = 0
+                                               and b.deleted = 0)) P on P.spid = A.spid - 1) t1
+                          ORDER BY t1.spid) T1
                  ORDER BY T1.spid) T0,
              anime_main T2,
              anime_main T3
@@ -449,10 +453,469 @@
                      and T3.binge_watching_id &gt;= (select am.complete_id from anime_main am where id = 3)
                      and T3.binge_watching_id &lt;= T0.binge_watching_amount)
 
-
         group by T0.spid
         order by T0.spid;
 
+    </select>
+
+    <!--查询补完时期点-->
+    <select id="selectCPeriod" resultType="com.fubukianime.domain.AnimePeriod">
+        /* 总查询，普通时期点每时期id、spid、名称、补番数、追番数、实际补番数、期间补番数、期间追番数、
+   期间日补番数、期间日追番数、格式化时期点、时期点、时期点日数、时期补番评分、时期追番评分*/
+        select T0.id                              id,
+               T0.spid                            spid,
+               T0.period_name                     periodName,
+               T0.complete_amount                 completeAmount,
+               T0.binge_watching_amount           bingeWatchingAmount,
+               T0.re_complete_amount              reCompleteAmount,
+               T0.sp                              sp,
+               T0.deleted                         deleted,
+               T0.c                               periodComplete,
+               T0.d                               periodBingeWatching,
+               FORMAT(T0.f, 3)                    averageDailyComplete,
+               FORMAT(T0.g, 3)                    averageDailyBingeWatching,
+               date_format(T0.period, '%Y-%m-%d') periods,
+               T0.period                          period,
+               T0.e                               days,
+               round(avg(T3.score), 2)            averageScoreBingeWatching,
+               round(avg(T2.score), 2)            averageScoreComplete
+        from (/*查询为T0，普通时期点每时期id、spid、名称、补番数、追番数、实际补番数、时期点、期间补番数、期间追番数、时期点日数、期间日补番数、期间日追番数*/
+                 select T1.id
+                      , T1.spid
+                      , T1.period_name
+                      , T1.complete_amount
+                      , T1.binge_watching_amount
+                      , T1.re_complete_amount
+                      , T1.period
+                      , T1.sp
+                      , T1.deleted
+                      , T1.c
+                      , T1.d
+                      , T1.e
+                      , T1.f
+                      , T1.g
+
+                 from (/*查询为T1，特殊时期点每时期id、spid、名称、补番数、追番数、实际补番数、时期点、期间补番数、期间追番数、时期点日数、期间日补番数、期间日追番数*/
+                          select t1.id
+                               , t1.spid
+                               , t1.period_name
+                               , t1.complete_amount
+                               , t1.binge_watching_amount
+                               , t1.re_complete_amount
+                               , t1.period
+                               , t1.sp
+                               , t1.deleted
+                               , t1.c
+                               , t1.d
+                               , t1.e
+
+                               , ifnull(t1.c / t1.e, 0) f
+                               , ifnull(t1.d / t1.e, 0) g
+
+                          from (/*查询为t1，特殊时期点每时期id、spid、名称、补番数、追番数、实际补番数、时期点、期间补番数、期间追番数、时期点日数*/
+                                   select A.id,
+                                          A.spid,
+                                          A.period_name,
+                                          A.complete_amount,
+                                          A.binge_watching_amount,
+                                          A.re_complete_amount,
+                                          A.period,
+                                          A.sp,
+                                          A.deleted,
+
+                                          (A.complete_amount - 8)                                               as c,
+                                          (A.binge_watching_amount - 8)                                         as d,
+                                          (datediff(A.period, '2017-11-03'))                                    as e
+                                   from (/*查询为A，特殊时期点每时期id、spid、补番数、追番数、实际补番数、时期点、名称*/
+                                            (select p.id,
+                                                    p.spid,
+                                                    a.complete_id       complete_amount,
+                                                    b.binge_watching_id binge_watching_amount,
+                                                    (select count(distinct (c.score)) from anime_main c where c.complete_id &lt;= a.complete_id) re_complete_amount,
+                                                    p.period,
+                                                    p.period_name,
+                                                    p.sp,
+                                                    p.deleted
+                                             from (anime_period p left join anime_main a on a.id = p.complete_amount_id)
+                                                      left join anime_main b on b.id = p.binge_watching_amount_id
+                                             where sp = 2
+                                               and p.deleted = 0
+                                               and a.deleted = 0
+                                               and b.deleted = 0)) A
+                                            left join
+                                        (/*查询为P，特殊时期点每时期id、spid、补番数、追番数、时期点 用作上期对比*/
+                                            (select p.id,
+                                                    p.spid              spid,
+                                                    a.complete_id       complete_amount,
+                                                    b.binge_watching_id binge_watching_amount,
+                                                    p.period
+                                             from (anime_period p left join anime_main a on a.id = p.complete_amount_id)
+                                                      left join anime_main b on b.id = p.binge_watching_amount_id
+                                             where sp = 2
+                                               and p.deleted = 0
+                                               and a.deleted = 0
+                                               and b.deleted = 0)) P on P.spid = A.spid - 1) t1
+                          ORDER BY t1.spid) T1
+                 ORDER BY T1.spid) T0,
+             anime_main T2,
+             anime_main T3
+        where IF(spid = 1,
+        T2.complete_id &gt;= (select am.complete_id from anime_main am where id = 2)
+        and T2.complete_id &lt; (select am.complete_id from anime_main am where id = 3)
+        and T3.binge_watching_id &gt;= (select am.binge_watching_id from anime_main am where id = 2)
+        and T3.binge_watching_id &lt;= (select am.binge_watching_id from anime_main am where id = 3),
+        T2.complete_id &gt;= (select am.complete_id from anime_main am where id = 3)
+        and T2.complete_id &lt;= T0.complete_amount
+        and T3.binge_watching_id &gt;= (select am.complete_id from anime_main am where id = 3)
+        and T3.binge_watching_id &lt;= T0.binge_watching_amount)
+
+        group by T0.spid
+        order by T0.spid;
+    </select>
+
+    <!--查询实际补时期点-->
+    <select id="selectRCPeriod" resultType="com.fubukianime.domain.AnimePeriod">
+        /* 总查询，普通时期点每时期id、spid、名称、补番数、追番数、实际补番数、期间补番数、期间追番数、
+   期间日补番数、期间日追番数、格式化时期点、时期点、时期点日数、时期补番评分、时期追番评分*/
+        select T0.id                              id,
+               T0.spid                            spid,
+               T0.period_name                     periodName,
+               T0.complete_amount                 completeAmount,
+               T0.binge_watching_amount           bingeWatchingAmount,
+               T0.re_complete_amount              reCompleteAmount,
+               T0.sp                              sp,
+               T0.deleted                         deleted,
+               T0.c                               periodComplete,
+               T0.d                               periodBingeWatching,
+               FORMAT(T0.f, 3)                    averageDailyComplete,
+               FORMAT(T0.g, 3)                    averageDailyBingeWatching,
+               date_format(T0.period, '%Y-%m-%d') periods,
+               T0.period                          period,
+               T0.e                               days,
+               round(avg(T3.score), 2)            averageScoreBingeWatching,
+               round(avg(T2.score), 2)            averageScoreComplete
+        from (/*查询为T0，普通时期点每时期id、spid、名称、补番数、追番数、实际补番数、时期点、期间补番数、期间追番数、时期点日数、期间日补番数、期间日追番数*/
+                 select T1.id
+                      , T1.spid
+                      , T1.period_name
+                      , T1.complete_amount
+                      , T1.binge_watching_amount
+                      , T1.re_complete_amount
+                      , T1.period
+                      , T1.sp
+                      , T1.deleted
+                      , T1.c
+                      , T1.d
+                      , T1.e
+                      , T1.f
+                      , T1.g
+
+                 from (/*查询为T1，特殊时期点每时期id、spid、名称、补番数、追番数、实际补番数、时期点、期间补番数、期间追番数、时期点日数、期间日补番数、期间日追番数*/
+                          select t1.id
+                               , t1.spid
+                               , t1.period_name
+                               , t1.complete_amount
+                               , t1.binge_watching_amount
+                               , t1.re_complete_amount
+                               , t1.period
+                               , t1.sp
+                               , t1.deleted
+                               , t1.c
+                               , t1.d
+                               , t1.e
+
+                               , ifnull(t1.c / t1.e, 0) f
+                               , ifnull(t1.d / t1.e, 0) g
+
+                          from (/*查询为t1，特殊时期点每时期id、spid、名称、补番数、追番数、实际补番数、时期点、期间补番数、期间追番数、时期点日数*/
+                                   select A.id,
+                                          A.spid,
+                                          A.period_name,
+                                          A.complete_amount,
+                                          A.binge_watching_amount,
+                                          A.re_complete_amount,
+                                          A.period,
+                                          A.sp,
+                                          A.deleted,
+
+                                          (A.complete_amount - 8)                                               as c,
+                                          (A.binge_watching_amount - 8)                                         as d,
+                                          (datediff(A.period, '2017-11-03'))                                    as e
+                                   from (/*查询为A，特殊时期点每时期id、spid、补番数、追番数、实际补番数、时期点、名称*/
+                                            (select p.id,
+                                                    p.spid,
+                                                    a.complete_id       complete_amount,
+                                                    b.binge_watching_id binge_watching_amount,
+                                                    (select count(distinct (c.score)) from anime_main c where c.complete_id &lt;= a.complete_id) re_complete_amount,
+                                                    p.period,
+                                                    p.period_name,
+                                                    p.sp,
+                                                    p.deleted
+                                             from (anime_period p left join anime_main a on a.id = p.complete_amount_id)
+                                                      left join anime_main b on b.id = p.binge_watching_amount_id
+                                             where sp = 3
+                                               and p.deleted = 0
+                                               and a.deleted = 0
+                                               and b.deleted = 0)) A
+                                            left join
+                                        (/*查询为P，特殊时期点每时期id、spid、补番数、追番数、时期点 用作上期对比*/
+                                            (select p.id,
+                                                    p.spid              spid,
+                                                    a.complete_id       complete_amount,
+                                                    b.binge_watching_id binge_watching_amount,
+                                                    p.period
+                                             from (anime_period p left join anime_main a on a.id = p.complete_amount_id)
+                                                      left join anime_main b on b.id = p.binge_watching_amount_id
+                                             where sp = 3
+                                               and p.deleted = 0
+                                               and a.deleted = 0
+                                               and b.deleted = 0)) P on P.spid = A.spid - 1) t1
+                          ORDER BY t1.spid) T1
+                 ORDER BY T1.spid) T0,
+             anime_main T2,
+             anime_main T3
+        where IF(spid = 1,
+        T2.complete_id &gt;= (select am.complete_id from anime_main am where id = 2)
+        and T2.complete_id &lt; (select am.complete_id from anime_main am where id = 3)
+        and T3.binge_watching_id &gt;= (select am.binge_watching_id from anime_main am where id = 2)
+        and T3.binge_watching_id &lt;= (select am.binge_watching_id from anime_main am where id = 3),
+        T2.complete_id &gt;= (select am.complete_id from anime_main am where id = 3)
+        and T2.complete_id &lt;= T0.complete_amount
+        and T3.binge_watching_id &gt;= (select am.complete_id from anime_main am where id = 3)
+        and T3.binge_watching_id &lt;= T0.binge_watching_amount)
+
+        group by T0.spid
+        order by T0.spid;
+    </select>
+
+    <!--查询追番时期点-->
+    <select id="selectBPeriod" resultType="com.fubukianime.domain.AnimePeriod">
+        /* 总查询，普通时期点每时期id、spid、名称、补番数、追番数、实际补番数、期间补番数、期间追番数、
+   期间日补番数、期间日追番数、格式化时期点、时期点、时期点日数、时期补番评分、时期追番评分*/
+        select T0.id                              id,
+               T0.spid                            spid,
+               T0.period_name                     periodName,
+               T0.complete_amount                 completeAmount,
+               T0.binge_watching_amount           bingeWatchingAmount,
+               T0.re_complete_amount              reCompleteAmount,
+               T0.sp                              sp,
+               T0.deleted                         deleted,
+               T0.c                               periodComplete,
+               T0.d                               periodBingeWatching,
+               FORMAT(T0.f, 3)                    averageDailyComplete,
+               FORMAT(T0.g, 3)                    averageDailyBingeWatching,
+               date_format(T0.period, '%Y-%m-%d') periods,
+               T0.period                          period,
+               T0.e                               days,
+               round(avg(T3.score), 2)            averageScoreBingeWatching,
+               round(avg(T2.score), 2)            averageScoreComplete
+        from (/*查询为T0，普通时期点每时期id、spid、名称、补番数、追番数、实际补番数、时期点、期间补番数、期间追番数、时期点日数、期间日补番数、期间日追番数*/
+                 select T1.id
+                      , T1.spid
+                      , T1.period_name
+                      , T1.complete_amount
+                      , T1.binge_watching_amount
+                      , T1.re_complete_amount
+                      , T1.period
+                      , T1.sp
+                      , T1.deleted
+                      , T1.c
+                      , T1.d
+                      , T1.e
+                      , T1.f
+                      , T1.g
+
+                 from (/*查询为T1，特殊时期点每时期id、spid、名称、补番数、追番数、实际补番数、时期点、期间补番数、期间追番数、时期点日数、期间日补番数、期间日追番数*/
+                          select t1.id
+                               , t1.spid
+                               , t1.period_name
+                               , t1.complete_amount
+                               , t1.binge_watching_amount
+                               , t1.re_complete_amount
+                               , t1.period
+                               , t1.sp
+                               , t1.deleted
+                               , t1.c
+                               , t1.d
+                               , t1.e
+
+                               , ifnull(t1.c / t1.e, 0) f
+                               , ifnull(t1.d / t1.e, 0) g
+
+                          from (/*查询为t1，特殊时期点每时期id、spid、名称、补番数、追番数、实际补番数、时期点、期间补番数、期间追番数、时期点日数*/
+                                   select A.id,
+                                          A.spid,
+                                          A.period_name,
+                                          A.complete_amount,
+                                          A.binge_watching_amount,
+                                          A.re_complete_amount,
+                                          A.period,
+                                          A.sp,
+                                          A.deleted,
+
+                                          (A.complete_amount - 8)                                               as c,
+                                          (A.binge_watching_amount - 8)                                         as d,
+                                          (datediff(A.period, '2017-11-03'))                                    as e
+                                   from (/*查询为A，特殊时期点每时期id、spid、补番数、追番数、实际补番数、时期点、名称*/
+                                            (select p.id,
+                                                    p.spid,
+                                                    a.complete_id       complete_amount,
+                                                    b.binge_watching_id binge_watching_amount,
+                                                    (select count(distinct (c.score)) from anime_main c where c.complete_id &lt;= a.complete_id) re_complete_amount,
+                                                    p.period,
+                                                    p.period_name,
+                                                    p.sp,
+                                                    p.deleted
+                                             from (anime_period p left join anime_main a on a.id = p.complete_amount_id)
+                                                      left join anime_main b on b.id = p.binge_watching_amount_id
+                                             where sp = 4
+                                               and p.deleted = 0
+                                               and a.deleted = 0
+                                               and b.deleted = 0)) A
+                                            left join
+                                        (/*查询为P，特殊时期点每时期id、spid、补番数、追番数、时期点 用作上期对比*/
+                                            (select p.id,
+                                                    p.spid              spid,
+                                                    a.complete_id       complete_amount,
+                                                    b.binge_watching_id binge_watching_amount,
+                                                    p.period
+                                             from (anime_period p left join anime_main a on a.id = p.complete_amount_id)
+                                                      left join anime_main b on b.id = p.binge_watching_amount_id
+                                             where sp = 4
+                                               and p.deleted = 0
+                                               and a.deleted = 0
+                                               and b.deleted = 0)) P on P.spid = A.spid - 1) t1
+                          ORDER BY t1.spid) T1
+                 ORDER BY T1.spid) T0,
+             anime_main T2,
+             anime_main T3
+        where IF(spid = 1,
+        T2.complete_id &gt;= (select am.complete_id from anime_main am where id = 2)
+        and T2.complete_id &lt; (select am.complete_id from anime_main am where id = 3)
+        and T3.binge_watching_id &gt;= (select am.binge_watching_id from anime_main am where id = 2)
+        and T3.binge_watching_id &lt;= (select am.binge_watching_id from anime_main am where id = 3),
+        T2.complete_id &gt;= (select am.complete_id from anime_main am where id = 3)
+        and T2.complete_id &lt;= T0.complete_amount
+        and T3.binge_watching_id &gt;= (select am.complete_id from anime_main am where id = 3)
+        and T3.binge_watching_id &lt;= T0.binge_watching_amount)
+
+        group by T0.spid
+        order by T0.spid;
+    </select>
+
+    <!--查询年终时期点-->
+    <select id="selectYPeriod" resultType="com.fubukianime.domain.AnimePeriod">
+        /* 总查询，普通时期点每时期id、spid、名称、补番数、追番数、实际补番数、期间补番数、期间追番数、
+   期间日补番数、期间日追番数、格式化时期点、时期点、时期点日数、时期补番评分、时期追番评分*/
+        select T0.id                              id,
+               T0.spid                            spid,
+               T0.period_name                     periodName,
+               T0.complete_amount                 completeAmount,
+               T0.binge_watching_amount           bingeWatchingAmount,
+               T0.re_complete_amount              reCompleteAmount,
+               T0.sp                              sp,
+               T0.deleted                         deleted,
+               T0.c                               periodComplete,
+               T0.d                               periodBingeWatching,
+               FORMAT(T0.f, 3)                    averageDailyComplete,
+               FORMAT(T0.g, 3)                    averageDailyBingeWatching,
+               date_format(T0.period, '%Y-%m-%d') periods,
+               T0.period                          period,
+               T0.e                               days,
+               round(avg(T3.score), 2)            averageScoreBingeWatching,
+               round(avg(T2.score), 2)            averageScoreComplete
+        from (/*查询为T0，普通时期点每时期id、spid、名称、补番数、追番数、实际补番数、时期点、期间补番数、期间追番数、时期点日数、期间日补番数、期间日追番数*/
+                 select T1.id
+                      , T1.spid
+                      , T1.period_name
+                      , T1.complete_amount
+                      , T1.binge_watching_amount
+                      , T1.re_complete_amount
+                      , T1.period
+                      , T1.sp
+                      , T1.deleted
+                      , T1.c
+                      , T1.d
+                      , T1.e
+                      , T1.f
+                      , T1.g
+
+                 from (/*查询为T1，特殊时期点每时期id、spid、名称、补番数、追番数、实际补番数、时期点、期间补番数、期间追番数、时期点日数、期间日补番数、期间日追番数*/
+                          select t1.id
+                               , t1.spid
+                               , t1.period_name
+                               , t1.complete_amount
+                               , t1.binge_watching_amount
+                               , t1.re_complete_amount
+                               , t1.period
+                               , t1.sp
+                               , t1.deleted
+                               , t1.c
+                               , t1.d
+                               , t1.e
+
+                               , ifnull(t1.c / t1.e, 0) f
+                               , ifnull(t1.d / t1.e, 0) g
+
+                          from (/*查询为t1，特殊时期点每时期id、spid、名称、补番数、追番数、实际补番数、时期点、期间补番数、期间追番数、时期点日数*/
+                                   select A.id,
+                                          A.spid,
+                                          A.period_name,
+                                          A.complete_amount,
+                                          A.binge_watching_amount,
+                                          A.re_complete_amount,
+                                          A.period,
+                                          A.sp,
+                                          A.deleted,
+
+                                          (A.complete_amount - 8)                                               as c,
+                                          (A.binge_watching_amount - 8)                                         as d,
+                                          (datediff(A.period, '2017-11-03'))                                    as e
+                                   from (/*查询为A，特殊时期点每时期id、spid、补番数、追番数、实际补番数、时期点、名称*/
+                                            (select p.id,
+                                                    p.spid,
+                                                    a.complete_id       complete_amount,
+                                                    b.binge_watching_id binge_watching_amount,
+                                                    (select count(distinct (c.score)) from anime_main c where c.complete_id &lt;= a.complete_id) re_complete_amount,
+                                                    p.period,
+                                                    p.period_name,
+                                                    p.sp,
+                                                    p.deleted
+                                             from (anime_period p left join anime_main a on a.id = p.complete_amount_id)
+                                                      left join anime_main b on b.id = p.binge_watching_amount_id
+                                             where sp = 5
+                                               and p.deleted = 0
+                                               and a.deleted = 0
+                                               and b.deleted = 0)) A
+                                            left join
+                                        (/*查询为P，特殊时期点每时期id、spid、补番数、追番数、时期点 用作上期对比*/
+                                            (select p.id,
+                                                    p.spid              spid,
+                                                    a.complete_id       complete_amount,
+                                                    b.binge_watching_id binge_watching_amount,
+                                                    p.period
+                                             from (anime_period p left join anime_main a on a.id = p.complete_amount_id)
+                                                      left join anime_main b on b.id = p.binge_watching_amount_id
+                                             where sp = 5
+                                               and p.deleted = 0
+                                               and a.deleted = 0
+                                               and b.deleted = 0)) P on P.spid = A.spid - 1) t1
+                          ORDER BY t1.spid) T1
+                 ORDER BY T1.spid) T0,
+             anime_main T2,
+             anime_main T3
+        where IF(spid = 1,
+        T2.complete_id &gt;= (select am.complete_id from anime_main am where id = 2)
+        and T2.complete_id &lt; (select am.complete_id from anime_main am where id = 3)
+        and T3.binge_watching_id &gt;= (select am.binge_watching_id from anime_main am where id = 2)
+        and T3.binge_watching_id &lt;= (select am.binge_watching_id from anime_main am where id = 3),
+        T2.complete_id &gt;= (select am.complete_id from anime_main am where id = 3)
+        and T2.complete_id &lt;= T0.complete_amount
+        and T3.binge_watching_id &gt;= (select am.complete_id from anime_main am where id = 3)
+        and T3.binge_watching_id &lt;= T0.binge_watching_amount)
+
+        group by T0.spid
+        order by T0.spid;
     </select>
 
 

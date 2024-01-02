@@ -25,6 +25,34 @@ public interface AnimePeriodDao extends BaseMapper<AnimePeriod> {
     List<AnimePeriod> selectSPPeriod(AnimePeriod animePeriod);
 
     /**
+     * 查询补完时期点
+     * @param
+     * @return
+     */
+    List<AnimePeriod> selectCPeriod(AnimePeriod animePeriod);
+
+    /**
+     * 查询实际补时期点
+     * @param
+     * @return
+     */
+    List<AnimePeriod> selectRCPeriod(AnimePeriod animePeriod);
+
+    /**
+     * 查询追番时期点
+     * @param
+     * @return
+     */
+    List<AnimePeriod> selectBPeriod(AnimePeriod animePeriod);
+
+    /**
+     * 查询年终时期点
+     * @param
+     * @return
+     */
+    List<AnimePeriod> selectYPeriod(AnimePeriod animePeriod);
+
+    /**
      * 新增时期点
      * @param animePeriod
      */

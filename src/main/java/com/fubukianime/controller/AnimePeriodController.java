@@ -62,6 +62,34 @@ public class AnimePeriodController {
         return new R(true, list);
     }
 
+    @Cacheable(value = "animeMainCache", key = "#root.methodName + '_' + #animePeriod.sp + '_' + #animePeriod.spid + '_' + #animePeriod.periodName", unless = "#result == null")
+    @GetMapping("/selectCPeriod")
+    public R selectCPeriod(AnimePeriod animePeriod){
+        List<AnimePeriod> list = animePeriodService.selectCPeriod(animePeriod);
+        return new R(true, list);
+    }
+
+    @Cacheable(value = "animeMainCache", key = "#root.methodName + '_' + #animePeriod.sp + '_' + #animePeriod.spid + '_' + #animePeriod.periodName", unless = "#result == null")
+    @GetMapping("/selectRCPeriod")
+    public R selectRCPeriod(AnimePeriod animePeriod){
+        List<AnimePeriod> list = animePeriodService.selectRCPeriod(animePeriod);
+        return new R(true, list);
+    }
+
+    @Cacheable(value = "animeMainCache", key = "#root.methodName + '_' + #animePeriod.sp + '_' + #animePeriod.spid + '_' + #animePeriod.periodName", unless = "#result == null")
+    @GetMapping("/selectBPeriod")
+    public R selectBPeriod(AnimePeriod animePeriod){
+        List<AnimePeriod> list = animePeriodService.selectBPeriod(animePeriod);
+        return new R(true, list);
+    }
+
+    @Cacheable(value = "animeMainCache", key = "#root.methodName + '_' + #animePeriod.sp + '_' + #animePeriod.spid + '_' + #animePeriod.periodName", unless = "#result == null")
+    @GetMapping("/selectYPeriod")
+    public R selectYPeriod(AnimePeriod animePeriod){
+        List<AnimePeriod> list = animePeriodService.selectYPeriod(animePeriod);
+        return new R(true, list);
+    }
+
     @CacheEvict(value = "animeMainCache", allEntries = true)
     @PostMapping
     public R addPeriod(@RequestBody AnimePeriod animePeriod) throws IOException {

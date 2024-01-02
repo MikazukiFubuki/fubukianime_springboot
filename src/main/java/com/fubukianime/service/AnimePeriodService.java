@@ -29,11 +29,39 @@ public interface AnimePeriodService extends IService<AnimePeriod> {
     List<AnimePeriod> selectComPeriod(AnimePeriod animePeriod);
 
     /**
-     * 查询普通时期点
+     * 查询特殊时期点
      * @param
      * @return
      */
     List<AnimePeriod> selectSPPeriod(AnimePeriod animePeriod);
+
+    /**
+     * 查询补完时期点
+     * @param
+     * @return
+     */
+    List<AnimePeriod> selectCPeriod(AnimePeriod animePeriod);
+
+    /**
+     * 查询实际补时期点
+     * @param
+     * @return
+     */
+    List<AnimePeriod> selectRCPeriod(AnimePeriod animePeriod);
+
+    /**
+     * 查询追番时期点
+     * @param
+     * @return
+     */
+    List<AnimePeriod> selectBPeriod(AnimePeriod animePeriod);
+
+    /**
+     * 查询年终时期点
+     * @param
+     * @return
+     */
+    List<AnimePeriod> selectYPeriod(AnimePeriod animePeriod);
 
 
 }

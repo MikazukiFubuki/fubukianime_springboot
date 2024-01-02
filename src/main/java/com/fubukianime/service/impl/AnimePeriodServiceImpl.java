@@ -60,4 +60,46 @@ public class AnimePeriodServiceImpl extends ServiceImpl<AnimePeriodDao, AnimePer
         List<AnimePeriod> list = animePeriodDao.selectSPPeriod(animePeriod);
         return list;
     }
+
+    /**
+     * 查询补完时期点
+     * @param
+     * @return
+     */
+    @Override
+    public List<AnimePeriod> selectCPeriod(AnimePeriod animePeriod) {
+        List<AnimePeriod> list = animePeriodDao.selectCPeriod(animePeriod);
+        return list;
+    }
+
+    /**
+     * 查询实际补时期点
+     * @param
+     * @return
+     */
+    @Override
+    public List<AnimePeriod> selectRCPeriod(AnimePeriod animePeriod) {
+        List<AnimePeriod> list = animePeriodDao.selectRCPeriod(animePeriod);
+        return list;
+    }
+
+    /**
+     * 查询追番时期点
+     * @param
+     * @return
+     */
+    @Override
+    public List<AnimePeriod> selectBPeriod(AnimePeriod animePeriod) {
+        List<AnimePeriod> list = animePeriodDao.selectBPeriod(animePeriod);
+        return list;
+    }
+
+    /**
+     * 查询年终时期点
+     */
+    @Override
+    public List<AnimePeriod> selectYPeriod(AnimePeriod animePeriod) {
+        List<AnimePeriod> list = animePeriodDao.selectYPeriod(animePeriod);
+        return list;
+    }
 }
