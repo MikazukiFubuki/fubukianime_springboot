@@ -7,6 +7,22 @@
   overflow-x: auto;
   display: flex;
 }
+.app-wrapper.openSidebar .sidebar-container {
+  width: 190px !important;
+}
+
+.app-wrapper.openSidebar .main-container {
+  width: calc(100% - 190px);
+}
+
+.app-wrapper:not(.openSidebar) .sidebar-container {
+  width: 0 !important;
+}
+
+.app-wrapper:not(.openSidebar) .main-container {
+  width: 100%;
+}
+
 .drawer-bg {
   background: #000;
   opacity: 0.3;
@@ -18,7 +34,7 @@
 }
 .main-container {
   height: 100%;
-  background: #f3f4f7;
+  background: #ffffff; /*功能页面背景色*/
   position: relative;
   width: calc(100% - 190px);
 }
@@ -56,12 +72,14 @@
 .sidebar-container .el-scrollbar__bar.is-horizontal {
   display: none;
 }
-
+body {
+  font-family: "方正少儿_GBK", "楷体", sans-serif;
+}
 .navbar {
   height: 64px;
   overflow: hidden;
   position: relative;
-  background: #e6b3ff;
+  background: #b4e1ff; /*当前页面名和退出栏*/
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
 }
 .navbar .hamburger-container {
@@ -148,7 +166,7 @@
 .navbar .head-lable {
   /* position: absolute; */
   /* background: #fff; */
-  color: #333333;
+  color: #333333; /*当前页面名字体颜色*/
   height: 64px;
   font-size: 16px;
   width: 300px;
@@ -191,7 +209,7 @@
 
 .logo {
   text-align: center;
-  background-color: rgb(4, 158, 255);
+  background-color: #ffc6ff; /*logo区背景色*/
   /* height: 100px;
   line-height: 100px;
   padding: 12px 5px; */
@@ -213,12 +231,13 @@
 }
 
 .el-submenu.is-active > .el-submenu__title {
-  color: #FFFFFF !important;
+  color: #4b498a !important; /*被选中大按钮字体色*/
+  font-weight: bold !important; /* 文字加粗 */
 }
 .el-submenu > .el-submenu__title,
 .el-submenu .el-menu-item {
   min-width: 190px !important;
-  background-color: #E6A23C !important;
+  background-color: #bdb2ff !important; /*左侧按钮背景色*/
 }
 /* .el-submenu > .el-submenu__title:hover, .el-submenu .el-menu-item:hover {
   background-color: #0e132b !important;
@@ -228,22 +247,40 @@
     color: #FF903D !important;
 } */
 
+
+:root {
+  --top-level-border-color: #FF5733; /* 改为橙色 */
+  --sub-level-border-color: #4b498a; /* 改为天蓝色 */
+}
+
+/* 为所有顶级菜单项添加自定义颜色描边 */
+.el-menu > .el-submenu__title,
+.el-menu > .el-menu-item {
+  border: 2px solid var(--top-level-border-color); /* 使用变量 */
+}
+/* 为子菜单项添加普通蓝色描边 */
+.el-menu .el-submenu .el-menu-item {
+  border: 2px solid var(--sub-level-border-color); /* 使用变量 */
+}
+
 .el-menu .el-menu-item {
-  color: #aeb5c4;
+
+  color: #ffffff;
   height: 42px;
   line-height: 42px;
 }
 .el-menu .el-menu-item {
-  padding: 0 0 0 32px !important;
-  margin: 0 34px 20px 0;
-  border-radius: 0 21px 21px 0 !important;
+  padding: 0 0 0 50px !important;
+  margin: 0 0 1px 0 !important;
+  border-radius: 0 0 100px 0 !important;
 }
 .el-menu .el-menu-item:hover {
-  color: #ffffff !important;
+  color: #ffd6a5 !important; /*鼠标悬停离开按钮一瞬间字体颜色*/
   background-color: transparent !important;
 }
 .el-menu .el-menu-item:hover span {
-  color: #ffffff !important;
+  color: #ffd6a5 !important; /*鼠标悬停按钮时字体颜色*/
+  font-weight: bold !important; /* 文字加粗 */
 }
 
 .el-menu .el-menu-item:active {
@@ -251,17 +288,20 @@
   background-color: transparent !important;
 }
 .el-menu .el-menu-item:active span {
-  color: #333333 !important;
+  color: #ffd6a5 !important; /*鼠标点击按钮一瞬间字体颜色*/
 }
 
 .el-menu .el-menu-item.is-active {
-  background-color: #ffc200 !important;
-  color: #333333 !important;
-  border-radius: 0 21px 21px 0 !important;
+  background-color: #ffc6ff !important; /* 左侧按钮选中高光色 */
+  color: #ffadad !important; /* 选中按钮时的文字颜色 */
+  font-weight: bold !important; /* 文字加粗 */
+  border-radius: 0 0 21px 0 !important; /* 圆角样式 */
+  text-shadow: -1px -1px 0 #FFffff, 1px -1px 0 #FFffff, -1px 1px 0 #FFffff, 1px 1px 0 #FFffff; /* 添加描边 */
 }
 .el-menu .el-menu-item.is-active span {
-  color: #333333 !important;
-  font-weight: 500 !important;
+  color: #ffadad !important; /* 选中按钮时的文字颜色 */
+  font-weight: bold !important; /* 文字加粗 */
+  text-shadow: -1px -1px 0 #FFffff, 1px -1px 0 #FFffff, -1px 1px 0 #FFffff, 1px 1px 0 #FFffff; /* 添加描边 */
 }
 
 .el-menu-item i {

@@ -117,3 +117,17 @@
     text-align: center;
     color: aliceblue;
 }
+
+/* 基础样式调整 */
+.el-input__inner {
+    border-radius: 8px !important; /* 强制圆角边框 */
+    background-color: transparent !important; /* 初始状态透明背景 */
+    border: 1px solid #ccc !important; /* 边框颜色 */
+    transition: background-color 0.3s, border-color 0.3s; /* 平滑过渡效果 */
+}
+
+/* 聚焦时的样式调整 */
+.el-input__inner:focus {
+    background-color: white !important; /* 聚焦时白色背景 */
+    border-color: #409EFF !important; /* 聚焦时边框颜色 */
+}

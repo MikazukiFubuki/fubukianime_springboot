@@ -139,7 +139,7 @@
     <select id="selectHAnimeTypeShow" resultType="com.fubukianime.domain.AnimeTypesShow">
         SELECT T2.id, T2.type typesName, count(T1.type) typesNum
         FROM hanime_main T1
-                 right join hanime_type T2 ON T1.type = T2.id
+                 right join hanime_type T2 ON T1.type = T2.id where T2.deleted = 0
         GROUP BY T2.type
         ORDER BY count(T1.type) DESC;
     </select>
