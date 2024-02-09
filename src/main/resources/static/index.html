@@ -40,9 +40,10 @@
               :default-active="defAct"
               :unique-opened="false"
               :collapse-transition="false"
-              background-color="#409EFF"
-              text-color="#000000"
-              active-text-color="#F56C6C"
+
+              background-color="#fdf6fd"
+              text-color="#fffffc"
+              active-text-color="#ffadad"
             >
               <div v-for="item in menuList" :key="item.id">
                 <el-submenu :index="item.id" v-if="item.children && item.children.length>0">
@@ -72,6 +73,9 @@
         <div class="main-container">
           <!-- <navbar /> -->
           <div class="navbar">
+              <div class="hamburger-container" id="sidebarToggle">
+                  <i id="toggleIcon" class="el-icon-arrow-left"></i> <!-- 初始设置为右箭头 -->
+              </div>
             <div class="head-lable">
               <span v-if="goBackFlag" class="goBack" @click="goBack()"
                 ><img src="images/icons/btn_back@2x.png" alt="" /> 返回</span
@@ -83,6 +87,7 @@
               <!-- <div class="logout" @click="logout">退出</div> -->
               <img src="images/icons/btn_close@2x.png" class="outLogin" alt="退出" @click="logout()" />
             </div>
+
           </div>
           <div class="app-main" v-loading="loading">
             <div class="divTmp" v-show="loading"></div>
@@ -110,6 +115,26 @@
     <script src="./api/login.js"></script>
     <script>
 
+        document.addEventListener('DOMContentLoaded', function () {
+            var sidebarToggle = document.getElementById('sidebarToggle');
+            var appWrapper = document.querySelector('.app-wrapper');
+            var toggleIcon = document.getElementById('toggleIcon');
+
+            sidebarToggle.addEventListener('click', function() {
+                appWrapper.classList.toggle('openSidebar');
+
+                // 根据侧边栏状态切换图标
+                if (appWrapper.classList.contains('openSidebar')) {
+                    toggleIcon.classList.remove('el-icon-arrow-right');
+                    toggleIcon.classList.add('el-icon-arrow-left');
+                } else {
+                    toggleIcon.classList.remove('el-icon-arrow-left');
+                    toggleIcon.classList.add('el-icon-arrow-right');
+                }
+            });
+        });
+
+
       new Vue({
         el: '#app',
         data() {
@@ -120,35 +145,35 @@
             menuList: [
               {
                 id: '1',
-                name: '展示',
+                name: 'SHOW',
                 children: [
                   {
                     id: '1-1',
-                    name: '统计表展示',
+                    name: '统计表',
                     url: 'pages/show5/index.html',
-                    icon: 'icon-category'
+                      icon: 'icon-member'
                   },
                   {
                     id: '1-2',
-                    name: '主表展示',
+                    name: '主表',
                     url: 'pages/mainShows.html',
                     icon: 'icon-category'
                   },
                     {
                         id: '1-3',
-                        name: '追番季展示',
+                        name: '追番季',
                         url: 'pages/quarter7/index.html',
                         icon: 'icon-category'
                     },
                     {
                         id: '1-4',
-                        name: '追番时期展示',
+                        name: '追番时期',
                         url: 'pages/period6/index.html',
                         icon: 'icon-category'
                     },
                     {
                         id: '1-5',
-                        name: '最爱女主排名展示',
+                        name: '最爱女主排名',
                         url: 'pages/favoriteGirlRanks.html',
                         icon: 'icon-category'
                     },
@@ -158,95 +183,95 @@
               },
                 {
                     id: '2',
-                    name: '动画系统管理',
+                    name: 'Anime',
                     children: [
                         {
                             id: '2-1',
-                            name: '主表管理',
+                            name: '主表',
                             url: 'pages/mainManages.html',
                             icon: 'icon-category'
                         },
                         {
                             id: '2-2',
-                            name: '追番季管理',
+                            name: '追番季',
                             url: 'pages/quarters.html',
                             icon: 'icon-category'
                         },
                         {
                             id: '2-3',
-                            name: '时期点管理',
+                            name: '时期点',
                             url: 'pages/periods.html',
                             icon: 'icon-category'
                         },
                         {
                             id: '2-4',
-                            name: '日漫表版本',
+                            name: '版本',
                             url: 'pages/editions.html',
                             icon: 'icon-category'
                         },
                         {
                             id: '2-5',
-                            name: '动画来源管理',
+                            name: '动画来源',
                             url: 'pages/sources.html',
                             icon: 'icon-order'
                         },
                         {
                             id: '2-6',
-                            name: '形式类型管理',
+                            name: '形式类型',
                             url: 'pages/layoutTypes.html',
                             icon: 'icon-order'
                         },
                         {
                             id: '2-7',
-                            name: '动画类型管理',
+                            name: '动画类型',
                             url: 'pages/types.html',
                             icon: 'icon-order'
                         },
                         {
                             id: '2-8',
-                            name: '恋爱类型管理',
+                            name: '恋爱类型',
                             url: 'pages/loves.html',
                             icon: 'icon-order'
                         },
                         {
                             id: '2-9',
-                            name: '工口类型管理',
+                            name: '工口类型',
                             url: 'pages/sexLimits.html',
                             icon: 'icon-order'
                         },
                         {
                             id: '2-10',
-                            name: '创作类型管理',
+                            name: '创作类型',
                             url: 'pages/creates.html',
                             icon: 'icon-order'
                         },
                         {
                             id: '2-11',
-                            name: '主角类型管理',
+                            name: '主角类型',
                             url: 'pages/leaderGenders.html',
                             icon: 'icon-order'
                         },
                         {
                             id: '2-12',
-                            name: '动画结局管理',
+                            name: '动画结局',
                             url: 'pages/animationEnds.html',
                             icon: 'icon-order'
                         },
                         {
                             id: '2-13',
-                            name: '原作结局管理',
+                            name: '原作结局',
                             url: 'pages/originalEnds.html',
                             icon: 'icon-order'
                         },
                         {
                             id: '2-14',
-                            name: '追番类型管理',
+                            name: '追番类型',
                             url: 'pages/bingeWatchingTypes.html',
                             icon: 'icon-order'
                         },
                         {
                             id: '2-15',
-                            name: '动画周边管理',
+                            name: '动画周边',
                             url: 'pages/merchs.html',
                             icon: 'icon-order'
                         },
@@ -255,23 +280,23 @@
                 },
                 {
                     id: '3',
-                    name: '声优系统管理',
+                    name: 'CV',
                     children: [
                         {
                             id: '3-1',
-                            name: '声优信息管理',
+                            name: '声优信息',
                             url: 'pages/cvCVs.html',
                             icon: 'icon-order'
                         },
                         {
                             id: '3-2',
-                            name: '声优作品管理',
+                            name: '声优作品',
                             url: 'pages/cvWorks.html',
                             icon: 'icon-order'
                         },
                         {
                             id: '3-3',
-                            name: '已故声优管理',
+                            name: '已故声优',
                             url: 'pages/cvDeaths.html',
                             icon: 'icon-order'
                         },
@@ -279,47 +304,47 @@
                 },
                 {
                     id: '4',
-                    name: 'GalGame系统管理',
+                    name: 'GalGame',
                     children: [
                         {
                             id: '4-1',
-                            name: 'GalGame管理',
+                            name: 'GalGame',
                             url: 'pages/galgames.html',
                             icon: 'icon-order'
                         },
                         {
                             id: '4-2',
-                            name: 'GalGame环境类型管理',
+                            name: '环境类型',
                             url: 'pages/ggEnvTypes.html',
                             icon: 'icon-order'
                         },
                       {
                         id: '4-3',
-                        name: 'GalGame剧情类型管理',
+                        name: '剧情类型',
                         url: 'pages/ggTypes.html',
                         icon: 'icon-order'
                       },
                       {
                         id: '4-4',
-                        name: 'GalGame轮回类型管理',
+                        name: '轮回类型',
                         url: 'pages/ggRebornTypes.html',
                         icon: 'icon-order'
                       },
                       {
                         id: '4-5',
-                        name: 'GalGame恋爱类型管理',
+                        name: '恋爱类型',
                         url: 'pages/ggLoveTypes.html',
                         icon: 'icon-order'
                       },
                       {
                         id: '4-6',
-                        name: 'GalGame分支类型管理',
+                        name: '分支类型',
                         url: 'pages/ggBranchTypes.html',
                         icon: 'icon-order'
                       },
                       {
                         id: '4-7',
-                        name: 'GalGame特殊类型管理',
+                        name: '特殊类型',
                         url: 'pages/ggSpTypes.html',
                         icon: 'icon-order'
                       },
@@ -327,35 +352,35 @@
                 },
                 {
                     id: '5',
-                    name: 'AniSong系统管理',
+                    name: 'AniSong',
                     children: [
                         {
                             id: '5-1',
-                            name: '音乐管理',
+                            name: '音乐',
                             url: 'pages/musics.html',
                             icon: 'icon-order'
                         },
                         {
                             id: '5-2',
-                            name: '音乐类型管理',
+                            name: '音乐类型',
                             url: 'pages/mTypes.html',
                             icon: 'icon-order'
                         },
                         {
                             id: '5-3',
-                            name: '音乐下载类型管理',
+                            name: '下载类型',
                             url: 'pages/mDTypes.html',
                             icon: 'icon-order'
                         },
                         {
                             id: '5-4',
-                            name: '音乐添加管理',
+                            name: '添加类型',
                             url: 'pages/mATypes.html',
                             icon: 'icon-order'
                         },
                         {
                             id: '5-5',
-                            name: '音乐版本管理',
+                            name: '版本',
                             url: 'pages/mEditions.html',
                             icon: 'icon-order'
                         },
@@ -363,23 +388,23 @@
                 },
                 {
                     id: '6',
-                    name: '漫画&里番系统管理',
+                    name: 'Comic&HAnime',
                     children: [
                         {
                             id: '6-1',
-                            name: '里番管理',
+                            name: '里番',
                             url: 'pages/hanimes.html',
                             icon: 'icon-order'
                         },
                         {
                             id: '6-2',
-                            name: 'H漫类型管理',
+                            name: 'H漫类型',
                             url: 'pages/htypes.html',
                             icon: 'icon-order'
                         },
                         {
                             id: '6-3',
-                            name: '漫画管理',
+                            name: '漫画',
                             url: 'pages/comics.html',
                             icon: 'icon-order'
                         },
@@ -421,6 +446,7 @@
                   this.$message.info("取消操作");
               });
           },
+
           goBack() {
             // window.location.href = 'javascript:history.go(-1)'
             const menu = this.menuList.find(item=>item.id===this.menuActived)
