@@ -17,14 +17,32 @@
         .body{
             min-width: 1366px;
         }
+
     </style>
 </head>
 
 <body>
 
+
+
 <div class="login" id="login-app">
+
+    <video autoplay muted loop class="bg-video show">
+        <source src="../vedio/1.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <video autoplay muted loop class="bg-video">
+        <source src="../vedio/2.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <video autoplay muted loop class="bg-video">
+        <source src="../vedio/3.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+
     <div class="login-box" >
-<!--        <img src="../../images/login/login-l.png" alt="">-->
+        <!--        <img src="../../images/login/login-l.png" alt="">-->
         <div class="login-form">
             <el-form ref="loginForm" :model="loginForm" :rules="loginRules" >
                 <div class="login-form-title">
@@ -66,6 +84,7 @@
 <script src="../api/login.js"></script>
 
 <script>
+
     new Vue({
         el: '#login-app',
         data() {
@@ -100,6 +119,16 @@
             }
         },
         created() {
+            // 初始化点击事件，控制视频的切换和渐变效果
+            let clickCount = 0;
+            document.body.addEventListener('click', () => {
+                clickCount++;
+                const videos = document.querySelectorAll('.bg-video');
+                videos.forEach(video => {
+                    video.classList.remove('show');
+                });
+                videos[clickCount % videos.length].classList.add('show');
+            });
         },
         methods: {
             async handleLogin() {
