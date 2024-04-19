@@ -8,7 +8,7 @@
     <!--条件查询信息-->
     <select id="selectMainByCondition" resultType="com.fubukianime.domain.HAnimeMain">
         select a.id, a.name, a.content, b.type, concat(a.episodes, '集') layout,
-        a.episodes, a.dimensional, a.status
+        a.episodes, a.dimensional, a.status, a.embyId
         from hanime_main a left join hanime_type b on a.type = b.id
         where a.deleted = 0 and b.deleted = 0
         <if test="name != null and name != ''">
@@ -26,6 +26,9 @@
         <if test="status != null and status != ''">
             and a.status = #{status}
         </if>
+        <if test="embyId != null and embyId != ''">
+            and a.embyId = #{embyId}
+        </if>
 
     </select>
 
@@ -38,7 +41,8 @@
                concat(a.episodes, '集') layout,
                a.episodes,
                a.dimensional,
-               a.status
+               a.status,
+               a.embyId
         from hanime_main a left join hanime_type b on a.type = b.id
         where a.id = #{id}
           and a.deleted = 0
@@ -53,8 +57,9 @@
                                 episodes,
                                 dimensional,
                                 status,
+                                embyId,
                                 deleted)
-        values (#{name}, #{content}, #{type}, #{episodes}, #{dimensional}, #{status}, 0)
+        values (#{name}, #{content}, #{type}, #{episodes}, #{dimensional}, #{status},null, 0)
     </insert>
 
     <update id="updateHAnime">
@@ -77,6 +82,9 @@
             </if>
             <if test="status != null and status != ''">
                 a.status = #{status},
+            </if>
+            <if test="embyId != null and embyId != ''">
+                a.embyId = #{embyId},
             </if>
         </set>
         where id = #{id}

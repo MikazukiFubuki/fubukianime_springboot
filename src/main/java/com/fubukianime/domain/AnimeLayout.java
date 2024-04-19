@@ -22,6 +22,8 @@ public class AnimeLayout implements Serializable {
     private Integer part;
     @TableField("episodes")
     private Integer episodes;
+    @TableField("embyId")
+    private Integer embyId;
     @TableField(exist = false)
     private String name;
 

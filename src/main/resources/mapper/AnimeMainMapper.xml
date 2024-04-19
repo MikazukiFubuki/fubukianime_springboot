@@ -43,6 +43,7 @@
         <result property="quarterNum" column="quarter_num" jdbcType="INTEGER"/>
         <result property="part" column="part" jdbcType="INTEGER"/>
         <result property="episodes" column="episodes" jdbcType="INTEGER"/>
+        <result property="embyId" column="embyId" jdbcType="INTEGER"/>
     </resultMap>
 
     <sql id="selectAllAnime">
@@ -204,15 +205,15 @@
 
     <!--随新增动画增加其对应形式-->
     <insert id="addAnimeLayout">
-        insert into anime_layout(layout_id, layout_type_id, another_name, quarter_num,part, `episodes`, deleted)
+        insert into anime_layout(layout_id, layout_type_id, another_name, quarter_num,part, `episodes`, embyId, deleted)
         values ((select c.lid from (select max(b.layout_Id) lid from anime_layout b where deleted = 0) c) + 1, null, '',
-                null, null, null, '0')
+                null, null, null, null, '0')
     </insert>
 
     <!--在已有动画上增加对应形式-->
     <insert id="addAnimeLayoutById">
-        insert into anime_layout(layout_id, layout_type_id, another_name, quarter_num, part,  `episodes`, deleted)
-        values ((select a.layout_Id from anime_main a where a.id = #{id} and deleted = 0), null, '', null, null, null, '0')
+        insert into anime_layout(layout_id, layout_type_id, another_name, quarter_num, part,  `episodes`, embyId,  deleted)
+        values ((select a.layout_Id from anime_main a where a.id = #{id} and deleted = 0), null, '', null, null, null, null, '0')
     </insert>
 
 
@@ -368,6 +369,8 @@
             a.quarter_num = #{quarterNum},
 
             a.part = #{part},
+
+            a.embyId = #{embyId},
 
             <if test="episodes != null and episodes != ''">
                 a.episodes = #{episodes},
@@ -1196,7 +1199,8 @@
                T0.another_name,
                T0.quarter_num,
                T0.part,
-               T0.episodes
+               T0.episodes,
+               T0.embyId
         from anime_layout T0,
              anime_main T2,
              (select a.id          ID2,
@@ -1225,7 +1229,8 @@
                T0.another_name,
                T0.quarter_num,
                T0.part,
-               T0.episodes
+               T0.episodes,
+               T0.embyId
         from anime_layout T0,
              anime_main T2,
              (select a.id          ID2,

@@ -38,6 +38,9 @@ public class HAnimeMain implements Serializable {
     @TableField("status")
     private String status;
 
+    @TableField("embyId")
+    private Integer embyId;
+
     @TableLogic(value="0",delval="1")
     //value为正常数据的值，delval为删除数据的值
     private Integer deleted;
