@@ -110,6 +110,13 @@ public class AnimeTypesShowController {
         return list;
     }
 
+    @Cacheable(value = "animeStatusCache", key = "#root.methodName", unless = "#result == null")
+    @GetMapping("/selectStatusShow2")
+    public List<AnimeTypesShow> selectStatusShow2(AnimeTypesShow animeTypesShow) {
+        List<AnimeTypesShow> list = animeTypesShowService.selectStatusShow2(animeTypesShow);
+        return list;
+    }
+
     @Cacheable(value = "musicTypeCache", key = "#root.methodName", unless = "#result == null")
     @GetMapping("/selectMusicTypeShow")
     public List<AnimeTypesShow> selectMusicTypeShow(AnimeTypesShow animeTypesShow) {

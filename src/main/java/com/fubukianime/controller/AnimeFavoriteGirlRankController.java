@@ -27,7 +27,7 @@ public class AnimeFavoriteGirlRankController {
     private CacheManager cacheManager;
 
 
-    @Cacheable(value = "animeFavoriteGirlRankCache", key = "#animeFavoriteGirlRank.season", unless = "#result == null")
+    @Cacheable(value = "animeFavoriteGirlRankCache", key = "#root.methodName  +  '_' + #animeFavoriteGirlRank.season +  '_' + #animeFavoriteGirlRank.time +  '_' + #animeFavoriteGirlRank.ranking +  '_' + #animeFavoriteGirlRank.name +  '_' + #animeFavoriteGirlRank.cv", unless = "#result == null")
     @GetMapping("/selectByCondition")
     public R selectByCondition(AnimeFavoriteGirlRank animeFavoriteGirlRank){
         List<AnimeFavoriteGirlRank> list = animeFavoriteGirlRankService.selectByCondition(animeFavoriteGirlRank);

@@ -22,7 +22,7 @@ public class GalGameMainController {
     @Autowired
     private CacheManager cacheManager;
 
-    @Cacheable(value = "galGamesCache", key = "#root.methodName  +  '_' + #galGameMain.name +  '_' + #galGameMain.storyScore +  '_' + #galGameMain.roleScore +  '_' + #galGameMain.imgQualityScore +  '_' + #galGameMain.musicScore +  '_' + #galGameMain.environmentType +  '_' + #galGameMain.type +  '_' + #galGameMain.rebornType +  '_' + #galGameMain.loveType +  '_' + #galGameMain.branchType +  '_' + #galGameMain.spType +  '_' + #galGameMain.language +  '_' + #galGameMain.area +  '_' + #galGameMain.status", unless = "#result == null")
+    @Cacheable(value = "galGamesCache", key = "#root.methodName  +  '_' + #galGameMain.name +  '_' + #galGameMain.storyScore +  '_' + #galGameMain.roleScore +  '_' + #galGameMain.imgQualityScore +  '_' + #galGameMain.musicScore +  '_' + #galGameMain.environmentType +  '_' + #galGameMain.type +  '_' + #galGameMain.rebornType +  '_' + #galGameMain.loveType +  '_' + #galGameMain.branchType +  '_' + #galGameMain.spType +  '_' + #galGameMain.sexLevel +  '_' + #galGameMain.language +  '_' + #galGameMain.area +  '_' + #galGameMain.status", unless = "#result == null")
     @GetMapping("/selectGalGameMain")
     public R selectGalGameMain(GalGameMain galGameMain) {
         List<GalGameMain> list = galGameMainService.selectGalGameMain(galGameMain);

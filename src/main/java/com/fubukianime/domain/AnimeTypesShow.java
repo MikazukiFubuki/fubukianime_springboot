@@ -22,11 +22,18 @@ public class AnimeTypesShow implements Serializable {
     @TableField(exist = false)
     private String typesName;
 
+
     /**
      * 类型细目计数
      */
     @TableField(exist = false)
     private Integer typesNum;
+
+    /**
+     * 类型细目计数
+     */
+    @TableField(exist = false)
+    private Integer series;
 
 
 }

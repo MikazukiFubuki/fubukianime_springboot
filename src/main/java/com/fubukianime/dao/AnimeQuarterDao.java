@@ -18,6 +18,13 @@ public interface AnimeQuarterDao extends BaseMapper<AnimeQuarter> {
      */
     List<AnimeQuarter> selectComQuarter(AnimeQuarter animeQuarter);
 
+    /**
+     * 查询当季在看展示
+     * @param
+     * @return
+     */
+    List<AnimeQuarter> selectNowQuarter(AnimeQuarter animeQuarter);
+
 
     /**
      * 新增较季点

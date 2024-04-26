@@ -82,11 +82,18 @@ public interface AnimeTypesShowDao extends BaseMapper<AnimeTypesShow> {
     List<AnimeTypesShow> selectBingeWatchingTypeShow(AnimeTypesShow animeTypesShow);
 
     /**
-     * 查询状态信息
+     * 查询待看状态信息
      * @param
      * @return
      */
     List<AnimeTypesShow> selectStatusShow(AnimeTypesShow animeTypesShow);
+
+    /**
+     * 查询在看状态信息
+     * @param
+     * @return
+     */
+    List<AnimeTypesShow> selectStatusShow2(AnimeTypesShow animeTypesShow);
 
     /**
      * 查询音乐类型信息

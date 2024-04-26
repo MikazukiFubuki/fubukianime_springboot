@@ -26,7 +26,7 @@ public class MusicMainController {
     @Autowired
     private CacheManager cacheManager;
 
-    @Cacheable(value = "musicsCache", key = "#root.methodName  +  '_' + #musicMain.animeName  +  '_' + #musicMain.musicName  +  '_' + #musicMain.type  +  '_' + #musicMain.time  +  '_' + #musicMain.singer  +  '_' + #musicMain.score  +  '_' + #musicMain.form  +  '_' + #musicMain.source  +  '_' + #musicMain.downloadType  +  '_' + #musicMain.addType  +  '_' + #musicMain.year  +  '_' + #musicMain.quarter", unless = "#result == null")
+    @Cacheable(value = "musicsCache", key = "#root.methodName  +  '_' + #musicMain.mid +  '_' + #musicMain.animeName  +  '_' + #musicMain.musicName  +  '_' + #musicMain.type  +  '_' + #musicMain.time  +  '_' + #musicMain.singer  +  '_' + #musicMain.score  +  '_' + #musicMain.form  +  '_' + #musicMain.source  +  '_' + #musicMain.downloadType  +  '_' + #musicMain.addType  +  '_' + #musicMain.year  +  '_' + #musicMain.quarter", unless = "#result == null")
     @GetMapping("/selectMusicMain")
     public R selectMusicMain(MusicMain musicMain) {
         List<MusicMain> list = musicMainService.selectMusicMain(musicMain);

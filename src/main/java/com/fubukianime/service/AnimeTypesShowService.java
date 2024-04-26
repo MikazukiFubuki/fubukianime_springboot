@@ -87,6 +87,8 @@ public interface AnimeTypesShowService extends IService<AnimeTypesShow> {
      */
     List<AnimeTypesShow> selectStatusShow(AnimeTypesShow animeTypesShow);
 
+    List<AnimeTypesShow> selectStatusShow2(AnimeTypesShow animeTypesShow);
+
 
     /**
      * 查询音乐类型信息

@@ -83,6 +83,12 @@ public class AnimeTypesShowServiceImpl extends ServiceImpl<AnimeTypesShowDao, An
     }
 
     @Override
+    public List<AnimeTypesShow> selectStatusShow2(AnimeTypesShow animeTypesShow) {
+        List<AnimeTypesShow> list = animeTypesShowDao.selectStatusShow2(animeTypesShow);
+        return list;
+    }
+
+    @Override
     public List<AnimeTypesShow> selectMusicTypeShow(AnimeTypesShow animeTypesShow) {
         List<AnimeTypesShow> list = animeTypesShowDao.selectMusicTypeShow(animeTypesShow);
         return list;

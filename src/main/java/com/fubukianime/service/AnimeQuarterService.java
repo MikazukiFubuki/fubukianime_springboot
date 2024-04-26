@@ -24,6 +24,13 @@ public interface AnimeQuarterService extends IService<AnimeQuarter> {
      */
     List<AnimeQuarter> selectComQuarter(AnimeQuarter animeQuarter);
 
+    /**
+     * 查询当季在看展示
+     * @param
+     * @return
+     */
+    List<AnimeQuarter> selectNowQuarter(AnimeQuarter animeQuarter);
+
 
 
 

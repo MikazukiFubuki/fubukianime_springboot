@@ -114,6 +114,16 @@
         SELECT T2.id, T2.status typesName, count(T1.status) typesNum
         FROM anime_main T1
                  right join anime_status T2 ON T1.status = T2.id
+        WHERE T2.id = 1
+        GROUP BY T2.status
+        ORDER BY count(T1.status) DESC;
+    </select>
+
+    <select id="selectStatusShow2" resultType="com.fubukianime.domain.AnimeTypesShow">
+        SELECT T2.id, T2.status typesName, count(T1.status) typesNum
+        FROM anime_main T1
+                 right join anime_status T2 ON T1.status = T2.id
+        WHERE T2.id = 2
         GROUP BY T2.status
         ORDER BY count(T1.status) DESC;
     </select>

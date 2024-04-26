@@ -2,6 +2,7 @@ package com.fubukianime.controller;
 
 import com.fubukianime.controller.utils.R;
 import com.fubukianime.domain.AnimeQuarter;
+import com.fubukianime.domain.AnimeTypesShow;
 import com.fubukianime.service.AnimeQuarterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
@@ -38,6 +39,13 @@ public class AnimeQuarterController {
     public R selectComQuarter(AnimeQuarter animeQuarter){
         List<AnimeQuarter> list = animeQuarterService.selectComQuarter(animeQuarter);
         return new R(true, list);
+    }
+
+    @Cacheable(value = "animeMainCache", key = "#root.methodName", unless = "#result == null")
+    @GetMapping("/selectNowQuarter")
+    public List<AnimeQuarter> selectNowQuarter(AnimeQuarter animeQuarter) {
+        List<AnimeQuarter> list = animeQuarterService.selectNowQuarter(animeQuarter);
+        return list;
     }
 
 

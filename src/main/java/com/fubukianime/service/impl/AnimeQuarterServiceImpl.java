@@ -19,7 +19,7 @@ public class AnimeQuarterServiceImpl extends ServiceImpl<AnimeQuarterDao, AnimeQ
 
 
     /**
-     * 新增时期点
+     * 新增较季点
      * @param animeQuarter
      * @return
      */
@@ -30,7 +30,7 @@ public class AnimeQuarterServiceImpl extends ServiceImpl<AnimeQuarterDao, AnimeQ
     }
 
     /**
-     * 查询普通时期点
+     * 查询较季
      * @param
      * @return
      */
@@ -39,6 +39,19 @@ public class AnimeQuarterServiceImpl extends ServiceImpl<AnimeQuarterDao, AnimeQ
         List<AnimeQuarter> list = animeQuarterDao.selectComQuarter(animeQuarter);
         return list;
     }
+
+    /**
+     * 查询当季在看展示
+     * @param
+     * @return
+     */
+    @Override
+    public List<AnimeQuarter> selectNowQuarter(AnimeQuarter animeQuarter) {
+        List<AnimeQuarter> list = animeQuarterDao.selectNowQuarter(animeQuarter);
+        return list;
+    }
+
+
 
 
 }

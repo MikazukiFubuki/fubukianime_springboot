@@ -59,7 +59,7 @@
                                 status,
                                 embyId,
                                 deleted)
-        values (#{name}, #{content}, #{type}, #{episodes}, #{dimensional}, #{status},null, 0)
+        values (#{name}, #{content}, #{type}, #{episodes}, #{dimensional}, #{status}, #{embyId}, 0)
     </insert>
 
     <update id="updateHAnime">
